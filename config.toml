@@ -1,0 +1,37 @@
+# The URL the site will be built for
+base_url = "https://rocco.dev"
+
+theme = "terminimal"
+
+# Whether to automatically compile all Sass files in the sass directory
+compile_sass = true
+
+# Whether to do syntax highlighting
+# Theme can be customised by setting the `highlight_theme` variable to a theme supported by Zola
+highlight_code = true
+
+# Whether to build a search index to be used later on by a JavaScript library
+build_search_index = true
+
+taxonomies = [
+    {name = "tags"},
+]
+
+[extra]
+author = "RoccoDev"
+github = "RoccoDev"
+twitter = "RealRoccoDev"
+logo_text = "RoccoDev"
+
+accent_color = "green"
+
+menu_items = [
+    {name = "home", url = "$BASE_URL"},
+    {name = "posts", url = "$BASE_URL/posts"},
+    {name = "projects", url = "$BASE_URL/projects"},
+    {name = "contact", url = "$BASE_URL/contact"},
+    {name = "code", url = "https://github.com/RoccoDev", newtab = true},
+]
+
+enable_post_view_navigation = true
+post_view_navigation_prompt = "Read more"
