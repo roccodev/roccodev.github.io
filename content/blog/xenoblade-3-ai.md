@@ -13,10 +13,10 @@ While reading this, it is best to have the BDAT tables at hand. Alternatively, I
 
 Special credits go to:
 
-*
-*
-*
-for helping with research.
+* Lexicon#3471
+* Hamidu#5383
+
+from the [Xenoblade Chronicles Discord server](https://discord.gg/xenoblade) for helping with research.
 
 ## How often does the AI use arts?
 The AI will try to perform an action on {% tooltip(label="set intervals") %}`AiCycle` in `BTL_Talent` (class), `BTL_Enemy` (enemy), `CHR_UroBody` (interlink){% end %} 
