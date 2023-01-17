@@ -1,5 +1,5 @@
 +++
-title = "Xenoblade 3 Smash damage breakdown"
+title = "Xenoblade 3: Smash damage breakdown"
 date = 2022-08-23
 
 [taxonomies]

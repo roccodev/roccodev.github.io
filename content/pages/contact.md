@@ -4,6 +4,7 @@ title = "contact me"
 +++
 
 **The recommended way to contact me is via [email](mailto:hey@rocco.dev).**
+Here's [my gpg key](https://github.com/RoccoDev.gpg).
 
 Other options:
 * Matrix: `@roccodev:matrix.org`

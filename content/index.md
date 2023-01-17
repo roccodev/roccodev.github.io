@@ -7,7 +7,7 @@ but I also have a deep knowledge of Java for my client and server mods.
 I generally try to limit proprietary software I use to the minimum. I run [Fedora GNU/Linux](https://getfedora.org) on all my machines (but I also run other distros
 on servers), and I use [free](https://www.gnu.org/philosophy/free-sw.html) alternatives whenever possible.
 
-### Top projects
+### Notable projects
 * [KIG Network](https://playkig.com), a Minecraft minigame network (2020-present)
 * [KigPaper](https://github.com/ProjectKig/KigPaper), a Paper 1.8.8 fork fixing bugs and inconsistencies (2020-present)
 * [Beezig](https://beezig.eu), a 5zig and LabyMod plugin for [HiveMC Java](https://playhive.com) (2017-2021)

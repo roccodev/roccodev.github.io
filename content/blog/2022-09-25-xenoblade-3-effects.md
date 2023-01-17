@@ -1,5 +1,5 @@
 +++
-title = "Xenoblade 3: effects explained"
+title = "Xenoblade 3: Effects explained"
 
 [taxonomies]
 tags = ["xenoblade", "datamine"]
@@ -116,17 +116,19 @@ The damage formula is a chain of multiplications. Several effects are grouped to
 
 | Name | Multiplier |
 | ---- | ---------- |
+| User Attack | *varies* (as seen on the Characters menu) + Stability ([read more](https://blog.rocco.dev/2023/01/01/xenoblade-3-random-factors.html#weapon-stability)) |
 | Art/Auto-attack/Elemental damage multiplier | *varies*. Flare/Earth: 200%, Aqua: 150% |
 | Critical hit | 125% (base) |
 | Launch/Smash/Burst damage bonus | 125% (launch), 150% (burst), 150% (smash, base) |
 | Chain/Shackle Ring | up to 180% | 
 | Enemy defenses | 100% (bypassed), or 100% - defense
 | Attack blocked | 50% (base) / 25% (base, when Eye of the Storm is fused) |
-| Random variance | 90%-110% (random) |
+| Random variance | 90%-110% (random, [read more](https://blog.rocco.dev/2023/01/01/xenoblade-3-random-factors.html#random-variance)) |
 | Chain attack damage ratio | *varies* |
 | Fusion damage bonus, if supported by the art that generated the hit | 150% |
 | Attacking an enemy from behind, if it hasn't noticed the player | 150% |
 | Multi-hit damage correction | 1/(number of damage hits), can be 2/n or more, depending on the art/hit. As of 1.1.0, does not apply to *fused* Master Arts that do not spawn bullets normally (and that have multiple fusion hits) -- only eligible art is Quickdraw |
+| AOE penalty | 100% (main target), 75% (other enemies) -- also works for enemy attacks |
 
 ### Useful buffs/debuffs
 

@@ -1,0 +1,21 @@
+.tooltip-label {
+    border-bottom: 1px dotted var(--color);
+}
+
+.tooltip-content {
+    display: none;
+    width: max-content;
+    background-color: #252c3f;
+    color: var(--color);
+    text-align: center;
+    padding: 5px 5px;
+    border-radius: 6px;
+    left: 50%;
+    margin-left: -60px;
+    position: relative;
+    z-index: 1;
+}
+
+.tooltip-label:hover+.tooltip-content {
+    display: inline-block;
+}
