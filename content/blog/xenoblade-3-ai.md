@@ -10,7 +10,9 @@ This is an extensive guide on how ally and enemy AI works in Xenoblade Chronicle
 <!-- more -->
 This is still under research and this is the result of reverse-engineering and experimentation, so data is accurate to the best of my ability.
 
-While reading this, it is best to have the BDAT tables at hand. Alternatively, I have a 
+While reading this, it is best to have the 
+<a href="https://xenobladedata.github.io" title="BDAT table index maintained by Alexsey#9211">BDAT tables</a> at hand. 
+Alternatively, I have a 
 [collection](https://docs.google.com/spreadsheets/d/1_lK2KEO3HZlgqwDzdQxl4PWw_9W8pRdAbaDswb-gZZU) of 
 [spreadsheets](https://docs.google.com/spreadsheets/d/1u7Upi2NsUzNI3gWxD81RhLuoI-XXUnWJt7zJBgupSGY) that are easier to understand.
 
