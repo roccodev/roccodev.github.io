@@ -95,7 +95,7 @@ For example, if the alive party has no Break or Topple art (in general, not just
 ## Enemy art sub-phases
 Enemies don't usually have all of their registered arts available at once. Instead, there are multiple AI profiles based on their current HP percentage, their level, whether or not they are enraged, [whether you have defeated certain enemies](https://www.youtube.com/watch?v=SgmP2zk6TJc), and other currently unknown factors.
 
-For example, Kilocorn Grandeps (the superboss, not the Challenge Battle version) has 5 profiles for each of the refights, for a total of 46 profiles (9 refights + 1 default unused profile).  
+For example, Kilocorn Grandeps (the superboss, not the Challenge Battle version) has 5 profiles for each of the refights, for a total of 56 profiles (10 refights + 1 default unused profile).  
 At level 95 and above 80% HP, it will only use Horn Dance and Breath.  
 However, at level 150 and below 20% HP, it will instead only use Tank March, Horn Dance (a stronger version that has a charge gauge and is a Smash combo), Breath (a stronger version with a charge gauge, that removes all buffs on the target, and will trigger Poison Breath and Ice Breath to be used immediately after), Killer Dunk, Ice Breath, and Poison Breath (with the latter two only being used as part of the "Breath" combo).
 
