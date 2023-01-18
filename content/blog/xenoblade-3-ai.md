@@ -10,7 +10,9 @@ This is an extensive guide on how ally and enemy AI works in Xenoblade Chronicle
 <!-- more -->
 This is still under research and this is the result of reverse-engineering and experimentation, so data is accurate to the best of my ability.
 
-While reading this, it is best to have the BDAT tables at hand. Alternatively, I have a collection of spreadsheets that are easier to understand.
+While reading this, it is best to have the BDAT tables at hand. Alternatively, I have a 
+[collection](https://docs.google.com/spreadsheets/d/1_lK2KEO3HZlgqwDzdQxl4PWw_9W8pRdAbaDswb-gZZU) of 
+[spreadsheets](https://docs.google.com/spreadsheets/d/1u7Upi2NsUzNI3gWxD81RhLuoI-XXUnWJt7zJBgupSGY) that are easier to understand.
 
 Special credits go to:
 
@@ -30,7 +32,8 @@ though these two timers tick simultaneously.
 ## How does the AI decide what arts to use?
 Every art in the game has one or two {% tooltip(label="conditions") %}`AiCond1/2` with `AiParam1/2` in `BTL_Arts_PC` and `BTL_Arts_En`{% end %} 
 associated to it, that determine whether the art can be used.  
-Additionally, each condition has a priority (1-6) and a chance (%) associated to it.
+Additionally, each condition has a {% tooltip(label="priority") %}`Priority` in `BTL_Arts_Cond`, row ID is the condition ID{% end %} (1-6) 
+and a {% tooltip(label="chance") %}`AiRate1/2` in `BTL_Arts_PC` and `BTL_Arts_En`{% end %} (%) associated to it.
 
 The AI will go through every charged art and check its first condition. If the condition and the random chance
 are satisfied, the AI will make sure the art is in range, and a "fusion check" will also be run (see below).
@@ -60,7 +63,7 @@ I'll distinguish the following scenarios:
 - Either art is being checked and the other one is on cooldown: Section (B)
 
 ### Section (A): using master art with charged class art
-If this check is {% tooltip(label="disabled") %}`760B765B` = 1 in `BTL_Arts_Cond`, row ID is the condition ID{% end %}, add the master art to the queue.  
+If this check is {% tooltip(label="disabled") %}`760B765B` = 1 in `BTL_Arts_Cond`{% end %}, add the master art to the queue.  
 If the fusion has been active (i.e. both arts were charged) for less than 5 seconds (10 seconds if Fusion First), add the master art to the queue.
 
 ### Section (B): using art with the other one on cooldown
@@ -75,10 +78,14 @@ For Agnus arts, this is `(recharge left) * (Art.LastEligibleFrame/30 + 2/3 + Int
 - `Art.LastEligibleFrame` is the last hit frame with a `DmgRt` < 255 (or the first hit frame, if no hits meet that criteria).
 - `IntervalAT` is always 0 for arts.
 - `AutoAtkAdditives%` is stuff like the auto-attack interval gem, Martial Artist effects, etc.
-- `(recharge left)` is the max cooldown if fully charged, otherwise it's the recharge "time" left, usually the number of auto-attacks left. Note that this isn't always an integer because e.g. multi-hit auto-attacks only decrease it by a fraction.
+- `(recharge left)` is the {% tooltip(label="max cooldown") %}`RecastX` in `BTL_Arts_PC`, where `X` is the art's level{% end %} 
+if fully charged, otherwise it's the recharge "time" left, usually the number of auto-attacks left. Note that this isn't always an integer because e.g. multi-hit auto-attacks only decrease it by a fraction.
 
 ## Other notable conditions
-Combo art conditions (namely #8, #35, #43-45) will make it so the art is only used as part of the right combo. The AI is pretty smart about this, it will even make sure that by the time the art inflicts the reaction (using the exact frame for the calculation), the combo will not have expired. Additionally, if the battle tactic is set to the *opposite* combo (i.e. "Burst Combo" for Launch arts, "Smash Combo" for Daze arts -- "Any Combo" or the correct choice disable this check), it won't use the combo art, unless the reaction would have expired by the same reaction frame in the next AI cycle. This is why you might still get the wrong combo near the end of the combo timer. (Of course, you might still get the wrong combo anytime as part of the fusion mechanics.)
+Combo art conditions (namely #8, #35, #43-45) will make it so the art is only used as part of the right combo. The AI is pretty smart about this, it will even make sure that by the time the art inflicts the reaction (using the exact frame for the calculation), the combo will not have expired. 
+Additionally, if the battle tactic is set to the *opposite* combo (i.e. "Burst Combo" for Launch arts, "Smash Combo" for Daze arts -- "Any Combo" or the correct choice disable this check), 
+it won't use the combo art, unless the reaction would have expired by the same reaction frame in the next AI cycle. 
+This is why you might still get the wrong combo near the end of the combo timer. (Of course, you might still get the wrong combo anytime as part of the fusion mechanics.)
 
 Another combo art condition (#36, generally used as a 2nd condition) works the opposite way. If the currently alive party has no way to reach the combo stage of the art, it will make it so the art is used as normal.  
 For example, if the alive party has no Break or Topple art (in general, not just currently charged), the AI will not preserve a Launch art, instead using it like any other art.
@@ -95,7 +102,7 @@ If you'd like to know how to interpret the table, uncover the paragraph down bel
 <details>
 <summary>Click to read the instructions</summary>
 
-The `EnemyAiHead` and `EnemyAiTail` columns in `BTL_Enemy` define a range of AI profiles to use. Those AI profiles can be found in `BTL_EnemyAi`. 
+The `EnemyAiHead` and `EnemyAiTail` columns in `BTL_Enemy` define the range of AI profiles to use. Those AI profiles can be found in `BTL_EnemyAi`. 
 
 In the `BTL_EnemyAi` table, the `A5C654A0` column defines the minimum enemy level for the profile. `42074031` is a HP percentage threshold, and `9184A789` is a condition for the enemy to be enraged. `0751D751` is a condition (i.e. a row from `FLD_ConditionList`).
 

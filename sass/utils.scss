@@ -2,18 +2,20 @@
     border-bottom: 1px dotted var(--color);
 }
 
+.tooltip-container {
+    display: inline-block;
+}
+
 .tooltip-content {
     display: none;
-    width: max-content;
+    position: absolute;
     background-color: #252c3f;
     color: var(--color);
     text-align: center;
     padding: 5px 5px;
     border-radius: 6px;
-    left: 50%;
-    margin-left: -60px;
-    position: relative;
     z-index: 1;
+    width: max-content;
 }
 
 .tooltip-label:hover+.tooltip-content {

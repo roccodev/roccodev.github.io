@@ -1,5 +1,5 @@
-<span>
-    <a class="tooltip-label">{{ label | markdown(inline = true) | safe }}</a>
+<span class="tooltip-container">
+    <a class="tooltip-label">{{ label | trim | markdown(inline = true) | safe }}</a>
     <span class="tooltip-content">
         <span>{{ body | markdown(inline = true) | safe }}</span>
     </span>
