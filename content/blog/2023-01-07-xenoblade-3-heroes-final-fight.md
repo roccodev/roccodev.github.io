@@ -6,6 +6,7 @@ tags = ["xenoblade", "datamine"]
 +++
 
 *(Needless to say, this post contains spoilers for the final fight of the game.)*
+<!-- more -->
 
 During the second phase of the final fight, Heroes come to aid you against X∞ and Y∞. The Heroes you get might seem totally random, but in reality there is an elaborated system behind it.
 

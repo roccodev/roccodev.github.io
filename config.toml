@@ -17,6 +17,8 @@ taxonomies = [
     {name = "tags"},
 ]
 
+title = "RoccoDev"
+
 [extra]
 author = "RoccoDev"
 github = "RoccoDev"
@@ -24,6 +26,7 @@ twitter = "RealRoccoDev"
 logo_text = "RoccoDev"
 
 accent_color = "green"
+favicon = "/img/favicon.png"
 
 menu_items = [
     {name = "about", url = "$BASE_URL"},

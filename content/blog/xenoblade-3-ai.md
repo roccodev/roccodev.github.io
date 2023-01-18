@@ -1,12 +1,13 @@
 +++
 title = "Xenoblade 3: Understanding how the AI uses arts"
-date = 2023-01-17 # change when finished
+date = 2023-01-18
 
 [taxonomies]
 tags = ["xenoblade", "datamine"]
 +++
 
 This is an extensive guide on how ally and enemy AI works in Xenoblade Chronicles 3.  
+<!-- more -->
 This is still under research and this is the result of reverse-engineering and experimentation, so data is accurate to the best of my ability.
 
 While reading this, it is best to have the BDAT tables at hand. Alternatively, I have a collection of spreadsheets that are easier to understand.

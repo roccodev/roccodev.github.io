@@ -9,6 +9,7 @@ tags = ["xenoblade", "datamine"]
 +++
 This analysis focuses on two hidden factors that are randomly determined when
 calculating damage. I've made sure that with these disabled damage output is deterministic, barring critical hits and blocked attacks.
+<!-- more -->
 
 Special thanks to beta382#3088 from the [Xenoblade Chronicles Discord](https://discord.gg/xenoblade) for helping with research.
 

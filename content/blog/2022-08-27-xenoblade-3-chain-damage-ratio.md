@@ -9,6 +9,7 @@ tags = ["xenoblade", "datamine"]
 +++
 
 The damage multiplier in chain attacks can be somewhat of a mystery at times, and little to nothing can be found in the official documentation.
+<!-- more -->
 
 When you start a chain attack, an initial damage ratio is set:
 

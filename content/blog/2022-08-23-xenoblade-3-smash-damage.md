@@ -7,6 +7,7 @@ tags = ["xenoblade", "datamine"]
 +++
 
 Note: this is the result of reverse-engineering. Data should be correct to the best of my ability.
+<!-- more -->
 
 ### Credits
 * Special thanks to [vaxherd](https://www.twitch.tv/vaxherd) for lending me tools to work on BDAT tables, which made looking for code references easier.

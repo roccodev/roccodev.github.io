@@ -8,6 +8,7 @@ tags = ["xenoblade", "datamine"]
 **Note**: This post might be incomplete. Data will be added as I make new findings.
 
 The damage formula is a chain of multiplications. Several effects are grouped together to form a single term in the multiplication.
+<!-- more -->
 
 ### Multiplier group 1
 
