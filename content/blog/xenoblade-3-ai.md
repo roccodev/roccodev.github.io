@@ -51,7 +51,7 @@ to move to the required position, and it will use no art this cycle.
 
 At last, the AI will use the art. If the art is linked to another art (no matter if master or class art) that's fully charged,
 it will automatically fuse. However, some situations, like being out of range with one of the two arts, will cause one of the two
-arts to not be used. Therefore, it is possible for one of the two arts to be used even if it didn't meet conditions or have high
+arts to not be used. Still, it is possible for one of the two arts to be used even if it didn't meet conditions or have high
 enough priority, as long as the other art can be used instead.
 
 ## Fusion condition check
