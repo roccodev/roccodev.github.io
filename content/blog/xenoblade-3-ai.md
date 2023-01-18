@@ -93,7 +93,8 @@ Another combo art condition (#36, generally used as a 2nd condition) works the o
 For example, if the alive party has no Break or Topple art (in general, not just currently charged), the AI will not preserve a Launch art, instead using it like any other art.
 
 ## Enemy art sub-phases
-Enemies don't usually have all of their registered arts available at once. Instead, there are multiple AI profiles based on their current HP percentage, their level, whether or not they are enraged, [whether you have defeated certain enemies](https://www.youtube.com/watch?v=SgmP2zk6TJc), and other currently unknown factors.
+Enemies don't usually have all of their registered arts available at once. Instead, there are multiple AI profiles based on their current HP percentage, their level, whether or not they are enraged, [whether you have defeated certain enemies](https://www.youtube.com/watch?v=SgmP2zk6TJc), other enemies in the fight,
+whether the enemy has used a specific art, and the battle time.
 
 For example, Kilocorn Grandeps (the superboss, not the Challenge Battle version) has 5 profiles for each of the refights, for a total of 56 profiles (10 refights + 1 default unused profile).  
 At level 95 and above 80% HP, it will only use Horn Dance and Breath.  
@@ -106,7 +107,8 @@ If you'd like to know how to interpret the table, uncover the paragraph down bel
 
 The `EnemyAiHead` and `EnemyAiTail` columns in `BTL_Enemy` define the range of AI profiles to use. Those AI profiles can be found in `BTL_EnemyAi`. 
 
-In the `BTL_EnemyAi` table, the `A5C654A0` column defines the minimum enemy level for the profile. `42074031` is a HP percentage threshold, and `9184A789` is a condition for the enemy to be enraged. `0751D751` is a condition (i.e. a row from `FLD_ConditionList`).
+In the `BTL_EnemyAi` table, the `A5C654A0` column defines the minimum enemy level for the profile. `42074031` is a HP percentage threshold, and `9184A789` is a condition for the enemy to be enraged. `0751D751` is a condition (i.e. a row from `FLD_ConditionList`). `1716B5CD` is an enemy ID (from `FLD_EnemyData`) which is checked to be alive and nearby, `CAF0DBF3` is a maximum number of enemies in the fight, `6B28F42E` requires the art to have been used (art ID from `BTL_Arts_En`). `B461BFB1` is a minimum
+battle time in seconds.
 
 Next, the `EnemyUseArts01-16` columns are what enable each art in the enemy's art palette. The values are the art slots to be enabled. For example, if an enemy AI profile has use-arts values of `0`, `1`, `3`, and `4`, it will enable `ArtsSlot0`, `ArtsSlot1`, `ArtsSlot3`, and `ArtsSlot4`. A `0` in anything other than `EnemyUseArts01` is ignored. (In that column, a `0` means to enable the art in `ArtsSlot0`. To disable the first art, `255` is used instead.)
 
