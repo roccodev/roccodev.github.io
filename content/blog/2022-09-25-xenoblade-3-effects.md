@@ -113,6 +113,36 @@ The damage formula is a chain of multiplications. Several effects are grouped to
 | Supercharged | up to 90% |
 | Piercing Laser | up to 120% |
 
+### (DLC) Challenge gauntlet emblems 1
+(Add 100% to the total)
+
+| Name | Value | Parameter Values |
+| ---- | ----- | ---------- |
+| Attack Up | `Param`% | 40/80/120/180/240/300 |
+| Dexterity Up | `Param`% | 20/40/60/80/100/120 |
+| Attack Up After Use | `Param`% | 100/150/200/260/320/400 |
+| Debuff/Combo Duration Up | `Param`% | 20/40/60/80/100/120 |
+| Combo to Attack | `Param`% * Smash/Burst count | 40/45/50/60/70/80 |
+| Curse to Attack | `Param`% * Curse count | 8/12/16/24/32/40 |
+| Rescue to Attack | `Param`% * Revive count | 20/24/28/35/42/50 |
+| Focus: Role | `Param`% * Member count | 15/20/25/32/40/50 |
+| Agnus/Kevesi Zeal | `Param`% * Member count | 20/30/40/55/70/85 |
+| Other Zeal | `Param`% * Member count | 30/40/50/65/80/100 |
+| Last-Ditch Effort | `Param`% * (100% - Charge%) | 70/140/210/300/400/500 |
+| Moneybags | `Param`% * `floor(Score / 10000)` | 25/30/35/42/50/60 |
+
+Note: Riku & Manana get the "Zeal" bonus for both Keves and Agnus, and they also count towards both forces.
+
+### (DLC) Challenge gauntlet auto-attack emblems
+(Add 100% to the total)
+
+| Name | Param% Lv. 1 | 2 | 3 | 4 | 5 | 6 |
+| ---- | ----------- | - | - | - | - | - |
+| Auto-Attack Up | 120 | 150 | 180 | 220 | 260 | 300 |
+| Area Attack | 10 | 20 | 30 | 40 | 50 | 60 |
+| Absorb HP | 10 | 20 | 30 | 40 | 50 | 60 |
+| Debuffing Attack | 10 | 20 | 30 | 40 | 50 | 60 |
+
 ### Independent multipliers
 
 | Name | Multiplier |
@@ -130,6 +160,7 @@ The damage formula is a chain of multiplications. Several effects are grouped to
 | Attacking an enemy from behind, if it hasn't noticed the player | 150% |
 | Multi-hit damage correction | 1/(number of damage hits), can be 2/n or more, depending on the art/hit. As of 1.1.0, does not apply to *fused* Master Arts that do not spawn bullets normally (and that have multiple fusion hits) -- only eligible art is Quickdraw |
 | AOE penalty | 100% (main target), 75% (other enemies) -- also works for enemy attacks |
+| (DLC) Emblem: Defense Up | 100%-`Param`% (`Param`: 10/15/20/26/32/40) |
 
 ### Useful buffs/debuffs
 
