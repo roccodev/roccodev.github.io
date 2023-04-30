@@ -91,7 +91,8 @@ The damage formula is a chain of multiplications. Several effects are grouped to
 | Awakening (buff) | -25% damage taken (base) |
 | Defense Up (buff) | -15% damage taken (base) |
 | Reduce All ~ Origin Blade (debuff) | +50% damage taken (base) |
-| Interlink bonus/penalty | +40% damage taken (Lv. 0), +0% (Lv. 1), -30% (Lv. 2), -60% (Lv. 3). Damage during Interlink affects heat buildup speed. | 
+| Interlink bonus/penalty | +40% damage taken (Lv. 0), +0% (Lv. 1), -30% (Lv. 2), -60% (Lv. 3). Damage during Interlink affects heat buildup speed. |
+| (DLC4, enemy-only) Enemy count debuff | -30% damage taken for each enemy in the fight (excluding self), max -90% |
 
 
 ### Multiplier group 2
@@ -161,6 +162,7 @@ Note: Riku & Manana get the "Zeal" bonus for both Keves and Agnus, and they also
 | Multi-hit damage correction | 1/(number of damage hits), can be 2/n or more, depending on the art/hit. As of 1.1.0, does not apply to *fused* Master Arts that do not spawn bullets normally (and that have multiple fusion hits) -- only eligible art is Quickdraw |
 | AOE penalty | 100% (main target), 75% (other enemies) -- also works for enemy attacks |
 | (DLC) Emblem: Defense Up | 100%-`Param`% (`Param`: 10/15/20/26/32/40) |
+| (DLC4) Weakness | 150% + Effect%, weaknesses are Front/Side/Back/Combos |
 
 ### Useful buffs/debuffs
 
