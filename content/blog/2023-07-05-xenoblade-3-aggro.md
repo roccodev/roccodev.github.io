@@ -14,34 +14,37 @@ main damage dealers.
 ## Aggro slots
 
 Each enemy has four slots for each character in the field. The meaning of those slots is unknown, but slot
-\#1 is generally used for "active" aggro, slot \#2 for "passive" aggro, and slot \#3 for Taunt aggro. I haven't
-observed slot \#4 ever being used. (It is possible that it's used for Eclipse Soul fights, but I haven't tested it.)
-In reality, when choosing the attack target only the total is considered, and multiplications act on all four slots, so it doesn't really matter.
+\#1 is generally used for damage-related aggro, slot \#2 for "passive" aggro, and slot \#3 for Taunt aggro. I haven't
+observed slot \#4 ever being used.
+
+Generally this distinction doesn't matter, as only the total is considered, and multiplications act on all four slots. However, some reduction operations only apply to one of those slots, stopping when it reaches zero.
 
 ## Aggro types
 
 What actually matters is how aggro is generated.  
 When attacking, there are eight main ways to generate aggro:
 
-1. Damage dealt
+1. Damage dealt (slot #1)
     + Aggro: `damage * 0.5 * fusion bonus * additives`
     + *Fusion bonus*: 1.5 for applicable arts
-2. Damage taken
+    + Includes spike damage, damage over time, Smash impact damage (see below)
+2. Damage taken (slot #1)
     + Aggro: `-1.5 * damage`
-3. HP healed
+3. HP healed (slot #2)
     + Aggro: `1.25 * HP difference * additives`
     + *HP difference*: total HP actually healed
     + Aggro is gained by the healer
-4. Arts and auto-attacks
+4. Arts and auto-attacks (slot #2)
     + Aggro: `2000 + 120 * (chr. level - 1) * (art aggro) * additives` (same formula for 5, 6)
     + *Art Aggro*: `Hate / 100`, where `Hate` is from `BTL_Arts_PC`
-5. Healing arts
+    + Healing/field arts don't trigger this: types 4, 5, and 6 are mutually exclusive.
+5. Healing arts (slot #2)
     + Includes buff arts that generate aggro
-6. Field Arts
-7. "Extra" effects, like +aggro on evasion, etc.
+6. Field Arts (slot #2)
+7. "Extra" effects, like +aggro on evasion, etc. (slot #2)
     + Aggro: `2000 + 120 * (chr. level - 1) * effect * additives`
     + *Effect*: defined by the effect itself. For example, the highest obtainable value for the evasion effect is `6.5% = 0.065`. (from one of Masha's accessories)
-8. Taunts
+8. Taunts (slot #3)
     + Aggro: `2000 + 120 * (chr. level - 1) * additives * shackle ring`
     + *Shackle ring*: max 1.8 at an art chain of 6
 
@@ -66,6 +69,9 @@ however:
 
 * Out of the eight aggro generation types listed above, only Taunts actually generate aggro during Daze.
 * When the enemy is inflicted with Burst, all Defenders in the party gain +20% aggro, while everyone else gets their aggro reduced by 20%.
+
+Additionally, Smash impact damage, as well as debuff damage-over-time, does not count as an "attack" or "art". This means that
+those damage types are unaffected by skills/accessories/etc. that increase/reduce aggro drawn from attacks or arts.
 
 ## Reviving
 
@@ -95,9 +101,11 @@ When the interlink is canceled, the two characters get their old aggro back, and
 Every second, the aggro manager runs some checks to give or take aggro from characters.  
 "Additives" here are strictly the ones affecting aggro gain/reduction over time.
 
-If any character is at least 12.5 units away from the enemy, they lose `(160 + 60 * (chr. level - 1)) * additives / 30` aggro per second from that enemy.
+If any character is at least 12.5 units away from the enemy, they lose `(160 + 60 * (chr. level - 1)) * additives / 30` **slot #1** aggro per second from that enemy.
 
-Regardless of distance, every character loses `75 * additives` (or `50 * additives` if Defender) per second from every enemy.
+Regardless of distance, every character loses `75 * additives` (or `50 * additives` if Defender) **slot #2** aggro per second from every enemy.
+
+Also every second, **slot #3** (Taunt) aggro is depleted by `(2000 + 120 * (chr. level - 1) * additives) / 30`.
 
 Some accessories and skills grant characters aggro generation over time. For example, Defender Lucky Seven generates `30 * additives` aggro every second.
 
