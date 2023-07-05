@@ -33,25 +33,24 @@ When attacking, there are eight main ways to generate aggro:
     + *HP difference*: total HP actually healed
     + Aggro is gained by the healer
 4. Arts and auto-attacks
-    + Aggro: `2000 + 120 * (chr. level - 1) * additives` (same formula for 5, 6, 7)
+    + Aggro: `2000 + 120 * (chr. level - 1) * (art aggro) * additives` (same formula for 5, 6)
+    + *Art Aggro*: `Hate / 100`, where `Hate` is from `BTL_Arts_PC`
 5. Healing arts
     + Includes buff arts that generate aggro
-7. Field Arts
-8. "Extra" effects, like +aggro on evasion, etc.
-9. Taunts
+6. Field Arts
+7. "Extra" effects, like +aggro on evasion, etc.
+    + Aggro: `2000 + 120 * (chr. level - 1) * effect * additives`
+    + *Effect*: defined by the effect itself. For example, the highest obtainable value for the evasion effect is `6.5% = 0.065`. (from one of Masha's accessories)
+8. Taunts
     + Aggro: `2000 + 120 * (chr. level - 1) * additives * shackle ring`
     + *Shackle ring*: max 1.8 at an art chain of 6
 
 ### Additives
 
-Additives include all effects that "boost aggro generated when ...". The multiplier usually starts at 1.0, and effects that hinder aggro generation are subtracted instead. In most cases, it is not possible for aggro that should be "gained" to go negative as the result of that effect; instead, no aggro is gained. This allows for silly builds (e.g. Stalker Night Hunt) that generate little to no aggro, even with millions of damage.
+Additives include all effects that "boost aggro generated when ...". The multiplier starts at 1.0, and effects that hinder aggro generation are subtracted instead. In most cases, it is not possible for aggro that should be "gained" to go negative as the result of that effect; instead, no aggro is gained. This allows for silly builds (e.g. Stalker Night Hunt) that generate little to no aggro, even with millions of damage.
 
-Additionally:
-* "Boosts aggro generated from dealing damage" only affects type 1 aggro.
-    + This is different from "Reduces aggro generated from attacks", which works on both 1 and 4.
-* Aggro types 4, 5, and 6 have a base multiplier of `Hate / 100`, where `Hate` is from `BTL_Arts_PC`.
-* For type 7, the base multiplier is defined by the effect itself. For example, the highest obtainable value for the evasion effect is `6.5% = 0.065`. (from one of Masha's accessories)
- 
+Additionally, "Boosts aggro generated from dealing damage" only affects type 1 aggro. This is different from "Reduces aggro generated from attacks", which works on both 1 and 4.
+
 ## Choosing targets
 
 The aggro manager checks regularly whether it should change an enemy's target. The character with the highest total aggro becomes the new target.
