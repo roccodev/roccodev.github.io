@@ -21,21 +21,26 @@ In reality, when choosing the attack target only the total is considered, and mu
 ## Aggro types
 
 What actually matters is how aggro is generated.  
-When attacking, there are seven main ways to generate aggro:
+When attacking, there are eight main ways to generate aggro:
 
 1. Damage dealt
-    + Aggro: `damage * 0.5 * fusion bonus (1.5 for applicable arts) * additives`
+    + Aggro: `damage * 0.5 * fusion bonus * additives`
+    + *Fusion bonus*: 1.5 for applicable arts
 2. Damage taken
     + Aggro: `-1.5 * damage`
 3. HP healed
     + Aggro: `1.25 * HP difference * additives`
     + *HP difference*: total HP actually healed
+    + Aggro is gained by the healer
 4. Arts and auto-attacks
-    + Aggro: `2000 + 120 * (chr. level - 1) * additives` (same formula for 5, 6)
-5. Healing Arts
-6. Field Arts
-7. Taunts
+    + Aggro: `2000 + 120 * (chr. level - 1) * additives` (same formula for 5, 6, 7)
+5. Healing arts
+    + Includes buff arts that generate aggro
+7. Field Arts
+8. "Extra" effects, like +aggro on evasion, etc.
+9. Taunts
     + Aggro: `2000 + 120 * (chr. level - 1) * additives * shackle ring`
+    + *Shackle ring*: max 1.8 at an art chain of 6
 
 ### Additives
 
@@ -45,6 +50,7 @@ Additionally:
 * "Boosts aggro generated from dealing damage" only affects type 1 aggro.
     + This is different from "Reduces aggro generated from attacks", which works on both 1 and 4.
 * Aggro types 4, 5, and 6 have a base multiplier of `Hate / 100`, where `Hate` is from `BTL_Arts_PC`.
+* For type 7, the base multiplier is defined by the effect itself. For example, the highest obtainable value for the evasion effect is `6.5% = 0.065`. (from one of Masha's accessories)
  
 ## Choosing targets
 
@@ -59,7 +65,7 @@ Characters that are suffering from Eclipse Soul are excluded from the calculatio
 Generally, reactions only affect aggro indirectly, e.g. by providing damage bonuses. The Daze line is an exception,
 however:
 
-* Out of the seven aggro generation types listed above, only Taunts actually generate aggro during Daze.
+* Out of the eight aggro generation types listed above, only Taunts actually generate aggro during Daze.
 * When the enemy is inflicted with Burst, all Defenders in the party gain +20% aggro, while everyone else gets their aggro reduced by 20%.
 
 ## Reviving
@@ -102,7 +108,7 @@ For some odd reason, in Chain Attacks you can only *gain* aggro, with the only e
 
 Most of the aggro manager's functions (all prior to 1.3.0, see below) don't run at all, so there is no aggro generation or reduction over time, as well as no visible target switching from the enemy.
 
-The seven main ways for gaining aggro still work (meaning you will get a *ton* of aggro, especially with how crazy damage in chain attack gets), with only a few ways to reduce it.
+The eight main ways for gaining aggro still work (meaning you will get a *ton* of aggro, especially with how crazy damage in chain attack gets), with only a few ways to reduce it.
 
 Lanz's chain order multiplies every Defender's aggro by `1.0 + effect` (max. 1.5 at Lv. 81), while Mio's multiplies every non-Defender's aggro by `1.0 - effect` (min. 0 at Lv. 81).
 
