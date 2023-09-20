@@ -107,7 +107,7 @@ Regardless of distance, every character loses `75 * additives` (or `50 * additiv
 
 Also every second, **slot #3** (Taunt) aggro is depleted by `(2000 + 120 * (chr. level - 1) * additives) / 30`.
 
-Some accessories and skills grant characters aggro generation over time. For example, Defender Lucky Seven generates `30 * additives` aggro every second.
+Some accessories and skills grant characters aggro generation over time. For example, Defender Lucky Seven generates `30 * additives` aggro every second. Such aggro is generally added to **slot #1**, meaning it won't deplete over time if you're close to the enemy.
 
 ## Chain Attacks
 

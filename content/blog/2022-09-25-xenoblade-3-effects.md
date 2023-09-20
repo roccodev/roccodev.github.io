@@ -144,6 +144,13 @@ Note: Riku & Manana get the "Zeal" bonus for both Keves and Agnus, and they also
 | Absorb HP | 10 | 20 | 30 | 40 | 50 | 60 |
 | Debuffing Attack | 10 | 20 | 30 | 40 | 50 | 60 |
 
+### Moebius M fight
+
+| Name | Value | Notes |
+| ---- | ----- | ----- |
+| Player->Player damage, if attacker has Eclipse Soul | 50% | Likely meant to nerf allies that lose control. |
+| Player->Player damage, if attacker does not have Eclipse Soul | 1% | Likely used in the second fight. Curiously, this is also what makes self-damage with glitches very low.
+
 ### Independent multipliers
 
 | Name | Multiplier |
