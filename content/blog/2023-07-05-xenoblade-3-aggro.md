@@ -68,7 +68,7 @@ Generally, reactions only affect aggro indirectly, e.g. by providing damage bonu
 however:
 
 * Out of the eight aggro generation types listed above, only Taunts actually generate aggro during Daze.
-* When the enemy is inflicted with Burst, all Defenders in the party gain +20% aggro, while everyone else gets their aggro reduced by 20%.
+* When the enemy is inflicted with Burst, all Defenders in the party gain +25% aggro, while everyone else gets their aggro reduced by 25%.
 
 Additionally, Smash impact damage, as well as debuff damage-over-time, does not count as an "attack" or "art". This means that
 those damage types are unaffected by skills/accessories/etc. that increase/reduce aggro drawn from attacks or arts.
@@ -101,9 +101,10 @@ When the interlink is canceled, the two characters get their old aggro back, and
 Every second, the aggro manager runs some checks to give or take aggro from characters.  
 "Additives" here are strictly the ones affecting aggro gain/reduction over time.
 
-If any character is at least 12.5 units away from the enemy, they lose `(160 + 60 * (chr. level - 1)) * additives / 30` **slot #1** aggro per second from that enemy.
+If any character is at least 12.5 units away from the enemy, they lose `(150 + 60 * (chr. level - 1)) * additives / 30` **slot #1** aggro per second from that enemy.
 
-Regardless of distance, every character loses `75 * additives` (or `50 * additives` if Defender) **slot #2** aggro per second from every enemy.
+Regardless of distance, every character loses `75 * additives` (or `50 * additives` if Defender) **slot #2** aggro per second from every enemy. If they are at least
+12.5 units away from the enemy, this reduction is boosted by `50%`.
 
 Also every second, **slot #3** (Taunt) aggro is depleted by `(2000 + 120 * (chr. level - 1) * additives) / 30`.
 

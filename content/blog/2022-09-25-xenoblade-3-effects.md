@@ -91,7 +91,7 @@ The damage formula is a chain of multiplications. Several effects are grouped to
 | Awakening (buff) | -25% damage taken (base) |
 | Defense Up (buff) | -15% damage taken (base) |
 | Reduce All ~ Origin Blade (debuff) | +50% damage taken (base) |
-| Interlink bonus/penalty | +40% damage taken (Lv. 0), +0% (Lv. 1), -30% (Lv. 2), -60% (Lv. 3). Damage during Interlink affects heat buildup speed. |
+| Interlink bonus/penalty | +40% damage taken (Lv. 0), +0% (Lv. 1), -30% (Lv. 2), -60% (Lv. 3). *(Scrapped feature that would affect heat buildup speed.)* |
 | (DLC4, enemy-only) Enemy count debuff | -30% damage taken for each enemy in the fight (excluding self), max -90% |
 
 
