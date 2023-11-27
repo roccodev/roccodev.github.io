@@ -10,7 +10,7 @@ Other options:
 * Mastodon: [@rocco@social.linux.pizza](https://social.linux.pizza/@rocco)
 
 -- the evil (proprietary) side --
-* Discord: `RoccoDev#6721`
+* Discord: `roccodev`
 * Twitter: [@RealRoccoDev](https://twitter.com/realroccodev)
 
 ### Recruitment

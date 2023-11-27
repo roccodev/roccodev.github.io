@@ -33,6 +33,7 @@ Discord: [https://l.5zigreborn.eu/discord](https://l.5zigreborn.eu/discord)
 Rust tools for reading and manipulating files from Xenoblade games
 
 BDAT editor: [bdat-rs](https://github.com/RoccoDev/bdat-rs)  
+Xenoblade 3 save editor: [Recordkeeper](https://github.com/RoccoDev/recordkeeper)  
+Xenoblade 3 file loader: [xc3-file-loader](https://github.com/RoccoDev/xc3-file-loader)  
+Xenoblade 3 difficulty editor: [xc3-difficulty-unlocker](https://github.com/RoccoDev/xc3-difficulty-unlocker)  
 Mod Ardain (XC2 mod collection): [Mod-Ardain](https://github.com/RoccoDev/Mod-Ardain)  
-XC3 sound file loader: [xc3-sound-replace](https://github.com/RoccoDev/xc3-sound-replace)  
-XC3 difficulty editor: [xc3-difficulty-unlocker](https://github.com/RoccoDev/xc3-difficulty-unlocker)  
