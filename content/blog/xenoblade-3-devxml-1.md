@@ -15,9 +15,9 @@ tags = ["xenoblade", "datamine"]
 
 This post illustrates some recent findings in Xenoblade 3 datamining.
 
-Values are mostly taken from the newly researched "devxml" files. Information about those values is being collected over at this [spreadsheet](https://docs.google.com/spreadsheets/u/1/d/1_prmO3-6ra4kaCy07Kd2E7Lbcyf1X052Is7MmfREkYk/htmlview).
+Values are mostly taken from the newly researched *devxml* files. Information about those values is being collected over at this [spreadsheet](https://docs.google.com/spreadsheets/u/1/d/1_prmO3-6ra4kaCy07Kd2E7Lbcyf1X052Is7MmfREkYk/htmlview).
 
-This coverage will be split in three parts: this post covers base game mechanics and unused content. I'll go over challenge battle and Future Redeemed content in later posts.
+This coverage will be split in three parts: this post covers base game mechanics and unused content. I'll go over challenge battle and Future Redeemed content in future posts.
 
 Huge thanks to Lexicon (lexicon1) and Hamidu for helping with research.
 
@@ -43,19 +43,21 @@ When Interlink is initiated, the combo timer on the targeted enemy is paused for
 
 If Interlink is started while the heat gauge is not empty (for example, by canceling and Interlinking again right away), a 10% heat penalty is applied.
 
-Every second during Interlink, 4% heat is generated. Outside of Interlink, 1.7% heat is dissipated.
+Every second during Interlink, 4% heat is generated; outside of Interlink, 1.7% heat is dissipated.
 
 When using an Ouroboros art, its `Recast` parameter is used to generate extra heat. In practice this is limited to Feather Sanctuary, which generates 5% heat at level 1, and all talent arts with 6%. Liberty Wing only overheats if there were incapacitated allies.
 
 When canceling arts into arts, 3.6% heat is generated at base. If the "Heat Control: Arts Canceling" skill is active, this is reduced to 2.7%.
 
-Curiously, starting from version 2.0.0, canceling arts into arts as an Ouroboros will also add +0.4% to the Power Charge damage multiplier group for that attack. This is likely an unwanted side effect from the Future Redeemed effect that uses the same parameter to give an extra 25% Power Charge boost when canceling arts into arts. 
+Curiously, canceling arts into arts as an Ouroboros will also add +0.4% to the Power Charge damage multiplier group for that attack.
+The reason for this specific value is unknown, but the game checks that this is not zero to allow Ouroboros to cancel arts into arts.  
+There is an equivalent skill in Future Redeemed skill that also gives a 25% Power Charge boost (and, in fact, uses the same effect), though this has affected Ouroboros since 1.0.0.
 
 When the gauge is 90% full and the Interlink level is 3, Noah's talent art will change to Origin Blade after a certain point in the story.
 
 ### Interlink AI
 
-When using auto-battle or with the Interlink control type setting set to "Player", Interlink will be controlled by the AI.
+When using auto-battle or with the Interlink control type setting set to "Player," Interlink will be controlled by the AI.
 
 When a pair reaches a new Interlink level, the AI has a 0% chance to start the Interlink at lv. 1, 50% at lv. 2, and 100% at lv. 3.
 
@@ -102,7 +104,7 @@ When canceling, an extra auto-attack worth of recharge is given to equipped Agnu
 
 Considering $a, b \ge 0$ and $a, b \le 0.97$,
 
-$$a = \frac{\text{Dexterity} \cdot (100\% + \text{Art Hit}) \cdot 0.75}{\text{Agility}}$$
+$$a = \frac{\text{Dexterity} \cdot (100\\% + \text{Art Hit}) \cdot 0.75}{\text{Agility}}$$
 $$b = a \cdot \text{Additives} \cdot \text{Preemptive}$$
 $$\text{Hit Chance} = \max(\min(0.015, a), b)$$
 
@@ -111,14 +113,14 @@ where:
 * $\text{Dexterity}$ is the attacker's Dexterity, $\text{Agility}$ is the defender's Agility.
 * $\text{Art Hit}$ is `HitRev` from `BTL_Arts_PC` or `BTL_Arts_En`.
 * $\text{Additives}$ are the attacker's accuracy additives, minus the defender's evasion additives.
-* $\text{Preemptive}$ is 1.5 if the attack was a preemptive hit (i.e. the defender has not noticed the attacker)
+* $\text{Preemptive}$ is 1.5 if the attack was a preemptive hit (i.e. the defender has not noticed the attacker), or 1 otherwise.
 
 The 97% hit chance cap was also present in Xenoblade 2.
 
-Among the accuracy additives, you also have:
+Two notable accuracy additives are:
 
-* +10% when attacking from the side,
-* +25% when attacking from the back.
+* +10% accuracy when attacking from the side,
+* +25% accuracy when attacking from the back.
 
 ## Elite enemies
 
@@ -143,10 +145,11 @@ The boosts are as follows, I will also list the differences with Future Redeemed
 
 The revival speed formula (per second) is the following:
 
-$$\text{Multiplier} \cdot \text{Gauntlet} \cdot  \sum_{\text{Helpers}} \text{Base} \cdot \text{Additives}$$
+$$\text{Base} \cdot \text{Multiplier} \cdot \text{Gauntlet} \cdot \sum_{h \in \text{Helpers}}{\left( \frac{\Delta t_h}{30} \cdot \text{Additives}_h \right)}$$
 
 where:
 
+* $\text{Base}$ is $0.2$ for revivals, and $0.45$ for combo rescuing.
 * $\text{Multiplier}$ is based on the number of allies currently helping:
   * 1 helper: 100%
   * 2 helpers: 130%
@@ -154,12 +157,15 @@ where:
   * 4 helpers: 180%
   * 5 helpers: 200%
   * 6 helpers: 220%
-* $\text{Gauntlet}$ is the empty Nopwatch effect (0.33)
-* The sum of each helper's additives applied to the base value makes up the final multiplier.
-  * The base value is $1/5$ for revivals, and $1.5$ for combo rescuing.
-  * "Revival" additives also affect combo rescuing.
+* $\text{Gauntlet}$ is the empty Nopwatch effect, 0.33 if the Nopwatch gauge is empty, 1 otherwise.
+* $\Delta t_h$ is the time (in frames) helper $h$ spent rescuing since the last update. For a per-second formula, this ranges from 0 to 30.
+* $\text{Additives}_h$ is the sum of helper $h$'s revival speed related additives (base = 100%). *Revival* speed additives also affect combo rescuing.
 
-The final value is the gauge % to fill, which for combos is essentially a percentage of the total duration. This means that without any helpers or additives, reviving an ally takes 5 seconds, and rescuing someone from a combo takes 20 frames.
+Alternatively, per frame:
+
+$$\frac{1}{30} \cdot \text{Base} \cdot \text{Multiplier} \cdot \text{Gauntlet} \cdot \sum_{h \in \text{Helpers}}{\text{Additives}_h}$$
+
+The final value is the gauge % to fill, which for combos is essentially a percentage of the total duration. This means that with a single helper and no additives, reviving an ally takes 5 seconds, and rescuing someone from a combo would take 67 frames if the combo did not also tick naturally in the meantime.
 
 Revived allies are given back 15% of their max HP (at base, the gem effect is added to this value), as well as 3 seconds of invincibility.
 
@@ -171,11 +177,13 @@ The main line signals the enemy's current target, and is colored blue if the tar
 
 When the next character with the most aggro has at least 70% of the current target's aggro, a quick intermittent line is displayed going to that other character every 3 seconds, signaling target is about to change. (This line is disabled for the first 4 seconds of battle.)
 
-![Intermittent line](https://i.imgur.com/yoZIAmn.png)
+![Intermittent line](/img/devxml/aggro-line-intr.png)
 
-When this difference reaches 75%, the main line will start to wiggle (at an interval of 15 frames) until it breaks on target change, or until the difference drops below 70%.
+When this difference reaches 75%, the main line will start to wiggle (at an interval of 15 frames) until it either breaks on target change, or the difference drops below 70%.
 
-![Wiggle effect](https://i.imgur.com/GnN434L.png)
+![Wiggle effect](/img/devxml/aggro-line-wiggle.png)
+
+*(Thanks Hamidu for the images!)*
 
 ## Combos
 
@@ -196,7 +204,7 @@ This state lasts 5 minutes.
 
 The game employs countermeasures when allies get stuck and can't reach the enemy.
 
-During battle, alive allies that are on the ground, and more than 20 meters above or below the party leader get teleported close to it. When an ally is dead, the threshold is reduced to 10 meters.
+During battle, alive allies that are on the ground, and more than 20 meters above or below the party leader get teleported close to it. When the ally is dead, the threshold is reduced to 10 meters.
 
 When engaging enemies, characters that are more than 4 meters above/below the party leader, or farther than 10 meters in 3D distance are also teleported.
 
@@ -204,10 +212,25 @@ If an ally can't move for more than 5 seconds, or can't perform an action for mo
 
 Similarly, if there is at least one ally alive that can revive, dead allies that go unrescued for more than 15 seconds (i.e. no one has started the revival action on them) get teleported to the party leader. This is disabled against bosses and unique enemies.
 
+## Unlocking classes
+
+When an enemy is defeated, the party gains unlock points towards the equipped classes if they are not at maximum rank.
+
+The exact value gained by each character is described by this formula:
+
+$$\text{Enemy CP multiplier} \cdot \text{Overkill\%} \cdot \text{Level modifier} \cdot \sum_{\substack{\text{character $c$} \\\ \text{with same class}}} k_c$$
+
+where:
+
+* $k_c$ (for each character $c$ with the same class), is 100 if $c$ is a hero, 50 otherwise.
+* $\text{Enemy CP multiplier}$ is the enemy's `ExpRate * RevExpTalent`, essentially enemy CP divided by the {% tooltip(label="base CP") %}`EnemyTalentExp` from `BTL_Grow`{% end %}. This does *not* include food bonuses or the Elite CP boost.
+* $\text{Overkill\%}$ is the chain attack overkill rate.
+* $\text{Level modifier}$ is defined in [this table](https://xenobladedata.github.io/xb3_200_dlc4/BTL_LvRev.html) (`TalentPoint` columns). Note that when a character is 6 or more levels higher than the enemy, they won't receive any unlock points.
+
 ## Flame Clock
 
 The Flame Clock mechanic for Colony 9 is active for the first two chapters of the game.
-The other colonies have fixed values and the gauge is just cosmetic.
+The other colonies have fixed values and their gauge is just cosmetic.
 
 A full gauge is worth 1,000 points, and it starts at 800 in a fresh file. For simplicity's sake, I will refer to 1,000 points as 100%, and so on.
 
@@ -267,6 +290,10 @@ In Future Redeemed, this option clears dirt completely.
 
 # Unused content
 
+## Accuracy level difference modifier
+
+The [level difference modifier table](https://xenobladedata.github.io/xb3_200_dlc4/BTL_LvRev.html) has a column for attack accuracy. Data from this column is never used.
+
 ## Pure revival speed gem
 
 There exists [data](https://xenobladedata.github.io/xb3_200_dlc4/BTL_Enhance.html#2906) for a pure revival speed up effect next to other gem data.
@@ -275,7 +302,7 @@ The effect ranges from +20% to +45% revival speed, values identical to the "Fast
 
 ## Interlink heat mechanics
 
-A scrapped mechanic would make Interlink accrue heat upon taking damage.
+A scrapped mechanic would make Ouroboros accrue heat upon taking damage.
 
 The strength of the effect is unknown, but it is based on damage taken relative to max HP, and there is an unused [skill](https://xenobladedata.github.io/xb3_200_dlc4/BTL_Skill_PC.html#172) that reduces it, similar to "Heat Control: Time".
 
@@ -292,7 +319,7 @@ Additionally, while the enemy is enraged, it gains a flat +50 resistance to all 
 
 ## Extra rage pause opportunities
 
-Likely designed in tandem with the Rage Strike mechanic, the game also allows clearing and pausing Enrage by doing the following:
+Likely designed in tandem with the Rage Strike mechanic, the game also allows clearing and pausing Enrage by doing any of the following:
 
 * Completing a chain attack.
 * Using a talent art.
