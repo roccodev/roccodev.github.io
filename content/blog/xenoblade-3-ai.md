@@ -18,8 +18,8 @@ Alternatively, I have a
 
 Special credits go to:
 
-* Lexicon#3471
-* Hamidu#5383
+* Lexicon (lexicon1)
+* Hamidu
 
 from the [Xenoblade Chronicles Discord server](https://discord.gg/xenoblade) for helping with research.
 

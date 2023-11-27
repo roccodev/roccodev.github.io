@@ -19,6 +19,8 @@ Values are mostly taken from the newly researched "devxml" files. Information ab
 
 This coverage will be split in three parts: this post covers base game mechanics and unused content. I'll go over challenge battle and Future Redeemed content in later posts.
 
+Huge thanks to Lexicon (lexicon1) and Hamidu for helping with research.
+
 ## Interlink
 
 ### Interlink level
