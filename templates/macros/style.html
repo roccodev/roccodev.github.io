@@ -1,0 +1,12 @@
+{% macro head() %}
+<link rel="stylesheet" href="{{ get_url(path='utils.css', trailing_slash=false) | safe }}">
+<link rel="stylesheet" href="{{ get_url(path='override.css', trailing_slash=false) | safe }}">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#63ef2f">
+<meta name="og:site_name" content="RoccoDev's Blog">
+<meta name="og:image" content="https://rocco.dev/img/apple-touch-icon.png">
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="RealRoccoDev">
+{% endmacro %}

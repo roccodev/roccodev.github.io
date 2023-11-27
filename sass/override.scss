@@ -1,0 +1,30 @@
+$sans: 'IBM Plex Sans', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+$serif: 'IBM Plex Serif', Georgia, 'Times New Roman', Times, serif;
+$mono: 'IBM Plex Mono', Hack, 'DejaVu Sans Mono', Monaco, Consolas, 'Ubuntu Mono', monospace;
+
+body {
+    font-family: $sans;
+}
+
+.post-title {
+    font-weight: 700;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: $serif;
+}
+
+code,
+pre {
+    font-family: $mono;
+}
+
+.menu,
+.logo {
+    font-family: $mono;
+}

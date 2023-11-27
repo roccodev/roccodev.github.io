@@ -1,6 +1,9 @@
 {% extends "terminimal/templates/page.html" %}
+{% import "macros/style.html" as style %}
 
 {% block extra_head %}
+{{ style::head() }}
+
 {% if page.extra.math %}
 <script type="text/x-mathjax-config">
     MathJax.Hub.Config({
@@ -13,19 +16,9 @@
     src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML">
     </script>
 {% endif %}
-<link rel="stylesheet" href="{{ get_url(path='utils.css', trailing_slash=false) | safe }}">
 
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#63ef2f">
 <meta name="og:title" content="{{ page.title }}">
 <meta name="og:description" content="{{ page.summary }}">
-<meta name="og:site_name" content="RoccoDev's Blog">
-<meta name="og:image" content="https://rocco.dev/img/apple-touch-icon.png">
-
-<meta name="twitter:card" content="summary">
-</meta>
-<meta name="twitter:creator" content="RealRoccoDev">
-</meta>
 {% endblock %}
 
 {% block title %}
