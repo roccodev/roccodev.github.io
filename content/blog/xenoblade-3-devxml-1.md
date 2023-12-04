@@ -17,7 +17,7 @@ This post illustrates some recent findings in Xenoblade 3 datamining.
 
 Values are mostly taken from the newly researched *devxml* files. Information about those values is being collected over at this [spreadsheet](https://docs.google.com/spreadsheets/u/1/d/1_prmO3-6ra4kaCy07Kd2E7Lbcyf1X052Is7MmfREkYk/htmlview).
 
-This coverage will be split in three parts: this post covers base game mechanics and unused content. I'll go over challenge battle and Future Redeemed content in future posts.
+This coverage will be split in three parts: this post covers base game mechanics and unused content. I'll go over challenge battle and Future Redeemed content in future posts. ([Part 2](@/blog/xenoblade-3-devxml-2.md), *Part 3 - TBA*)
 
 Huge thanks to Lexicon (lexicon1) and Hamidu for helping with research.
 
@@ -39,7 +39,7 @@ When a character dies, the pair loses 500 points, but the Interlink level doesn'
 
 A full heat gauge is worth 1,000 points. I will refer to it using percentages for the rest of this section.
 
-When Interlink is initiated, the combo timer on the targeted enemy is paused for 4 seconds, unless the combo stage is Daze or Burst.
+When Interlink is initiated, the combo timer on the targeted enemy is paused for 4 seconds if the Interlink has arts that would advance it, unless the combo stage is Daze or Burst.
 
 If Interlink is started while the heat gauge is not empty (for example, by canceling and Interlinking again right away), a 10% heat penalty is applied.
 
@@ -84,9 +84,9 @@ In the rematch, Eclipse Soul lasts indefinitely, for a minimum of 5 seconds, and
 
 ## AI
 
-When there are 3 or more allies currently in an art animation, the party AI will only use arts that have `FlagNoLimit` set, that includes combo and healing arts for the most part.
+When there are more than 3 allies currently in an art animation, the party AI will only use arts that have `FlagNoLimit` set, that includes combo and healing arts for the most part.
 
-Enemy AI will also refrain from using arts if there are 2 non-boss, non-unique enemies in an art animation. Unique and boss enemies will use arts regardless.
+Enemy AI will also refrain from using arts if there are more than 2 non-boss, non-unique enemies in an art animation. Unique and boss enemies will use arts regardless.
 
 It is unclear why this limit was introduced, perhaps to limit noise, effects on screen, or for balancing reasons.
 
