@@ -1,23 +1,16 @@
 +++
 title = "Xenoblade 3: Hidden values explained (Part 2: Land of Challenge)"
-date = 2023-12-01
-
-[extra]
-math = true
+date = 2023-12-04
 
 [taxonomies]
 tags = ["xenoblade", "datamine"]
 +++
 
-<noscript>
-<b>Warning</b>: This post contains some math formulas that are best displayed with JavaScript enabled.
-</noscript>
-
 This post series illustrates some recent findings in Xenoblade 3 datamining.
 
 Values are mostly taken from the newly researched *devxml* files. Information about those values is being collected over at this [spreadsheet](https://docs.google.com/spreadsheets/u/1/d/1_prmO3-6ra4kaCy07Kd2E7Lbcyf1X052Is7MmfREkYk/htmlview).
 
-This is the second of a three-part coverage. ([Part 1](@/blog/xenoblade-3-devxml-1.md), *Part 3 - TBA*)  
+This is the second of a three-part coverage. ([Part 1](@/blog/xenoblade-3-devxml-1.md), [Part 3](@/blog/xenoblade-3-devxml-3.md))  
 This time, I am going over the DLC challenge modes, explaining internal values, and showcasing unused content.
 
 Thanks again to Lexicon (lexicon1) and Hamidu for helping with research.
@@ -74,7 +67,7 @@ Rounds are defined in the following BDAT tables:
 * [D31CA255](https://xenobladedata.github.io/xb3_200_dlc4/D31CA255.html) for the Pro challenge,
 * [58F078A6](https://xenobladedata.github.io/xb3_200_dlc4/58F078A6.html) for the unused infinite challenge. (see the last section)
 
-Regarding enemy placements, each round row defines the enemy's level and additional stat multipliers. Enemies are selected randomly from [this table](https://xenobladedata.github.io/xb3_200_dlc4/BTL_ChSU_EnemyTable.html), based on the range of row IDs defined by `7EE21AA2` and `BDC9BBC2` (or by `E0975E89` and `B62754C4` if `BTL_ChSU_MapBattleLock.D93144C4 = 1`).
+Regarding enemy placements, each round row defines the enemy's level and additional stat multipliers. Enemies are selected randomly from [this table](https://xenobladedata.github.io/xb3_200_dlc4/BTL_ChSU_EnemyTable.html), based on the range of row IDs defined by `7EE21AA2` and `BDC9BBC2` (or by `E0975E89` and `B62754C4` if `BTL_ChSU_MapBattleLock.D93144C4` = 1).
 
 I've collected shop, event, and whimsy data in an easier-to-read [spreadsheet](https://docs.google.com/spreadsheets/d/1eINXX6iDIjIa-yOAvvohU4b_ZZYIq3n4-7yWPh2ihw0/htmlview). The most salient points are:
 
@@ -184,7 +177,7 @@ The "Discount Card" emblem reduces shop prices (including Nopwatch refills and h
 Purchasing a Nopwatch refill (either by paying with score or for free) increases the price of the next one by 400, maxing out at 8,000. The first two Heroes are free, then the price increases by 2,500 each time, with 10,000 as the maximum.
 
 Defeating [Fortunate Pippito](https://rocco.dev/xc3-enemy-compendium/4299), or trading via whimsies yields one Shuffle Ticket.  
-Shuffle Tickets cannot be used on shops that only allow one item to be purchased.
+Shuffle Tickets cannot be used on shops that only allow one item to be purchased, when a purchase has already been made.
 
 ## Emblems
 

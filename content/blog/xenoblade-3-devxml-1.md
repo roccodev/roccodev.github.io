@@ -17,7 +17,7 @@ This post illustrates some recent findings in Xenoblade 3 datamining.
 
 Values are mostly taken from the newly researched *devxml* files. Information about those values is being collected over at this [spreadsheet](https://docs.google.com/spreadsheets/u/1/d/1_prmO3-6ra4kaCy07Kd2E7Lbcyf1X052Is7MmfREkYk/htmlview).
 
-This coverage will be split in three parts: this post covers base game mechanics and unused content. I'll go over challenge battle and Future Redeemed content in future posts. ([Part 2](@/blog/xenoblade-3-devxml-2.md), *Part 3 - TBA*)
+This coverage will be split in three parts: this post covers base game mechanics and unused content. I'll go over challenge battle and Future Redeemed content in future posts. ([Part 2](@/blog/xenoblade-3-devxml-2.md), [Part 3](@/blog/xenoblade-3-devxml-3.md))
 
 Huge thanks to Lexicon (lexicon1) and Hamidu for helping with research.
 
@@ -91,6 +91,17 @@ Enemy AI will also refrain from using arts if there are more than 2 non-boss, no
 It is unclear why this limit was introduced, perhaps to limit noise, effects on screen, or for balancing reasons.
 
 Enemy AI will also wait 3 seconds after the battle starts before performing any actions.
+
+## Enemy recharge
+
+Some enemies get reduced recharge rate in multi-enemy battles if they are not being attacked, often by a significant amount:
+
+`ACC9E8FD` in [`BTL_Enemy`](https://xenobladedata.github.io/xb3_200_dlc4/BTL_Enemy.html) defines the minimum number of enemies (can be equal) to enable the reduced recharge rate, while `0893DF90` is the rate multiplier (%) itself.
+
+This is only applied if the enemy is not being targeted by any player character, this cannot be guaranteed unless the Focus Target command is issued (ZL+Up).
+Without it, AI-controlled characters could pick a target of their choice, nullifying the effect.
+
+This mechanic effectively results in enemies recharging arts *faster* when the enemy count drops below the threshold.
 
 ## Arts canceling
 
