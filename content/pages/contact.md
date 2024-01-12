@@ -1,6 +1,6 @@
 +++
 path = "contact"
-title = "contact me"
+title = "Contact me"
 +++
 
 **The recommended way to contact me is via [email](mailto:hey@rocco.dev).** <!-- more --> Here's [my gpg key](https://github.com/RoccoDev.gpg).

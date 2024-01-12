@@ -1,6 +1,6 @@
 +++
 path = "projects"
-title = "projects"
+title = "Projects"
 +++
 
 I host my bigger projects over at [GitHub](https://github.com/RoccoDev).  
@@ -30,10 +30,4 @@ Discord: [https://l.5zigreborn.eu/discord](https://l.5zigreborn.eu/discord)
 
 ## Xenoblade datamining and research tools
 
-Rust tools for reading and manipulating files from Xenoblade games
-
-BDAT editor: [bdat-rs](https://github.com/RoccoDev/bdat-rs)  
-Xenoblade 3 save editor: [Recordkeeper](https://github.com/RoccoDev/recordkeeper)  
-Xenoblade 3 file loader: [xc3-file-loader](https://github.com/RoccoDev/xc3-file-loader)  
-Xenoblade 3 difficulty editor: [xc3-difficulty-unlocker](https://github.com/RoccoDev/xc3-difficulty-unlocker)  
-Mod Ardain (XC2 mod collection): [Mod-Ardain](https://github.com/RoccoDev/Mod-Ardain)  
+See the [Xenoblade research](@/pages/xenoblade.md) page for more details.

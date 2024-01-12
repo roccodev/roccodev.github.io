@@ -44,14 +44,10 @@ $$\text{Effects}(\text{Ouro Strength} + \text{Weapon Damage})$$
 
 Other stats are calculated similarly, but without the weapon parameters.
 
-This stat formula is the only place the user's equipment is taken into account. When in combat, the Ouroboros form
-does not inherit the user's effects, meaning:
+The Ouroboros form is a separate entity, though it inherits the character's equipment, including accessories, skills, and gem effects. However,
 
-* It is not affected by equipped accessories, skills, or gem effects (excluding stat ones).
 * It is not affected by Matthew's Shackle Ring effect, it doesn't advance or reset it, nor gain bonuses from it.
-* It is not affected by the user's buffs, including Power Charge.
-
-In other words, when using fusion arts, the user's equipment will only affect the *right-side* art.
+* It is not affected by character- and art-specific buffs, such as Power Charge.
 
 ## Vision
 
@@ -86,7 +82,7 @@ Enemy weakness works in chain attacks: combo weakness always works if the enemy 
 
 ## Union Specials
 
-The Union Special gauge is very similar to the Interlink gauge. The full gauge is worth 60 points, and can fluctuate as described here:
+The Union Special gauge is very similar to the Interlink level gauge. The full gauge is worth 60 points, and can fluctuate as described here:
 
 * +3 (0.5%) points on each art used by one of the two characters, 
 * +7 (1.17%) on each fusion, 
@@ -189,7 +185,7 @@ The mechanic described by the game as "Enemy Strength in Numbers" works as follo
 * Totems/rifts/nests/etc. deal 50% more damage for each enemy in the fight, excluding self, max +150%.
 * Those enemies also take 30% less damage for each enemy in the fight, excluding self, max -90%.
 
-Some enemies and bosses in Future Redeemed are subject to the same reduced recharge rate system for multi-enemy battles as the base game, for which I've recently added an explanation in the [first post](@/blog/xenoblade-3-devxml-1.md).
+Some enemies and bosses in Future Redeemed are subject to the same reduced recharge rate system for multi-enemy battles as the base game, for which I've recently added an explanation in the [first post](@/blog/xenoblade-3-devxml-1.md#enemy-recharge).
 Notably, the Shulk and Rex boss battle can be made easier by issuing the focus command, as this reduces the other's recharge rate to 50%.
 
 ## Moebius W fight

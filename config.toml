@@ -30,8 +30,9 @@ favicon = "/img/favicon.png"
 
 menu_items = [
     {name = "about", url = "$BASE_URL"},
-    {name = "posts", url = "$BASE_URL/posts"},
+    {name = "blog", url = "$BASE_URL/posts"},
     {name = "projects", url = "$BASE_URL/projects"},
+    {name = "xenoblade", url = "$BASE_URL/xenoblade"},
     {name = "contact", url = "$BASE_URL/contact"},
     {name = "code", url = "https://github.com/RoccoDev", newtab = true},
 ]
