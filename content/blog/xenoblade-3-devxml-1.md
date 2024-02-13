@@ -4,6 +4,7 @@ date = 2023-11-27
 
 [extra]
 math = true
+enable_toc = true
 
 [taxonomies]
 tags = ["xenoblade", "datamine"]

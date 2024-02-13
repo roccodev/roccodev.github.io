@@ -2,6 +2,9 @@
 title = "Xenoblade 3: Hidden values explained (Part 2: Land of Challenge)"
 date = 2023-12-04
 
+[extra]
+enable_toc = true
+
 [taxonomies]
 tags = ["xenoblade", "datamine"]
 +++
