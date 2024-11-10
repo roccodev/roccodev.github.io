@@ -16,6 +16,9 @@ I've released various libraries and tools to aid in researching Xenoblade games,
 * **bdat-rs**, a library and executable to read and edit BDAT files for all Xenoblade games.
     * Source/Download: [GitHub](https://github.com/RoccoDev/bdat-rs)
     * License: MIT or Apache-2.0 (library), GPL-3.0 (executable)
+* **ard-tools**, a library, CLI, and FUSE driver to work with Xenoblade archives.
+    * Source/Download: [GitHub](https://github.com/RoccoDev/ard-tools)
+    * License: MIT or Apache-2.0 (library), GPL-3.0 (CLI, driver)
 * **xeno-lvb**, scripts to read gimmick-related files for Xenoblade 2 and 3.
     * Source: [GitHub](https://github.com/RoccoDev/xeno-lvb)
     * License: MIT

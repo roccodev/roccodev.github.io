@@ -1,10 +1,9 @@
 +++
 title = "Xenoblade 3: TP storage glitch breakdown"
 date = 2024-02-13
-draft = true
 
 [taxonomies]
-tags = ["xenoblade", "re", "glitch"]
+tags = ["xenoblade", "glitch"]
 +++
 
 # Background
@@ -18,9 +17,9 @@ However, UnKNOWn_Cross decided to put the record on hold while waiting for appro
 
 As you can see in the posts showcasing it, the glitch causes TP gained during certain Chain Attack rounds to magically disappear, only to appear again all at once in a different round.
 
-This glitch has apparently been known since late 2022, with one [tweet](https://twitter.com/RabbitTigerCrab/status/1576121220181135361) from [RabbitTigerCrab](https://twitter.com/RabbitTigerCrab) showcasing it in October.
+This glitch has apparently been known since at least late 2022, with one [tweet](https://twitter.com/genkai_bk/status/1565646632603254785) from [genkai_bk](https://twitter.com/genkai_bk) showcasing it in September, followed by another [tweet](https://twitter.com/RabbitTigerCrab/status/1576121220181135361) from [RabbitTigerCrab](https://twitter.com/RabbitTigerCrab) in October.
 
-The Chain Attack speedrun scene was interested in the details of this glitch, so I went on to research it.
+The Chain Attack speedrun scene was interested in the details of this glitch, so I went on to research it. In particular, I'd like to thank yintse99 and Krark from the [Xenoblade Speedrunning Discord server](https://www.speedrun.com/xc3) for their help.
 
 # TP storage
 
@@ -33,10 +32,15 @@ TP storage involves storing *undisplayed* TP to freeze them until a subsequent r
 * Battles (the new Chain Attack can be from a different battle)
 * Warps and inter-world warps
 * Save files (the new Chain Attack can be from the same or different save file, even after reloading)
+* Future Redeemed: performing the glitch in the base game can carry its effects over to Future Redeemed, until the game is closed. ([Video proof](https://www.youtube.com/watch?v=NmkYCFOG4Ds))
 
-The only way to reset the TP storage is by either *displaying* the TP, or by restarting the game.
+The only way to reset the TP storage is either by *displaying* the TP, or by restarting the game.
 
-To trigger the TP storage glitch, you need to **trigger 50 TP instances while the game is displaying 5 bubbles**. For example, you can get the **Damage TP** instance on **50 enemies at once**. For an example of this, there is a practical demonstration at the end of the post.
+To trigger the TP storage glitch, you need to **trigger more than 50 TP instances while the game is displaying 5 bubbles**. For example, you can get the **Damage TP** instance on **more than 50 enemies at once**. For an example of this, there is a practical demonstration at the end of the post.
+
+**Update 1**: If you can stack enough TP sources, it is possible to get it with fewer enemies. Here are examples of me getting it with only [45](https://www.youtube.com/watch?v=SCaBOxvvkYQ) or [38](https://www.youtube.com/watch?v=fq8I8vjdBjU) enemies.
+
+**Update 2**: Character TP (i.e. TP a character has after being reactivated) does not actually take the carried-over TP into account, with notable exceptions. See the [last paragraph](#regarding-character-tp) for details.
 
 # Gaining and displaying TP
 
@@ -160,3 +164,13 @@ The queue is now empty, but the head and tail are also desynced again!
 ```
 
 In fact, the glitch seems to keep the desync period. It is also worth noting that the queue, head, and tail persist across **battles**, **warps**, and even **save loads**! This [video](https://www.youtube.com/watch?v=ex4WFqA-jFQ) showcases the latter.
+
+# Regarding character TP
+
+When the game awards TP, that TP is instantly added to the character's total, that is, it doesn't wait for the TP bubble to appear to increase the character's score.
+
+In the context of the glitch, this means that TP gained while bubbles aren't displayed is still saved to each character's score, not to the character that receives the bubbles at the end.
+
+However, some heroic chain effects (notably, First Blood) completely replace the character's TP with the result of an operation applied to the **displayed TP** (in the case of First Blood, displayed TP multiplied by 125%). For example, in my first clip showcasing the glitch, Noah's TP went from 30 to 38, and no bubbles appeared. Technically, he still got the invisible TP added to his score, but it got replaced because of First Blood.
+
+In particular, this means that under regular conditions, whoever receives the big drop of 50 TP instances does not actually get that TP added to their score. However, if that character has a heroic chain effect that affects the final TP result (e.g. First Blood again), then the score that is actually saved is based on the displayed TP, so the character actually gets the TP from the drop.
