@@ -1,5 +1,6 @@
 {% extends "terminimal/templates/page.html" %}
 {% import "macros/style.html" as style %}
+{% import "macros/toc.html" as toc %}
 
 {% block extra_head %}
 {{ style::head() }}
@@ -30,34 +31,7 @@
     {{ post_macros::header(page=page) }}
 
     {% if page.extra.enable_toc %}
-    <blockquote>
-        <h3>Table of Contents</h3>
-        <ul>
-            {% for h1 in page.toc %}
-            <li>
-                <a href="{{ h1.permalink | safe }}">{{ h1.title }}</a>
-                {% if h1.children %}
-                <ul>
-                    {% for h2 in h1.children %}
-                    <li>
-                        <a href="{{ h2.permalink | safe }}">{{ h2.title }}</a>
-                        {% if h2.children %}
-                        <ul>
-                            {% for h3 in h2.children %}
-                            <li>
-                                <a href="{{ h3.permalink | safe }}">{{ h3.title }}</a>
-                            </li>
-                            {% endfor %}
-                        </ul>
-                        {% endif %}
-                    </li>
-                    {% endfor %}
-                </ul>
-                {% endif %}
-            </li>
-            {% endfor %}
-        </ul>
-    </blockquote>
+    {{ toc::toc(page=page) }}
     {% endif %}
 
     {{ post_macros::content(page=page, summary=false) }}
