@@ -1,5 +1,5 @@
 +++
-title = "Minecraft 1.8 PvP damage breakdown"
+title = "Minecraft: 1.8 PvP damage breakdown"
 date = 2026-05-20
 
 [extra]
