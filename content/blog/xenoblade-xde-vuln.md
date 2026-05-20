@@ -40,7 +40,7 @@ The reports are listed in this post in order of severity.
 When receiving the player's **profile name** and **avatar name** from other players **online**, 
 the game could interpret text as formatting tags, allowing formatting changes and bypassing the profanity filter.
 
-When displaying text in the UI, the game can use formatting tags to replace certain text or change the formatting. These tags follow a syntax close to XML: `[tag params]inner text[/tag]`, for example `[ST:col p1=red]Red text[/ST:col]`. Some tags can accept no parameters, or no closing tag. When displaying another player's **avatar name** or **Nintendo Switch profile name** (in the player list, press X to toggle between profile and avatar names), the game could extract tags from the name and parses them, allowing the player to control what is displayed to other users.
+When displaying text in the UI, the game can use formatting tags to replace certain text or change the formatting. These tags follow a syntax close to XML: `[tag params]inner text[/tag]`, for example `[ST:col p1=red]Red text[/ST:col]`. Some tags can accept no parameters, or no closing tag. When displaying another player's **avatar name** or **Nintendo Switch profile name** (in the player list, press X to toggle between profile and avatar names), the game could extract tags from the name and parse them, allowing the player to control what is displayed to other users.
 
 There are several formatting tags, the most interesting in my opinion are:
 * `[ST:icon p1=x]` (**save edit**): shows the icon `x` (e.g. `a` for the A button icon). This can catch people's attention and could be used to bypass filters.
@@ -222,7 +222,7 @@ So the potential for remote code execution was limited.
 ## The fix
 
 Part of the fix for the first vulnerability also applies here. If the string is longer than
-10 UTF-8 characters (4-byte characters are not supported, so this also fits in a 32-bit buffer),
+10 UTF-8 characters (4-byte characters are not supported, so this also fits in a 32-byte buffer),
 it stops being processed and the excess is replaced with <code>&nbsp;/e..</code> (+ a NUL byte).
 
 ## Exploit showcase
@@ -341,7 +341,7 @@ it was nice contributing to making the game better in a more direct way and one 
 way more people compared to my mods and tools. The staff over at Nintendo were very friendly
 and appreciative, for example I honestly didn't expect the formatting tags report to be acknowledged, and I
 was also surprised by the triage speed, especially considering the game is not from an entirely
-first-party studio. Again huge thanks to Nenkai forhelping me with the reports.
+first-party studio. Again huge thanks to Nenkai for helping me with the reports.
 
 Also if you came here for the research but haven't played the Xenoblade games yet,
 what are you waiting for?
