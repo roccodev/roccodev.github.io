@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>
+Xenoblade 3: TP storage glitch breakdown | RoccoDev
+</title>
+    
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <meta name="robots" content="noodp"/>
+
+    <link rel="stylesheet" href="https://rocco.dev/style.css">
+    <link rel="stylesheet" href="https://rocco.dev/color/green.css">
+
+        <link rel="stylesheet" href="https://rocco.dev/color/background_blue.css">
+    
+    <link rel="stylesheet" href="https://rocco.dev/font-hack-subset.css">
+
+        <link rel="shortcut icon" type="image&amp;#x2F;x-icon" href="/img/favicon.png">
+    
+
+<link rel="stylesheet" href="https://rocco.dev/utils.css">
+<link rel="stylesheet" href="https://rocco.dev/override.css">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#63ef2f">
+<meta name="og:site_name" content="RoccoDev's Blog">
+<meta name="og:image" content="https://rocco.dev/img/apple-touch-icon.png">
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="RealRoccoDev">
+
+
+
+
+<meta name="og:title" content="Xenoblade 3: TP storage glitch breakdown">
+<meta name="og:description" content="">
+</head>
+
+<body class="">
+<div class="container">
+    
+    <header class="header">
+        <div class="header__inner">
+            <div class="header__logo">
+                    
+                <a href="https://rocco.dev" style="text-decoration: none;">
+                    <div class="logo">
+                      
+                            RoccoDev
+                        
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        
+        
+                <nav class="menu">
+            <ul class="menu__inner">
+                <li class="active"><a href="https://rocco.dev">about</a></li>
+            
+                <li><a href="https://rocco.dev/posts">blog</a></li>
+            
+                <li><a href="https://rocco.dev/projects">projects</a></li>
+            
+                <li><a href="https://rocco.dev/xenoblade">xenoblade</a></li>
+            
+                <li><a href="https://rocco.dev/contact">contact</a></li>
+            
+                <li><a href="https://github.com/RoccoDev" target="_blank" rel="noopener noreferrer">code</a></li>
+            </ul>
+        </nav>
+    
+    
+        
+    </header>
+    
+
+    <div class="content">
+        
+<div class="post">
+    
+    <h1 class="post-title"><a href="https://rocco.dev/blog/xenoblade-3-tp-storage/">Xenoblade 3: TP storage glitch breakdown</a></h1>
+    <div class="post-meta-inline">
+        
+    <span class="post-date">
+            2024-02-13
+        </span>
+
+    </div>
+
+    
+        <span class="post-tags-inline">
+                :: tags:&nbsp;
+                <a class="post-tag" href="https://rocco.dev/tags/xenoblade/">#xenoblade</a>&nbsp;
+                <a class="post-tag" href="https://rocco.dev/tags/glitch/">#glitch</a></span>
+    
+
+
+    
+
+    
+        <div class="post-content">
+            <h1 id="background">Background</h1>
+<p>For those unfamiliar, runners in the <a rel="external" href="https://www.speedrun.com/xc3?h=Chain_Attack_Damage">Chain Attack damage category</a> try to achieve the maximum total damage in Chain Attacks.</p>
+<p>On Feb 12, 2024 (CET), the Xenoblade 3 runner <a rel="external" href="https://twitter.com/UnKNOWn_Cross">UnKNOWn_Cross</a> revealed their new
+<a rel="external" href="https://twitter.com/UnKNOWn_Cross/status/1756865314917433754">Xenoblade 3 Chain Attack damage record</a>.</p>
+<p>However, UnKNOWn_Cross decided to put the record on hold while waiting for approval on a "glitch" that boosted the total damage by delaying TP gain. TP (<em>Tactical Points</em>) are one of the key elements of Chain Attacks. For an in-depth breakdown, you can check the <a rel="external" href="https://www.xenoserieswiki.org/wiki/Chain_Attack_(XC3)">Chain Attack page</a> on Xeno Series Wiki.</p>
+<p>As you can see in the posts showcasing it, the glitch causes TP gained during certain Chain Attack rounds to magically disappear, only to appear again all at once in a different round.</p>
+<p>This glitch has apparently been known since at least late 2022, with one <a rel="external" href="https://twitter.com/genkai_bk/status/1565646632603254785">tweet</a> from <a rel="external" href="https://twitter.com/genkai_bk">genkai_bk</a> showcasing it in September, followed by another <a rel="external" href="https://twitter.com/RabbitTigerCrab/status/1576121220181135361">tweet</a> from <a rel="external" href="https://twitter.com/RabbitTigerCrab">RabbitTigerCrab</a> in October.</p>
+<p>The Chain Attack speedrun scene was interested in the details of this glitch, so I went on to research it. In particular, I'd like to thank yintse99 and Krark from the <a rel="external" href="https://www.speedrun.com/xc3">Xenoblade Speedrunning Discord server</a> for their help.</p>
+<h1 id="tp-storage">TP storage</h1>
+<p>Here is a quick rundown if you are only interested in how to trigger the glitch and its effects.</p>
+<p>TP storage involves storing <em>undisplayed</em> TP to freeze them until a subsequent round. TP stored with the glitch persist across:</p>
+<ul>
+<li>Chain attack rounds</li>
+<li>Chain attacks (i.e. starting a new Chain Attack carries over the undisplayed TP from the previous one)</li>
+<li>Battles (the new Chain Attack can be from a different battle)</li>
+<li>Warps and inter-world warps</li>
+<li>Save files (the new Chain Attack can be from the same or different save file, even after reloading)</li>
+<li>Future Redeemed: performing the glitch in the base game can carry its effects over to Future Redeemed, until the game is closed. (<a rel="external" href="https://www.youtube.com/watch?v=NmkYCFOG4Ds">Video proof</a>)</li>
+</ul>
+<p>The only way to reset the TP storage is either by <em>displaying</em> the TP, or by restarting the game.</p>
+<p>To trigger the TP storage glitch, you need to <strong>trigger more than 50 TP instances while the game is displaying 5 bubbles</strong>. For example, you can get the <strong>Damage TP</strong> instance on <strong>more than 50 enemies at once</strong>. For an example of this, there is a practical demonstration at the end of the post.</p>
+<p><strong>Update 1</strong>: If you can stack enough TP sources, it is possible to get it with fewer enemies. Here are examples of me getting it with only <a rel="external" href="https://www.youtube.com/watch?v=SCaBOxvvkYQ">45</a> or <a rel="external" href="https://www.youtube.com/watch?v=fq8I8vjdBjU">38</a> enemies.</p>
+<p><strong>Update 2</strong>: Character TP (i.e. TP a character has after being reactivated) does not actually take the carried-over TP into account, with notable exceptions. See the <a href="https://rocco.dev/blog/xenoblade-3-tp-storage/#regarding-character-tp">last paragraph</a> for details.</p>
+<h1 id="gaining-and-displaying-tp">Gaining and displaying TP</h1>
+<p>When you are awarded TP by performing certain actions, the TP type and amount are packaged together into an <em>instance</em>, and added to a queue, which is described in the next paragraph.</p>
+<p>However, TP isn't actually displayed or added instantly. Instead, a separate entity which I'll call the <em>display handler</em> removes instances from the queue at specific intervals. When this happens, the TP bubble appears on screen and is added to the total.</p>
+<h1 id="the-tp-queue">The TP queue</h1>
+<p>TP instances (or "bubbles") are added to a queue that can hold 50 instances maximum. For example, let's visualize a queue with a capacity of 6 that is half-full:</p>
+<pre class="giallo" style="color: #DCD7BA; background-color: #1F1F28;"><code data-lang="plain"><span class="giallo-l"><span>[ TP | TP | TP | -- | -- | -- ]</span></span>
+<span class="giallo-l"><span>  o              ^</span></span>
+<span class="giallo-l"><span>  |              next slot to be replaced</span></span>
+<span class="giallo-l"><span>  next slot to be displayed</span></span></code></pre>
+<p>The <code>^</code> denotes the next slot to be replaced. When you gain TP, the <code>^</code> slot (or <em>head</em>) is replaced with the new TP data, and the <code>^</code> pointer is advanced.<br />
+When a bubble is displayed and added to the total TP, its slot (<code>o</code>, also called the <em>tail</em>) is made empty (<code>--</code>), and the <code>o</code> pointer is advanced.</p>
+<p>The next time you get TP, the queue will look like this:</p>
+<pre class="giallo" style="color: #DCD7BA; background-color: #1F1F28;"><code data-lang="plain"><span class="giallo-l"><span>[ TP | TP | TP | TP | -- | -- ]</span></span>
+<span class="giallo-l"><span>  o                   ^</span></span></code></pre>
+<p>Let's say you stop at 4 TP bubbles and the game tries to display them. In truth, the display handler does
+not know how many slots are occupied. Instead, <strong>it keeps going until it finds an empty slot</strong>.
+Starting from the first occupied slot, the queue becomes:</p>
+<pre class="giallo" style="color: #DCD7BA; background-color: #1F1F28;"><code data-lang="plain"><span class="giallo-l"><span>[ -- | TP | TP | TP | -- | -- ]</span></span>
+<span class="giallo-l"><span>       o              ^</span></span></code></pre>
+<p>The first bubble is displayed and its slot is emptied. At the end, the queue looks like this:</p>
+<pre class="giallo" style="color: #DCD7BA; background-color: #1F1F28;"><code data-lang="plain"><span class="giallo-l"><span>[ -- | -- | -- | -- | -- | -- ]</span></span>
+<span class="giallo-l"><span>                      o^</span></span></code></pre>
+<p>Now, let's add 3 more TP bubbles:</p>
+<pre class="giallo" style="color: #DCD7BA; background-color: #1F1F28;"><code data-lang="plain"><span class="giallo-l"><span>[ TP | -- | -- | -- | TP | TP ]</span></span>
+<span class="giallo-l"><span>       ^              o</span></span></code></pre>
+<p>Because we've reached the end of the queue, we add new entries at the start, wrapping around.<br />
+Let's try to display the new entries. The display handler performs the same wrap-around operation, until
+it finds an empty slot:</p>
+<pre class="giallo" style="color: #DCD7BA; background-color: #1F1F28;"><code data-lang="plain"><span class="giallo-l"><span>[ -- | -- | -- | -- | -- | -- ]</span></span>
+<span class="giallo-l"><span>       o^</span></span></code></pre>
+<p>Now, let's examine the problematic scenario. What happens if we add, for example, 8 TP bubbles? We know that 2 will be discarded because there isn't enough space. But let's examine it in detail, before and after the wrap-around:</p>
+<pre class="giallo" style="color: #DCD7BA; background-color: #1F1F28;"><code data-lang="plain"><span class="giallo-l"><span>[ -- | TP | TP | TP | TP | TP ] (still need to add 3 bubbles)</span></span>
+<span class="giallo-l"><span>  ^    o</span></span></code></pre><pre class="giallo" style="color: #DCD7BA; background-color: #1F1F28;"><code data-lang="plain"><span class="giallo-l"><span>[ TP | TP | TP | TP | TP | TP ]</span></span>
+<span class="giallo-l"><span>       o         ^</span></span></code></pre>
+<p>So far so good, it's all as expected. But now let's see what the display handler tries to do.</p>
+<pre class="giallo" style="color: #DCD7BA; background-color: #1F1F28;"><code data-lang="plain"><span class="giallo-l"><span>[ -- | -- | -- | -- | -- | -- ]</span></span>
+<span class="giallo-l"><span>       o         ^</span></span></code></pre>
+<p>The display handler went on to display and clear occupied slots until the first empty slot, but none of the slots were empty! That means it completed one full cycle, but notice that the <strong>head and tail are no longer in sync</strong>! Because there were no empty slots, the display handler could not know where the queue truly ended.</p>
+<p>What happens now when we add and display bubbles? Let's add a bubble:</p>
+<pre class="giallo" style="color: #DCD7BA; background-color: #1F1F28;"><code data-lang="plain"><span class="giallo-l"><span>[ -- | -- | -- | TP | -- | -- ]</span></span>
+<span class="giallo-l"><span>       o              ^</span></span></code></pre>
+<p>and let's try to display it:</p>
+<pre class="giallo" style="color: #DCD7BA; background-color: #1F1F28;"><code data-lang="plain"><span class="giallo-l"><span>[ -- | -- | -- | TP | -- | -- ]</span></span>
+<span class="giallo-l"><span>       o              ^</span></span></code></pre>
+<p>Nothing happened! That's right, the tail is currently pointing to an empty slot, so it can't do anything and won't advance.</p>
+<p>We need to wait for the head to wrap around and reach the tail again, by adding more bubbles.</p>
+<h1 id="pratical-demo">Pratical demo</h1>
+<p>Let's analyze a real scenario. I've described the TP queue with 6 slots as an example. The game uses a queue with a capacity of <strong>50 slots</strong>.</p>
+<p>I've uploaded video footage of this test <a rel="external" href="https://www.youtube.com/watch?v=vkDtbNCtJKA">here</a>, I recommend using it to follow along. To make it easier for me, I have changed the enemy count and made it easier to kill all the enemies at once. Most Chain Attack runners have legitimate ways to replicate this setup, however.</p>
+<p>Initially, all slots are empty. I get 4 "regular" TP which could be displayed in time, so now the first 4 slots are empty. When I spam damage TP, I basically occupy 55 slots, meaning the whole queue is now Damage TP. I also got some more TP along the way (Critical Hit, etc.), so at the end, the next slot that will be replaced is #18. Let's visualize this:</p>
+<pre class="giallo" style="color: #DCD7BA; background-color: #1F1F28;"><code data-lang="plain"><span class="giallo-l"><span>[ TP | TP | TP | TP | TP | TP x 12 | TP | TP x 32 ]</span></span>
+<span class="giallo-l"><span>                      o              ^</span></span></code></pre>
+<p>As I've explained, because the queue is completely full, when we try to display the bubbles, we basically end up emptying the entire queue while <strong>going back to the same slot we started on</strong>. This causes the desync: now the tail is still at slot 5, while the head is at slot 18.</p>
+<pre class="giallo" style="color: #DCD7BA; background-color: #1F1F28;"><code data-lang="plain"><span class="giallo-l"><span>[ -- | -- | -- | -- | -- | -- x 12 | -- | -- x 32 ]</span></span>
+<span class="giallo-l"><span>                      o              ^</span></span></code></pre>
+<p>So I enter the "empty" phase during which none of my TP is displayed. I need 33 + 5 = 38 bubbles to reach the tail again, after which the queue looks like this:</p>
+<pre class="giallo" style="color: #DCD7BA; background-color: #1F1F28;"><code data-lang="plain"><span class="giallo-l"><span>[ TP | TP | TP | TP | TP | -- x 12 | TP | TP x 32 ]</span></span>
+<span class="giallo-l"><span>                      o^</span></span></code></pre>
+<p>Notice the 12 empty slots in the middle? Let's see what the display handler does next. First, it sees that the 5th slot has TP, so it displays it and clears the slot. The 6th slot is empty, so it stops there. (In the video, I got a "lone" bubble when they started appearing again.)</p>
+<p>The next 12 slots are uneventful, bubbles appear and slots are cleared normally as if the glitch was inactive. (Basically, the head and tail walk hand-in-hand, or they at least catch up to each other.)<br />
+The queue now looks like this:</p>
+<pre class="giallo" style="color: #DCD7BA; background-color: #1F1F28;"><code data-lang="plain"><span class="giallo-l"><span>[ TP | TP | TP | TP | -- | -- x 12 | TP | TP x 32 ]</span></span>
+<span class="giallo-l"><span>                                     o^</span></span></code></pre>
+<p>When the display handler runs, it sees that the 18th slot is occupied, and displays it. But then it also notices that the next slot has TP, and so do the next 35! It then displays and clears them all at once. In total, it has displayed the 50 bubbles I missed.</p>
+<p>The queue is now empty, but the head and tail are also desynced again!</p>
+<pre class="giallo" style="color: #DCD7BA; background-color: #1F1F28;"><code data-lang="plain"><span class="giallo-l"><span>[ -- | -- | -- | -- | -- | -- x 12 | -- | -- x 32 ]</span></span>
+<span class="giallo-l"><span>                      o              ^</span></span></code></pre>
+<p>In fact, the glitch seems to keep the desync period. It is also worth noting that the queue, head, and tail persist across <strong>battles</strong>, <strong>warps</strong>, and even <strong>save loads</strong>! This <a rel="external" href="https://www.youtube.com/watch?v=ex4WFqA-jFQ">video</a> showcases the latter.</p>
+<h1 id="regarding-character-tp">Regarding character TP</h1>
+<p>When the game awards TP, that TP is instantly added to the character's total, that is, it doesn't wait for the TP bubble to appear to increase the character's score.</p>
+<p>In the context of the glitch, this means that TP gained while bubbles aren't displayed is still saved to each character's score, not to the character that receives the bubbles at the end.</p>
+<p>However, some heroic chain effects (notably, First Blood) completely replace the character's TP with the result of an operation applied to the <strong>displayed TP</strong> (in the case of First Blood, displayed TP multiplied by 125%). For example, in my first clip showcasing the glitch, Noah's TP went from 30 to 38, and no bubbles appeared. Technically, he still got the invisible TP added to his score, but it got replaced because of First Blood.</p>
+<p>In particular, this means that under regular conditions, whoever receives the big drop of 50 TP instances does not actually get that TP added to their score. However, if that character has a heroic chain effect that affects the final TP result (e.g. First Blood again), then the score that is actually saved is based on the displayed TP, so the character actually gets the TP from the drop.</p>
+
+        </div>
+
+    
+</div>
+
+
+    </div>
+
+    
+    <footer class="footer">
+        <div class="footer__inner">
+                <div class="copyright">
+                        <span>© 
+    2026
+ RoccoDev</span>
+                    <span class="copyright-theme">
+                        <span class="copyright-theme-sep">:: </span>
+                        Theme: <a href="https://github.com/pawroman/zola-theme-terminimal/">Terminimal</a> by pawroman
+                    </span>
+                </div>
+            </div>
+    </footer>
+    
+
+</div>
+</body>
+
+</html>

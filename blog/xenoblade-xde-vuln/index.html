@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>
+Xenoblade X DE: Online vulnerabilities fixed in v. 1.0.2 | RoccoDev
+</title>
+    
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <meta name="robots" content="noodp"/>
+
+    <link rel="stylesheet" href="https://rocco.dev/style.css">
+    <link rel="stylesheet" href="https://rocco.dev/color/green.css">
+
+        <link rel="stylesheet" href="https://rocco.dev/color/background_blue.css">
+    
+    <link rel="stylesheet" href="https://rocco.dev/font-hack-subset.css">
+
+        <link rel="shortcut icon" type="image&amp;#x2F;x-icon" href="/img/favicon.png">
+    
+
+<link rel="stylesheet" href="https://rocco.dev/utils.css">
+<link rel="stylesheet" href="https://rocco.dev/override.css">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#63ef2f">
+<meta name="og:site_name" content="RoccoDev's Blog">
+<meta name="og:image" content="https://rocco.dev/img/apple-touch-icon.png">
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="RealRoccoDev">
+
+
+
+
+<meta name="og:title" content="Xenoblade X DE: Online vulnerabilities fixed in v. 1.0.2">
+<meta name="og:description" content="">
+</head>
+
+<body class="">
+<div class="container">
+    
+    <header class="header">
+        <div class="header__inner">
+            <div class="header__logo">
+                    
+                <a href="https://rocco.dev" style="text-decoration: none;">
+                    <div class="logo">
+                      
+                            RoccoDev
+                        
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        
+        
+                <nav class="menu">
+            <ul class="menu__inner">
+                <li class="active"><a href="https://rocco.dev">about</a></li>
+            
+                <li><a href="https://rocco.dev/posts">blog</a></li>
+            
+                <li><a href="https://rocco.dev/projects">projects</a></li>
+            
+                <li><a href="https://rocco.dev/xenoblade">xenoblade</a></li>
+            
+                <li><a href="https://rocco.dev/contact">contact</a></li>
+            
+                <li><a href="https://github.com/RoccoDev" target="_blank" rel="noopener noreferrer">code</a></li>
+            </ul>
+        </nav>
+    
+    
+        
+    </header>
+    
+
+    <div class="content">
+        
+<div class="post">
+    
+    <h1 class="post-title"><a href="https://rocco.dev/blog/xenoblade-xde-vuln/">Xenoblade X DE: Online vulnerabilities fixed in v. 1.0.2</a></h1>
+    <div class="post-meta-inline">
+        
+    <span class="post-date">
+            2025-05-15
+        </span>
+
+    </div>
+
+    
+        <span class="post-tags-inline">
+                :: tags:&nbsp;
+                <a class="post-tag" href="https://rocco.dev/tags/xenoblade/">#xenoblade</a>&nbsp;
+                <a class="post-tag" href="https://rocco.dev/tags/vulnerability/">#vulnerability</a></span>
+    
+
+
+    
+
+    
+        <div class="post-content">
+            <p>Xenoblade Chronicles X: Definitive Edition version 1.0.2 was released on Apr 23, 2025. It was the first
+update released to the public since the release of the game (Mar 20), which started on version 1.0.1 for the majority
+of players, with no changelog for the first patch release. Among the several bugfixes, the English changelog
+for 1.0.2 reports that it "fixed confirmed vulnerability bugs." (Curiously, this line would roughly translate to
+"fixed some issues to improve the gameplay experience." in the Japanese changelog)</p>
+<p>Among them are three security issues I reported to Nintendo, with help from
+<a rel="external" href="https://github.com/Nenkai">Nenkai</a>, as part of their bug bounty program on <a rel="external" href="https://hackerone.com/nintendo">HackerOne</a>.
+On Apr 25, bounties were awarded to the three reports. Permission for disclosure was granted on May 15.</p>
+<p>The reports are listed in this post in order of severity.</p>
+<blockquote>
+    <ol>
+        <li><a href="#1-formatting-tag-injection-and-profanity-filter-bypass">Formatting tag injection and profanity filter bypass</a></li>
+        <li><a href="#2-the-back-slash-vulnerability">The "Back Slash" vulnerability</a></li>
+        <li><a href="#3-remote-save-file-write-from-unrestricted-rpc-access">Remote save file write from unrestricted RPC access</a></li>
+    </ol>
+</blockquote>
+<hr />
+<h1 id="1-formatting-tag-injection-and-profanity-filter-bypass">1. Formatting tag injection and profanity filter bypass</h1>
+<p><strong>Reported:</strong> Mar 23, 2025<br />
+<strong>CVSS v3:</strong> 5.3 - AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N<br />
+<strong>Original report:</strong> <a rel="external" href="https://hackerone.com/reports/3052880">https://hackerone.com/reports/3052880</a></p>
+<p>When receiving the player's <strong>profile name</strong> and <strong>avatar name</strong> from other players <strong>online</strong>,
+the game could interpret text as formatting tags, allowing formatting changes and bypassing the profanity filter.</p>
+<p>When displaying text in the UI, the game can use formatting tags to replace certain text or change the formatting. These tags follow a syntax close to XML: <code>[tag params]inner text[/tag]</code>, for example <code>[ST:col p1=red]Red text[/ST:col]</code>. Some tags can accept no parameters, or no closing tag. When displaying another player's <strong>avatar name</strong> or <strong>Nintendo Switch profile name</strong> (in the player list, press X to toggle between profile and avatar names), the game could extract tags from the name and parse them, allowing the player to control what is displayed to other users.</p>
+<p>There are several formatting tags, the most interesting in my opinion are:</p>
+<ul>
+<li><code>[ST:icon p1=x]</code> (<strong>save edit</strong>): shows the icon <code>x</code> (e.g. <code>a</code> for the A button icon). This can catch people's attention and could be used to bypass filters.</li>
+<li><code>[ST:n]</code> (<strong>no save modification</strong>): supposed to be a newline, but most of the time the player name is displayed it just hides what comes after it. Can be used to create empty text, even when normally not allowed.</li>
+<li><code>[ML:wide]</code>: stretches the next character. This could be used to bypass filters because it acts as a zero-width space, especially with <code>[ML:wide scale=0]</code>, but this usage requires modification of the save file (for length constraints, see below)</li>
+<li><code>[ST:col p1=x]</code>  (<strong>save edit</strong>): changes the color for the text following it to <code>x</code> (e.g. <code>red</code>). This can catch people's attention, and could be used to create "official-looking" names (because they are different from regular ones)</li>
+<li><code>[ST:playername]</code>  (<strong>save edit</strong>): replaced with the name of the player that is reading the text. This is particularly damaging combined to the profanity filter bypasses, as you could create "targeted insults" that would appear with the name of whoever is reading it (different every time).</li>
+<li><code>[ST:gender p1=x p2=y]</code> (<strong>save edit</strong>): displays <code>x</code> if the avatar is male, <code>y</code> if the avatar is female. This had limited usage to bypass the profanity filter, but <code>[ML:wide]</code> was generally better because it is shorter.</li>
+</ul>
+<p>All tags that are longer than 10 characters require save modification, as the prompt you get when
+starting a new game is limited to 10 characters in an unmodified scenario. However,
+<strong>simply modifying the save file is not enough to bypass the filter</strong>, the words are still masked
+(with asterisks) when they are displayed to other users online. This filter however fails if you
+intersperse the letters with something like <code>[ML:wide]</code>. For example, <code>ba[ML:wide scale=0]nned word</code>
+is displayed the same as "banned word", but bypasses filters if the word "banned" would normally be blocked.</p>
+<p>The maximum length for avatar names to be viewed in their entirety by other players is 32 bytes (UTF-8 encoded and nul-terminated),
+in places like player lists and notifications. When doing live peer-to-peer missions, the limit is 64 bytes, allowing for more tags to be used.</p>
+<p>Additionally, I tried the same on the original game on Wii U, and names with tags were interpreted literally there, not as tags. So this issue was introduced <strong>in the Switch remaster</strong>.</p>
+<p>These are the solutions I suggested:</p>
+<ul>
+<li>Filter out problematic character groups like <code>[System:</code>, <code>[ST:</code>, <code>[ML:</code>, and <code>[KR:</code>, preferably on the server side</li>
+<li>Replace <code>[</code> characters with <code>\[</code>, but proper care must be taken when inserting characters on the client side (see the second vulnerability)</li>
+<li>Block <code>[</code> characters altogether on the server side, but this is likely unviable as there is no option to change character name, and there are probably players already using those characters in a legitimate way.</li>
+</ul>
+<h2 id="impact">Impact</h2>
+<p>This isn't really a security vulnerability, however under the right circumstances it could allow creating inappropriate content, affecting the user experience negatively.
+The game lacks a report feature, which makes the effects more persistent.</p>
+<p>Without a <strong>modified save</strong>, a malicious user could:</p>
+<ul>
+<li>Start a new game file with an "empty" name for their avatar, going against the minimum character limit of 1 the game enforces under normal operation. In 1.0.1, anyone could reproduce this very easily by inputting <code>[ST:n]</code> using the software keyboard. Additionally, using just <code>[ST:n </code> (with a space but no closing bracket) would allow for hiding any text that follows the player's name when interpolated.</li>
+<li>Change their Nintendo Switch profile name to something like <code>[ST:n]</code> or <code>[ML:wide]</code> to show an empty name in the online player list (you need to press X to toggle between profile and in-game avatar name).</li>
+</ul>
+<p>With a <strong>modified save</strong> (which doesn't necessarily require a modified console, as save files can be downloaded through console transfer or from Switch Online cloud backups), a malicious user could:</p>
+<ul>
+<li>Change their avatar name to include longer formatting tags, like <code>[ST:playername]</code>, <code>[ST:col]</code>, <code>[ST:icon]</code> (longer because it requires parameters, see above), etc, which catch people's attention.</li>
+<li>In particular, using a tag like <code>[ML:wide]</code> (preferably <code>[ML:wide scale=0]</code> but it may be too long) would allow someone to bypass Nintendo's <strong>profanity filter</strong> by splitting the banned words in parts that are far away from each other in text, but displayed adjacently. As I said above, editing the save to include the banned word is not enough to bypass the filter, as banned words are still masked every time they are displayed.</li>
+</ul>
+<p>A malicious user exploiting this bug could get their name onto the leaderboards or another place with high exposure, catching people's attention with the formatting while having an <strong>inappropriate name</strong>. Every place that shows a player's name was affected by this bug.</p>
+<p>I've also tried invalid tag formattings, parameters, etc. to get the game to crash, but it did not occur under my tests.</p>
+<h2 id="the-fix">The fix</h2>
+<p>Starting from version 1.0.2, the game now inserts a space after the colon in user-controlled strings
+the first time it encounters the sequences <code>[ST:</code>, <code>[ML:</code>, <code>[KR:</code>, or <code>[System:</code>. For example,
+<code>[ML:wide]</code> is now converted to <code>[ML: wide]</code>, which is printed literally.</p>
+<p>Additionally, if the string it receives is longer than 10 UTF-8 characters, it replaces anything
+past those 10 with <code> /e..</code> (+ a NUL byte).</p>
+<hr />
+<h1 id="2-the-back-slash-vulnerability">2. The "Back Slash" vulnerability</h1>
+<p><strong>Reported:</strong> Mar 20, 2025<br />
+<strong>CVSS v3:</strong> 8.2 - AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:H<br />
+<strong>Original report:</strong> <a rel="external" href="https://hackerone.com/reports/3048061">https://hackerone.com/reports/3048061</a></p>
+<p>The same function from the first vulnerability (which was reported after this one) performs what is
+effectively a <code>strcpy</code> while attempting to escape '\' and '%' (backslash and percent) characters
+by duplicating them. However, when duplicating them it fails to check the buffer length and ends
+up overflowing it. The vulnerable function is at offset <code>+0054b940</code> in the 1.0.1 executable,
+and the fixed version is at <code>+0054c010</code> in 1.0.2.</p>
+<p>The function takes an input "fixed string" and an output "fixed string", the "fixed strings" are pointers to this structure:</p>
+<pre class="giallo" style="color: #DCD7BA; background-color: #1F1F28;"><code data-lang="cpp"><span class="giallo-l"><span style="color: #957FB8;">struct</span><span style="color: #7AA89F;"> FixedString</span><span style="color: #9CABCA;"> {</span></span>
+<span class="giallo-l"><span style="color: #957FB8;">    char</span><span> buf</span><span style="color: #9CABCA;">[</span><span style="color: #D27E99;">64</span><span style="color: #9CABCA;">];</span></span>
+<span class="giallo-l"><span style="color: #957FB8;">    uint32_t</span><span> length</span><span style="color: #9CABCA;">;</span></span>
+<span class="giallo-l"><span style="color: #9CABCA;">};</span></span></code></pre>
+<p>where <code>buf</code> is a NUL-terminated UTF-8 string, and <code>length</code> is the number of character bytes, i.e. <code>strlen(buf)</code>.
+Essentially a string with variable length but fixed capacity.</p>
+<p>Here is a recreation of the function. The disassembly is much more verbose (with the escape_percent check moved out of the loop), this snippet should be easier to understand.</p>
+<pre class="giallo" style="color: #DCD7BA; background-color: #1F1F28;"><code data-lang="cpp"><span class="giallo-l"><span style="color: #957FB8;">bool</span><span style="color: #7E9CD8;"> strcpy_escape</span><span style="color: #9CABCA;">(</span><span style="color: #7AA89F;">FixedString</span><span style="color: #957FB8;"> &amp;</span><span>out</span><span style="color: #9CABCA;">,</span><span style="color: #957FB8;"> const</span><span style="color: #7AA89F;"> FixedString</span><span style="color: #957FB8;"> &amp;</span><span>in</span><span style="color: #9CABCA;">,</span><span style="color: #957FB8;"> bool</span><span> escape_percent</span><span style="color: #9CABCA;">) {</span></span>
+<span class="giallo-l"><span>    out</span><span style="color: #9CABCA;">.</span><span style="color: #E6C384;">buf</span><span style="color: #9CABCA;">[</span><span style="color: #D27E99;">0</span><span style="color: #9CABCA;">]</span><span style="color: #E6C384;"> =</span><span style="color: #98BB6C;"> &#39;</span><span style="color: #7FB4CA;">\0</span><span style="color: #98BB6C;">&#39;</span><span style="color: #9CABCA;">;</span></span>
+<span class="giallo-l"><span>    out</span><span style="color: #9CABCA;">.</span><span style="color: #E6C384;">length =</span><span style="color: #D27E99;"> 0</span><span style="color: #9CABCA;">;</span></span>
+<span class="giallo-l"><span style="color: #957FB8;">    if</span><span style="color: #9CABCA;"> (</span><span>in</span><span style="color: #9CABCA;">.</span><span style="color: #E6C384;">length ==</span><span style="color: #D27E99;"> 0</span><span style="color: #9CABCA;">) {</span></span>
+<span class="giallo-l"><span style="color: #957FB8;">        return</span><span style="color: #FFA066;"> true</span><span style="color: #9CABCA;">;</span></span>
+<span class="giallo-l"><span style="color: #9CABCA;">    }</span></span>
+<span class="giallo-l"><span style="color: #957FB8;">    for</span><span style="color: #9CABCA;"> (</span><span style="color: #957FB8;">int</span><span> i </span><span style="color: #E6C384;">=</span><span style="color: #D27E99;"> 0</span><span style="color: #9CABCA;">;</span><span> i </span><span style="color: #E6C384;">&lt;</span><span> in</span><span style="color: #9CABCA;">.</span><span style="color: #E6C384;">length</span><span style="color: #9CABCA;">;</span><span> i</span><span style="color: #E6C384;">++</span><span style="color: #9CABCA;">) {</span></span>
+<span class="giallo-l"><span style="color: #957FB8;">        char</span><span> c </span><span style="color: #E6C384;">=</span><span> in</span><span style="color: #9CABCA;">.</span><span style="color: #E6C384;">buf</span><span style="color: #9CABCA;">[</span><span>i</span><span style="color: #9CABCA;">];</span></span>
+<span class="giallo-l"><span style="color: #957FB8;">        char</span><span> tmp</span><span style="color: #9CABCA;">[</span><span style="color: #D27E99;">2</span><span style="color: #9CABCA;">]</span><span style="color: #E6C384;"> =</span><span style="color: #9CABCA;"> {</span><span> c</span><span style="color: #9CABCA;">,</span><span style="color: #98BB6C;"> &#39;</span><span style="color: #7FB4CA;">\0</span><span style="color: #98BB6C;">&#39;</span><span style="color: #9CABCA;"> };</span></span>
+<span class="giallo-l"><span style="color: #957FB8;">        if</span><span style="color: #9CABCA;"> ((</span><span>c </span><span style="color: #E6C384;">==</span><span style="color: #98BB6C;"> &#39;</span><span style="color: #7FB4CA;">\\</span><span style="color: #98BB6C;">&#39;</span><span style="color: #9CABCA;">)</span><span style="color: #E6C384;"> ||</span><span style="color: #9CABCA;"> (</span><span>c </span><span style="color: #E6C384;">==</span><span style="color: #98BB6C;"> &#39;%&#39;</span><span style="color: #E6C384;"> &amp;&amp;</span><span> escape_percent</span><span style="color: #9CABCA;">)) {</span></span>
+<span class="giallo-l"><span style="color: #727169;">            // This is not fine! Now out is longer than in, so the</span></span>
+<span class="giallo-l"><span style="color: #727169;">            // in.length limit is too high</span></span>
+<span class="giallo-l"><span style="color: #7E9CD8;">            strcat</span><span style="color: #9CABCA;">(</span><span>out</span><span style="color: #9CABCA;">.</span><span style="color: #E6C384;">buf</span><span style="color: #9CABCA;">,</span><span> tmp</span><span style="color: #9CABCA;">);</span></span>
+<span class="giallo-l"><span>            out</span><span style="color: #9CABCA;">.</span><span style="color: #E6C384;">length +=</span><span style="color: #7E9CD8;"> strlen</span><span style="color: #9CABCA;">(</span><span>tmp</span><span style="color: #9CABCA;">);</span><span style="color: #727169;"> // basically + 1</span></span>
+<span class="giallo-l"><span style="color: #9CABCA;">        }</span></span>
+<span class="giallo-l"><span style="color: #727169;">        // This would normally be fine because both out and in&#39;s </span></span>
+<span class="giallo-l"><span style="color: #727169;">        // buffers have the same size (in.length &lt; 64 by definition)</span></span>
+<span class="giallo-l"><span style="color: #7E9CD8;">        strcat</span><span style="color: #9CABCA;">(</span><span>out</span><span style="color: #9CABCA;">.</span><span style="color: #E6C384;">buf</span><span style="color: #9CABCA;">,</span><span> tmp</span><span style="color: #9CABCA;">);</span></span>
+<span class="giallo-l"><span>        out</span><span style="color: #9CABCA;">.</span><span style="color: #E6C384;">length +=</span><span style="color: #7E9CD8;"> strlen</span><span style="color: #9CABCA;">(</span><span>tmp</span><span style="color: #9CABCA;">);</span><span style="color: #727169;"> // basically + 1</span></span>
+<span class="giallo-l"><span style="color: #9CABCA;">    }</span></span>
+<span class="giallo-l"><span style="color: #957FB8;">    return</span><span style="color: #FFA066;"> true</span><span style="color: #9CABCA;">;</span></span>
+<span class="giallo-l"><span style="color: #9CABCA;">}</span></span></code></pre>
+<p>The vulnerable function fails to check whether duplicating the special characters would overflow the buffer.
+If <code>buf</code> contains 32 backslashes and 5 letter 'a's (a totally valid <code>FixedString</code>), for example,
+before the first 'a' is written, <code>buf</code> would have already overflown into the string length.</p>
+<p>As you can see, using backslashes to exploit the function is more consistent than with percent
+characters, because not all call sites have the last parameter set to true. And regular characters
+should not cause an overflow, in fact filling the buffer with e.g. 63 'a's, or any other character
+other than '\' or '%' would not result in a buffer overflow.</p>
+<p>I decided to call this vulnerability "Back Slash" after Shulk's Art, which is also present in this game.</p>
+<h2 id="stack-buffer-exploit">Stack buffer exploit</h2>
+<p>Out of all the uses of the function, what I presented was an exploit that makes use of the
+<strong>player's avatar name</strong>. This is one of the few untrusted inputs the game receives (another one is Skell name).
+The function is used by several UI code paths to display text in menus, for example with some
+pre-processing through Nintendo's profanity filter (which was analyzed in the first vulnerability).
+This includes the function that displays the player's avatar name.</p>
+<p>Some callers of the function for this use case allocate the output buffer on the heap,
+while others allocate it on the stack. Both eventually lead to a crash, but in the latter case,
+it could be used specifically to overwrite the return address, but this is easier said than done
+(see below).</p>
+<h2 id="requirements">Requirements</h2>
+<p>To reproduce this locally, an attacker needs a modified console to replace the <strong>save files</strong>,
+or a way to get them transferred to their console (Switch Online backups or the save transfer feature).
+This is because when the game prompts the player for the avatar name in an unmodified scenario,
+the name is limited to 10 characters. To use it successfully online, the attacker needs to
+<strong>patch their game</strong> so that it doesn't crash for them.</p>
+<p>The save file and saving logic (at least for what is relevant in this case) is largely similar
+to that from the original Xenoblade Chronicles X on the Wii U. In fact, in the save file for the
+original, the avatar name is stored at the same location and in the same way (64-byte buffer).
+However, trying to exploit the same vector does not result in a buffer overflow in the original
+game, so this vulnerability was <strong>introduced in the remaster</strong>.</p>
+<h2 id="impact-1">Impact</h2>
+<p>The vulnerability isn't really interesting in itself because it requires modification of the save file.
+However, I highly suspected that it would also have an effect when another player's avatar name is
+displayed in the UI using the <strong>multiplayer feature</strong> (of course, after patching the attacker's game
+so that it doesn't keep crashing theirs).</p>
+<p>Here's how I went about testing it. First, I wanted to see whether other player names would make
+their way to the vulnerable function. Without running a modified save yet, I did so by patching the
+vulnerable function to always replace the first character with a period, that way if I saw a period
+at the start of a player's name, I would know it could be exploited. This was the case for pretty
+much any way a player's name is displayed.</p>
+<p>However, there is another condition for this to be exploitable, that the name is not stripped of
+the backslashes or trimmed to a size less than the required character count for overflow. For this,
+I had to test it with Nenkai in a private group.</p>
+<ul>
+<li>It was <strong>not exploitable</strong> when viewing the group member list, or leaderboards (which is awesome,
+as it would have been quite a damaging target considering anyone can view them)</li>
+<li>It was <strong>exploitable</strong> in player name tags when playing peer-to-peer in a group mission, see the
+attached video. So for example, an attacker could join random missions and disconnect everyone playing.</li>
+</ul>
+<p>The reason it's not exploitable in player lists is that it seems to trim it down to a 32-byte buffer
+(I counted 31 backslashes in the victim's POV), so it can't result in an overflow because the
+vulnerable function extends that to 64 bytes.</p>
+<p>When the function is exploited, it leads to <strong>denial of service</strong> with a possible crash
+(as shown in the proof of concept).</p>
+<p>I have tried escalating from there to achieve code execution through return-oriented programming,
+because even with ASLR (and barring other protections)
+the 2 least significant bytes of the return address can still be controlled.
+However, the exploit requires writing at least 1 NUL byte to the return address,
+because in the <code>strcat</code> call, the second argument is nul-terminated by construction.
+So the potential for remote code execution was limited.</p>
+<h2 id="the-fix-1">The fix</h2>
+<p>Part of the fix for the first vulnerability also applies here. If the string is longer than
+10 UTF-8 characters (4-byte characters are not supported, so this also fits in a 32-byte buffer),
+it stops being processed and the excess is replaced with <code> /e..</code> (+ a NUL byte).</p>
+<h2 id="exploit-showcase">Exploit showcase</h2>
+<p>Here is a video (credits to Nenkai) showing that an unmodified client crashes connecting to a group with a player
+whose name can trigger the exploit.</p>
+<iframe width="640" height="360" src="https://www.youtube.com/embed/bwv3E0mL3QQ"
+title="[Xenoblade Chronicles X: Definitive Edition] Multiplayer Crash PoC" frameborder="0"
+allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+<p>Of course, the same would happen to everyone in the group if it was the attacker joining instead.</p>
+<hr />
+<h1 id="3-remote-save-file-write-from-unrestricted-rpc-access">3. Remote save file write from unrestricted RPC access</h1>
+<p><strong>Reported:</strong> Mar 31, 2025<br />
+<strong>CVSS v3:</strong> 9.3 - AV:N/AC:L/PR:N/UI:N/S:C/C:N/I:H/A:L<br />
+<strong>Original report:</strong> <a rel="external" href="https://hackerone.com/reports/3062122">https://hackerone.com/reports/3062122</a></p>
+<p><strong>Documentation note</strong>: The Switch game doesn't ship with function names or debug symbols, but where applicable, I've reported the names of the most similar functions from the Wii U game, which does have function names in the executable.</p>
+<p>The game seems to use a reimplementation of the NEX network code based on duplicated objects.
+As part of its peer-to-peer protocol, the game allows peers in a mission to send <strong>RPC commands</strong> (remote procedure calls)
+to each other.  I found a few issues with the implementation, I'll list the ones that were acknowledged by Nintendo:</p>
+<ul>
+<li>Many RPCs accept inputs that are later used to index arrays, but in many cases those bounds were not checked, allowing an attacker to write arbitrary memory remotely.</li>
+<li>There is an unrestricted RPC that allows editing another player's save file, I'll describe it below.</li>
+</ul>
+<p>Flags are used to track progress, among other things, and are divided based on size.
+There are blocks of 1-bit, 2-bit, 4-bit, 8-bit, 16-bit, and 32-bit flags.</p>
+<p>The game has RPCs that allow <strong>writing flags to the in-memory save file</strong>.
+There is no RPC for 32-bit flags, and the RPCs for setting 2, 4, 8, and 16-bit flags are unused, but still handled by the game when received. There is a single usage for the 1-bit flag RPC, which I explain below. Most importantly, the <strong>input flag ID was not checked or restricted to a specific range</strong>, which allowed an attacker to <strong>set arbitrary flags</strong> in other players's in-memory save files, which then get written to flash memory when the game autosaves, or the player manually saves.</p>
+<p>The one place the 1-bit flag RPC is used is <code>Gimmick::CGimmickMapObjPop::onRequestCtrlAccepted</code> (<code>+0038d858</code> on 1.0.1), which gets a flag ID with <code>Gimmick::CGimmickMapObjPop::getGameFlagId</code>, and then uses <code>sendRpcAll(1, 7)</code> to synchronize it with the other peers. I suggested that instead of sending the flag ID, the gimmick ID should be sent instead, and then each peer calculates the flag ID on their own. After this change, all the flag RPCs could be safely removed.</p>
+<p>Some solutions I suggested:</p>
+<ul>
+<li>Remove the unused RPCs for changing 2, 4, 8, 16-bit flags, and
+remove the RPC for changing 1-bit flags, which has only one usage that
+calculates the flag ID based on a gimmick ID, but this could be done by each peer as explained above.</li>
+<li>Restrict the range of flags that can be modified by the RPCs.</li>
+</ul>
+<p>I also recommended going over all the RPCs (there aren't too many), ensuring that inputs that are later used to index arrays are properly bounds-checked.</p>
+<h2 id="impact-2">Impact</h2>
+<p>This vulnerability would allow an attacker that is in <strong>the same peer-to-peer mission as the victim</strong>
+(again, just connecting online or to the same group is not sufficient) to
+<strong>write arbitrary flags in other players's save files</strong>, potentially resetting their progress or
+corrupting their save file. This would require no action from the victim, other than being in the same
+mission as the attacker. Additionally, no indication would be given to the victim, who may then
+inadvertently manually save.</p>
+<p>Additionally, because it probably wasn't meant to be public-facing,
+this RPC (among others) would also fail to validate that the flag ID is within bounds.
+There are only 2048 16-bit flags, yet the function accepts any flag ID 0-FFFF,
+allowing <strong>arbitrary memory writes</strong> up to 0x1F000 bytes past the area of 16-bit flags.
+For higher granularity but more limited range, 8-bit flags can be used instead.
+The layout of the game flags singleton is static, so the structures next to it in memory are
+always the same. I was able to get the game in a state where I was still able to save,
+but when trying to load the save the game would get stuck in the "Now Loading" screen, basically
+<strong>corrupting the save slot</strong>.</p>
+<p>The attacker would need a way to send modified packets, the easiest way being on a modified
+console. In my tests, I used a mod to call the <code>sendRpcAll</code> functions manually.</p>
+<p>The reason being in a live mission is needed is that the RPC command manager doesn't seem to parse
+requests outside of a peer-to-peer mission, even if connected to an online group.</p>
+<p>Some high-value flags include:</p>
+<ul>
+<li>The <strong>scenario flag</strong>, which controls general main story progress.</li>
+<li>The flag that controls Overdrive: unsetting this flag after Chapter 5 makes a core mechanic inaccessible with no way to restore it.</li>
+<li>Flags that unlock the main story quests.</li>
+</ul>
+<h2 id="the-fix-2">The fix</h2>
+<p>The unused RPCs for setting 2, 4, 8, and 16-bit flags were removed, and the 1-bit flag RPC had the
+range of allowed flags limited to the ones the game actually uses for online missions.</p>
+<p>Additionally, other RPCs had checks added to prevent out-of-bounds memory accesses.</p>
+<h2 id="exploit-showcase-1">Exploit showcase</h2>
+<p>Again, credits to Nenkai for the videos.</p>
+<ul>
+<li><strong>Video 1</strong> (victim POV):  Setting the scenario flag to 0. No visible effect to the victim right away,
+they only notice when they leave the mission and see that most menus and features are locked.
+By that point, the game might have already autosaved.</li>
+</ul>
+<iframe width="640" height="360" src="https://www.youtube.com/embed/h0WMCT2ASCg"
+title="[Xenoblade Chronicles X: Definitive Edition] Remote save tampering (Locking features)"
+frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+<ul>
+<li><strong>Video 2</strong> (victim POV):  Setting the scenario flag to 1. This is interesting because it triggers
+a callback that plays the intro cutscene even during online play mode, which allows a player to edit
+their avatar name. Generally, an attacker with the intent to corrupt other players's save files is
+better off using the 0 version as to not raise suspicion.</li>
+</ul>
+<iframe width="640" height="360" src="https://www.youtube.com/embed/j7WQMsFW74w"
+title="[Xenoblade Chronicles X: Definitive Edition] Remote save tampering (Story progress reset)"
+frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+<hr />
+<h1 id="closing-thoughts">Closing thoughts</h1>
+<p>Thank you for reading this writeup. It was the first time I participated in a bug bounty, and
+it was nice contributing to making the game better in a more direct way and one that would benefit
+way more people compared to my mods and tools. The staff over at Nintendo were very friendly
+and appreciative, for example I honestly didn't expect the formatting tags report to be acknowledged, and I
+was also surprised by the triage speed, especially considering the game is not from an entirely
+first-party studio. Again huge thanks to Nenkai for helping me with the reports.</p>
+<p>Also if you came here for the research but haven't played the Xenoblade games yet,
+what are you waiting for?</p>
+
+        </div>
+
+    
+</div>
+
+
+    </div>
+
+    
+    <footer class="footer">
+        <div class="footer__inner">
+                <div class="copyright">
+                        <span>© 
+    2026
+ RoccoDev</span>
+                    <span class="copyright-theme">
+                        <span class="copyright-theme-sep">:: </span>
+                        Theme: <a href="https://github.com/pawroman/zola-theme-terminimal/">Terminimal</a> by pawroman
+                    </span>
+                </div>
+            </div>
+    </footer>
+    
+
+</div>
+</body>
+
+</html>

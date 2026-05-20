@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>
+Xenoblade 3: Understanding how the AI uses arts | RoccoDev
+</title>
+    
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <meta name="robots" content="noodp"/>
+
+    <link rel="stylesheet" href="https://rocco.dev/style.css">
+    <link rel="stylesheet" href="https://rocco.dev/color/green.css">
+
+        <link rel="stylesheet" href="https://rocco.dev/color/background_blue.css">
+    
+    <link rel="stylesheet" href="https://rocco.dev/font-hack-subset.css">
+
+        <link rel="shortcut icon" type="image&amp;#x2F;x-icon" href="/img/favicon.png">
+    
+
+<link rel="stylesheet" href="https://rocco.dev/utils.css">
+<link rel="stylesheet" href="https://rocco.dev/override.css">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#63ef2f">
+<meta name="og:site_name" content="RoccoDev's Blog">
+<meta name="og:image" content="https://rocco.dev/img/apple-touch-icon.png">
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="RealRoccoDev">
+
+
+
+
+<meta name="og:title" content="Xenoblade 3: Understanding how the AI uses arts">
+<meta name="og:description" content="&lt;p&gt;This is an extensive guide on how ally and enemy AI works in Xenoblade Chronicles 3.&lt;&#x2F;p&gt;">
+</head>
+
+<body class="">
+<div class="container">
+    
+    <header class="header">
+        <div class="header__inner">
+            <div class="header__logo">
+                    
+                <a href="https://rocco.dev" style="text-decoration: none;">
+                    <div class="logo">
+                      
+                            RoccoDev
+                        
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        
+        
+                <nav class="menu">
+            <ul class="menu__inner">
+                <li class="active"><a href="https://rocco.dev">about</a></li>
+            
+                <li><a href="https://rocco.dev/posts">blog</a></li>
+            
+                <li><a href="https://rocco.dev/projects">projects</a></li>
+            
+                <li><a href="https://rocco.dev/xenoblade">xenoblade</a></li>
+            
+                <li><a href="https://rocco.dev/contact">contact</a></li>
+            
+                <li><a href="https://github.com/RoccoDev" target="_blank" rel="noopener noreferrer">code</a></li>
+            </ul>
+        </nav>
+    
+    
+        
+    </header>
+    
+
+    <div class="content">
+        
+<div class="post">
+    
+    <h1 class="post-title"><a href="https://rocco.dev/blog/xenoblade-3-ai/">Xenoblade 3: Understanding how the AI uses arts</a></h1>
+    <div class="post-meta-inline">
+        
+    <span class="post-date">
+            2023-01-18
+        </span>
+
+    </div>
+
+    
+        <span class="post-tags-inline">
+                :: tags:&nbsp;
+                <a class="post-tag" href="https://rocco.dev/tags/xenoblade/">#xenoblade</a>&nbsp;
+                <a class="post-tag" href="https://rocco.dev/tags/datamine/">#datamine</a></span>
+    
+
+
+    
+
+    
+        <div class="post-content">
+            <p>This is an extensive guide on how ally and enemy AI works in Xenoblade Chronicles 3.</p>
+<span id="continue-reading"></span>
+<p>This is still under research and this is the result of reverse-engineering and experimentation, so data is accurate to the best of my ability.</p>
+<p>While reading this, it is best to have the
+<a href="https://xenobladedata.github.io" title="BDAT table index maintained by Alexsey#9211">BDAT tables</a> at hand.
+Alternatively, I have a
+<a rel="external" href="https://docs.google.com/spreadsheets/d/1_lK2KEO3HZlgqwDzdQxl4PWw_9W8pRdAbaDswb-gZZU">collection</a> of
+<a rel="external" href="https://docs.google.com/spreadsheets/d/1u7Upi2NsUzNI3gWxD81RhLuoI-XXUnWJt7zJBgupSGY">spreadsheets</a> that are easier to understand.</p>
+<p>Special credits go to:</p>
+<ul>
+<li>Lexicon (lexicon1)</li>
+<li>Hamidu</li>
+</ul>
+<p>from the <a rel="external" href="https://discord.gg/xenoblade">Xenoblade Chronicles Discord server</a> for helping with research.</p>
+<h2 id="how-often-does-the-ai-use-arts">How often does the AI use arts?</h2>
+<p>The AI will try to perform an action on <span class="tooltip-container">
+    <a class="tooltip-label">set intervals</a>
+    <span class="tooltip-content">
+        <span><code>AiCycle</code> in <code>BTL_Talent</code> (class), <code>BTL_Enemy</code> (enemy), <code>CHR_UroBody</code> (interlink)</span>
+    </span>
+</span>
+defined by the class or the enemy type.</p>
+<p>This interval is different every time, being within 70-130% of the regular interval (decided randomly). Additionally, when an art is used,
+an <span class="tooltip-container">
+    <a class="tooltip-label">additional cooldown</a>
+    <span class="tooltip-content">
+        <span><code>IntervalArts</code> in <code>BTL_Arts_PC</code> (allies) / <code>BTL_Arts_En</code> (enemies)</span>
+    </span>
+</span> is added,
+though these two timers tick simultaneously.</p>
+<h2 id="how-does-the-ai-decide-what-arts-to-use">How does the AI decide what arts to use?</h2>
+<p>Every art in the game has one or two <span class="tooltip-container">
+    <a class="tooltip-label">conditions</a>
+    <span class="tooltip-content">
+        <span><code>AiCond1/2</code> with <code>AiParam1/2</code> in <code>BTL_Arts_PC</code> and <code>BTL_Arts_En</code></span>
+    </span>
+</span>
+associated to it, that determine whether the art can be used.<br />
+Additionally, each condition has a <span class="tooltip-container">
+    <a class="tooltip-label">priority</a>
+    <span class="tooltip-content">
+        <span><code>Priority</code> in <code>BTL_Arts_Cond</code>, row ID is the condition ID</span>
+    </span>
+</span> (1-6)
+and a <span class="tooltip-container">
+    <a class="tooltip-label">chance</a>
+    <span class="tooltip-content">
+        <span><code>AiRate1/2</code> in <code>BTL_Arts_PC</code> and <code>BTL_Arts_En</code></span>
+    </span>
+</span> (%) associated to it.</p>
+<p>The AI will go through every charged art and check its first condition. If the condition and the random chance
+are satisfied, the AI will make sure the art is in range, and a "fusion check" will also be run (see below).
+If all succeeds, it will add the art to a priority queue with a priority of <code>Priority * 10</code> for regular arts, and
+<code>Priority * 10 + 1</code> for talent arts.<br />
+If no arts could be found during the first check, the AI runs the checks again with the second conditions.</p>
+<p>The game will then try to use the art with the highest priority in the queue. (If there is a tie, it's decided randomly.)<br />
+At this point, any check failures will cause no art to be used during this cycle.</p>
+<p>If the art has a positional effect and the character is not in the right position, the art will be put "on hold". The AI will try
+to move to the required position, and it will use no art this cycle.</p>
+<p>At last, the AI will use the art. If the art is linked to another art (no matter if master or class art) that's fully charged,
+it will automatically fuse. However, some situations, like being out of range with one of the two arts, will cause one of the two
+arts to not be used. Still, it is possible for one of the two arts to be used even if it didn't meet conditions or have high
+enough priority, as long as the other art can be used instead.</p>
+<h2 id="fusion-condition-check">Fusion condition check</h2>
+<p>The AI features two mechanics to make the most out of fusion arts. These are mainly used to delay or cancel art usage altogether, so
+they're disabled for most conditions associated with important arts, like combo and healing arts. This check is performed before adding the art
+to the priority queue.</p>
+<p>I'll distinguish the following scenarios:</p>
+<ul>
+<li>Class art is being checked and master art is charged: always add the art to the queue.</li>
+<li>Master art is being checked and class art is charged: Section (A)</li>
+<li>Either art is being checked and the other one is on cooldown: Section (B)</li>
+</ul>
+<h3 id="section-a-using-master-art-with-charged-class-art">Section (A): using master art with charged class art</h3>
+<p>If this check is <span class="tooltip-container">
+    <a class="tooltip-label">disabled</a>
+    <span class="tooltip-content">
+        <span><code>760B765B</code> = 1 in <code>BTL_Arts_Cond</code></span>
+    </span>
+</span>, add the master art to the queue.<br />
+If the fusion has been active (i.e. both arts were charged) for less than 5 seconds (10 seconds if Fusion First), add the master art to the queue.</p>
+<h3 id="section-b-using-art-with-the-other-one-on-cooldown">Section (B): using art with the other one on cooldown</h3>
+<p>If this check is <span class="tooltip-container">
+    <a class="tooltip-label">disabled</a>
+    <span class="tooltip-content">
+        <span><code>B65743C7</code> = 1 in <code>BTL_Arts_Cond</code></span>
+    </span>
+</span>, add the art to the queue.<br />
+Otherwise, calculate the time variable for both arts (formula below), then if <code>(Time(art on cooldown) * 30 / Time(charged art))</code> is greater than or equal to 30% (60% if Fusion First), add the art to the queue.<br />
+Due to what seems to be a bug, the time for the art on cooldown is multiplied by 30 for both Keves and Agnus arts, which means that Agnus arts will always be used no matter the other art's recharge.<br />
+(Essentially, this mechanic is used to determine whether using the art now would outbenefit waiting for a fusion.)</p>
+<h4 id="time-formula">Time formula</h4>
+<p>For Keves arts, this is just the cooldown time left (in frames). (If the art is fully charged this is the max cooldown, not 0)<br />
+For Agnus arts, this is <code>(recharge left) * (Art.LastEligibleFrame/30 + 2/3 + IntervalAT*(1 - AutoAtkAdditives%))</code>, where:</p>
+<ul>
+<li><code>Art.LastEligibleFrame</code> is the last hit frame with a <code>DmgRt</code> &lt; 255 (or the first hit frame, if no hits meet that criteria).</li>
+<li><code>IntervalAT</code> is always 0 for arts.</li>
+<li><code>AutoAtkAdditives%</code> is stuff like the auto-attack interval gem, Martial Artist effects, etc.</li>
+<li><code>(recharge left)</code> is the <span class="tooltip-container">
+    <a class="tooltip-label">max cooldown</a>
+    <span class="tooltip-content">
+        <span><code>RecastX</code> in <code>BTL_Arts_PC</code>, where <code>X</code> is the art's level</span>
+    </span>
+</span>
+if fully charged, otherwise it's the recharge "time" left, usually the number of auto-attacks left. Note that this isn't always an integer because e.g. multi-hit auto-attacks only decrease it by a fraction.</li>
+</ul>
+<h2 id="other-notable-conditions">Other notable conditions</h2>
+<p>Combo art conditions (namely #8, #35, #43-45) will make it so the art is only used as part of the right combo. The AI is pretty smart about this, it will even make sure that by the time the art inflicts the reaction (using the exact frame for the calculation), the combo will not have expired.
+Additionally, if the battle tactic is set to the <em>opposite</em> combo (i.e. "Burst Combo" for Launch arts, "Smash Combo" for Daze arts -- "Any Combo" or the correct choice disable this check),
+it won't use the combo art, unless the reaction would have expired by the same reaction frame in the next AI cycle.
+This is why you might still get the wrong combo near the end of the combo timer. (Of course, you might still get the wrong combo anytime as part of the fusion mechanics.)</p>
+<p>Another combo art condition (#36, generally used as a 2nd condition) works the opposite way. If the currently alive party has no way to reach the combo stage of the art, it will make it so the art is used as normal.<br />
+For example, if the alive party has no Break or Topple art (in general, not just currently charged), the AI will not preserve a Launch art, instead using it like any other art.</p>
+<h2 id="enemy-art-sub-phases">Enemy art sub-phases</h2>
+<p>Enemies don't usually have all of their registered arts available at once. Instead, there are multiple AI profiles based on their current HP percentage, their level, whether or not they are enraged, <a rel="external" href="https://www.youtube.com/watch?v=SgmP2zk6TJc">whether you have defeated certain enemies</a>, other enemies in the fight,
+whether the enemy has used a specific art, and the battle time.</p>
+<p>For example, Kilocorn Grandeps (the superboss, not the Challenge Battle version) has 5 profiles for each of the refights, for a total of 56 profiles (10 refights + 1 default unused profile).<br />
+At level 95 and above 80% HP, it will only use Horn Dance and Breath.<br />
+However, at level 150 and below 20% HP, it will instead only use Tank March, Horn Dance (a stronger version that has a charge gauge and is a Smash combo), Breath (a stronger version with a charge gauge, that removes all buffs on the target, and will trigger Poison Breath and Ice Breath to be used immediately after), Killer Dunk, Ice Breath, and Poison Breath (with the latter two only being used as part of the "Breath" combo).</p>
+<p>If you'd like to know how to interpret the table, uncover the paragraph down below.</p>
+<details>
+<summary>Click to read the instructions</summary>
+<p>The <code>EnemyAiHead</code> and <code>EnemyAiTail</code> columns in <code>BTL_Enemy</code> define the range of AI profiles to use. Those AI profiles can be found in <code>BTL_EnemyAi</code>.</p>
+<p>In the <code>BTL_EnemyAi</code> table, the <code>A5C654A0</code> column defines the minimum enemy level for the profile. <code>42074031</code> is a HP percentage threshold, and <code>9184A789</code> is a condition for the enemy to be enraged. <code>0751D751</code> is a condition (i.e. a row from <code>FLD_ConditionList</code>). <code>1716B5CD</code> is an enemy ID (from <code>FLD_EnemyData</code>) which is checked to be alive and nearby, <code>CAF0DBF3</code> is a maximum number of enemies in the fight, <code>6B28F42E</code> requires the art to have been used (art ID from <code>BTL_Arts_En</code>). <code>B461BFB1</code> is a minimum
+battle time in seconds.</p>
+<p>Next, the <code>EnemyUseArts01-16</code> columns are what enable each art in the enemy's art palette. The values are the art slots to be enabled. For example, if an enemy AI profile has use-arts values of <code>0</code>, <code>1</code>, <code>3</code>, and <code>4</code>, it will enable <code>ArtsSlot0</code>, <code>ArtsSlot1</code>, <code>ArtsSlot3</code>, and <code>ArtsSlot4</code>. A <code>0</code> in anything other than <code>EnemyUseArts01</code> is ignored. (In that column, a <code>0</code> means to enable the art in <code>ArtsSlot0</code>. To disable the first art, <code>255</code> is used instead.)</p>
+</details>
+        </div>
+
+    
+</div>
+
+
+    </div>
+
+    
+    <footer class="footer">
+        <div class="footer__inner">
+                <div class="copyright">
+                        <span>© 
+    2026
+ RoccoDev</span>
+                    <span class="copyright-theme">
+                        <span class="copyright-theme-sep">:: </span>
+                        Theme: <a href="https://github.com/pawroman/zola-theme-terminimal/">Terminimal</a> by pawroman
+                    </span>
+                </div>
+            </div>
+    </footer>
+    
+
+</div>
+</body>
+
+</html>

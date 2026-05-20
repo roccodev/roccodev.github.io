@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>
+Xenoblade 3: Chain attack damage ratio analysis | RoccoDev
+</title>
+    
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <meta name="robots" content="noodp"/>
+
+    <link rel="stylesheet" href="https://rocco.dev/style.css">
+    <link rel="stylesheet" href="https://rocco.dev/color/green.css">
+
+        <link rel="stylesheet" href="https://rocco.dev/color/background_blue.css">
+    
+    <link rel="stylesheet" href="https://rocco.dev/font-hack-subset.css">
+
+        <link rel="shortcut icon" type="image&amp;#x2F;x-icon" href="/img/favicon.png">
+    
+
+<link rel="stylesheet" href="https://rocco.dev/utils.css">
+<link rel="stylesheet" href="https://rocco.dev/override.css">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#63ef2f">
+<meta name="og:site_name" content="RoccoDev's Blog">
+<meta name="og:image" content="https://rocco.dev/img/apple-touch-icon.png">
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="RealRoccoDev">
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [['$', '$']]
+        },
+    })
+</script>
+<script type="text/javascript"
+    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML">
+    </script>
+
+
+<meta name="og:title" content="Xenoblade 3: Chain attack damage ratio analysis">
+<meta name="og:description" content="&lt;p&gt;The damage multiplier in chain attacks can be somewhat of a mystery at times, and little to nothing can be found in the official documentation.&lt;&#x2F;p&gt;">
+</head>
+
+<body class="">
+<div class="container">
+    
+    <header class="header">
+        <div class="header__inner">
+            <div class="header__logo">
+                    
+                <a href="https://rocco.dev" style="text-decoration: none;">
+                    <div class="logo">
+                      
+                            RoccoDev
+                        
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        
+        
+                <nav class="menu">
+            <ul class="menu__inner">
+                <li class="active"><a href="https://rocco.dev">about</a></li>
+            
+                <li><a href="https://rocco.dev/posts">blog</a></li>
+            
+                <li><a href="https://rocco.dev/projects">projects</a></li>
+            
+                <li><a href="https://rocco.dev/xenoblade">xenoblade</a></li>
+            
+                <li><a href="https://rocco.dev/contact">contact</a></li>
+            
+                <li><a href="https://github.com/RoccoDev" target="_blank" rel="noopener noreferrer">code</a></li>
+            </ul>
+        </nav>
+    
+    
+        
+    </header>
+    
+
+    <div class="content">
+        
+<div class="post">
+    
+    <h1 class="post-title"><a href="https://rocco.dev/blog/xenoblade-3-chain-damage-ratio/">Xenoblade 3: Chain attack damage ratio analysis</a></h1>
+    <div class="post-meta-inline">
+        
+    <span class="post-date">
+            2022-08-27
+        </span>
+
+    </div>
+
+    
+        <span class="post-tags-inline">
+                :: tags:&nbsp;
+                <a class="post-tag" href="https://rocco.dev/tags/xenoblade/">#xenoblade</a>&nbsp;
+                <a class="post-tag" href="https://rocco.dev/tags/datamine/">#datamine</a></span>
+    
+
+
+    
+
+    
+        <div class="post-content">
+            <p>The damage multiplier in chain attacks can be somewhat of a mystery at times, and little to nothing can be found in the official documentation.</p>
+<span id="continue-reading"></span>
+<p>When you start a chain attack, an initial damage ratio is set:</p>
+<p>$$\text{Initial Ratio} = 100 + (Base \times Difficulty\text{%})$$</p>
+<p>$Base$ is $50$ for normal rounds and $200$ for Ouroboros rounds.<br />
+$Difficulty\text{%}$ is $100\text{%}$ on Normal/Easy, and $50\text{%}$ on Hard/Very Hard.</p>
+<p>At the end of every round, if you complete the order (by reaching at least 100 TP),
+the game first takes note of which characters used an art during the round, and checks them against the order's character.</p>
+<p>Making a "special pair" will give you a higher chance of getting the highest ratio gain for the round. Depending on the order's character, for a round to have a "special pair" you need to use:</p>
+<ul>
+<li>If the order's character is a Hero: the class heir, you can find it in the Classes menu because their aptitude is S Rank.
+<ul>
+<li>For example, if you're building towards Ashera's order, you can use Eunie to get the "special pair" bonus.</li>
+<li>Note: this is fixed for every Hero, using accessories to boost the rank from A to S does nothing.</li>
+</ul>
+</li>
+<li>If the order's character is not a Hero: either their Ouroboros partner, or one of the Heroes they inherit a class from.
+<ul>
+<li>This is also the case for Ouroboros orders: you will have to remember who has which form to pick the right character.</li>
+</ul>
+</li>
+</ul>
+<p>Here is a table with all the possible pairs. For the sake of readability, Heroes are only listed once.</p>
+<details>
+<summary>
+  ➜ (Click) Pair list with Heroes (warning: post-game spoilers)
+</summary>
+<br />
+<table>
+<thead>
+<tr>
+<th>Character</th>
+<th><strong>Noah</strong></th>
+<th><strong>Mio</strong></th>
+<th><strong>Eunie</strong></th>
+<th><strong>Taion</strong></th>
+<th><strong>Lanz</strong></th>
+<th><strong>Sena</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Noah</strong></td>
+<td></td>
+<td>✓</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Mio</strong></td>
+<td>✓</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Eunie</strong></td>
+<td></td>
+<td></td>
+<td></td>
+<td>✓</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Taion</strong></td>
+<td></td>
+<td></td>
+<td>✓</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Lanz</strong></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>✓</td>
+</tr>
+<tr>
+<td><strong>Sena</strong></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>✓</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Heroes</strong></td>
+<td>Ethel, Zeon, Juniper, Melia</td>
+<td>Teach, Miyabi, Nia</td>
+<td>Gray, Ashera, Monica</td>
+<td>Isurd, Alexandria, Cammuravi</td>
+<td>Valdi, Fiona, Triton</td>
+<td>Riku/Manana, Ghondor, Segiri</td>
+</tr>
+</tbody>
+</table>
+</details>
+<p>Now we can get to how damage ratio gains are actually calculated.<br />
+At the end of each round, the game runs the following formula:</p>
+<p>$$\text{Ratio Gain} = (Base + RoundBonus + ResultBonus) \times HeroicChain \times Difficulty\text{%}$$</p>
+<p>$Difficulty\text{%}$ is the same as before, while $Base$ is $100$ for normal rounds, and $200$ for Ouroboros rounds. (This is what the order description means by "Greatly increases damage ratio.")<br />
+$HeroicChain$ only applies if you use Gray during the round, in which case it will have a value of $1.5$.</p>
+<p>The formula introduces two bonuses that are added to the damage ratio.<br />
+Here is how $RoundBonus$ is calculated:</p>
+<p>$random(a, b)$ is a function that returns a randomly generated number between $a$ and $b$, inclusive.</p>
+<table><thead><tr><th>Round</th><th>Normal Pair ratio gain</th><th>Special Pair ratio gain</th><th>Max gain</th></tr></thead><tbody>
+<tr><td>1, or any Ouroboros round</td><td>0</td><td>0</td><td>0</td></tr>
+<tr><td>2+</td><td><code>random(25, 50) * (round - 1)</code></td><td><code>random(35, 70) * (round - 1)</code></td><td>50</td></tr>
+</tbody></table>
+<p>As you can see, the amount of round bonus you can gain in a single round is capped at 50, so advancing further or making special pairs only gives you a higher chance at max gains. (More specifically, the maximum becomes guaranteed starting from the third round.)<br />
+Unfortunately, there is no round bonus for Ouroboros rounds or the first round of any chain attack.</p>
+<p>$ResultBonus$ is a little different, as it depends on the round's result. It doesn't increase as rounds go on, but it has a higher cap for "Amazing" rounds.</p>
+<table><thead><tr><th>Result</th><th>Normal Pair ratio gain</th><th>Special Pair ratio gain</th><th>Max gain</th></tr></thead><tbody>
+<tr><td>Cool (100 TP)</td><td>0</td><td>0</td><td>0</td></tr>
+<tr><td>Bravo (150 TP)</td><td>$random(25, 50)$</td><td>$random(35, 70)$</td><td>50</td></tr>
+<tr><td>Amazing (200 TP)</td><td>$random(75, 150)$</td><td>$random(100, 200)$</td><td>150</td></tr>
+</tbody></table>
+<p>Again, special pairs don't necessarily increase the final ratio gain, but they give a higher chance to get the max value.</p>
+<p>Also, please note that the exact number of TP obtained doesn't matter, you just have to meet the three thresholds.</p>
+<h3 id="additional-gains">Additional gains</h3>
+<p>Some Heroes increase the damage ratio by a net amount when their order is completed. This occurs after the regular ratio gain described above.<br />
+The hero's special gain is still affected by the difficulty multiplier, however:</p>
+<p>$\text{Ratio Gain} = Amount \times Difficulty\text{%}$</p>
+<h3 id="example-scenarios">Example scenarios</h3>
+<p>Normal Mode, no special pairs, first round, "Cool" (&lt; 150 TP)</p>
+<table><thead><tr><th>Bonus</th><th>Value</th></tr></thead><tbody>
+<tr><td>Base</td><td>100</td></tr>
+<tr><td>Difficulty%</td><td>100%</td></tr>
+<tr><td>Round Bonus</td><td>0</td></tr>
+<tr><td>Result Bonus</td><td>0</td></tr>
+<tr><td>Heroic Chain</td><td>0</td></tr>
+<tr><td><strong>Total</strong></td><td><strong>+100</strong></td></tr>
+</tbody></table>
+<hr />
+<p>Hard Mode, with special pair, round #3, "Amazing" (200+ TP)</p>
+<table><thead><tr><th>Bonus</th><th>Value</th></tr></thead><tbody>
+<tr><td>Base</td><td>100</td></tr>
+<tr><td>Difficulty%</td><td>50%</td></tr>
+<tr><td>Round Bonus</td><td>50 (guaranteed max at round #3)</td></tr>
+<tr><td>Result Bonus</td><td>100-150 (random)</td></tr>
+<tr><td>Heroic Chain</td><td>0</td></tr>
+<tr><td><strong>Total</strong></td><td><strong>+125-150</strong></td></tr>
+</tbody></table>
+<hr />
+<p>Easy Mode, Ouroboros order, no special pairs, round #2, with Gray, "Bravo" (150-199 TP)</p>
+<table><thead><tr><th>Bonus</th><th>Value</th></tr></thead><tbody>
+<tr><td>Base</td><td>200</td></tr>
+<tr><td>Difficulty%</td><td>100%</td></tr>
+<tr><td>Round Bonus</td><td>25-50 (random)</td></tr>
+<tr><td>Result Bonus</td><td>25-50 (random)</td></tr>
+<tr><td>Heroic Chain</td><td>150%</td></tr>
+<tr><td><strong>Total</strong></td><td><strong>+375-450</strong></td></tr>
+</tbody></table>
+
+        </div>
+
+    
+</div>
+
+
+    </div>
+
+    
+    <footer class="footer">
+        <div class="footer__inner">
+                <div class="copyright">
+                        <span>© 
+    2026
+ RoccoDev</span>
+                    <span class="copyright-theme">
+                        <span class="copyright-theme-sep">:: </span>
+                        Theme: <a href="https://github.com/pawroman/zola-theme-terminimal/">Terminimal</a> by pawroman
+                    </span>
+                </div>
+            </div>
+    </footer>
+    
+
+</div>
+</body>
+
+</html>

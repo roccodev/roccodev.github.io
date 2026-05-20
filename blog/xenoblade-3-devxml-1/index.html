@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>
+Xenoblade 3: Hidden values explained (Part 1: base game) | RoccoDev
+</title>
+    
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <meta name="robots" content="noodp"/>
+
+    <link rel="stylesheet" href="https://rocco.dev/style.css">
+    <link rel="stylesheet" href="https://rocco.dev/color/green.css">
+
+        <link rel="stylesheet" href="https://rocco.dev/color/background_blue.css">
+    
+    <link rel="stylesheet" href="https://rocco.dev/font-hack-subset.css">
+
+        <link rel="shortcut icon" type="image&amp;#x2F;x-icon" href="/img/favicon.png">
+    
+
+<link rel="stylesheet" href="https://rocco.dev/utils.css">
+<link rel="stylesheet" href="https://rocco.dev/override.css">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#63ef2f">
+<meta name="og:site_name" content="RoccoDev's Blog">
+<meta name="og:image" content="https://rocco.dev/img/apple-touch-icon.png">
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="RealRoccoDev">
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [['$', '$']]
+        },
+    })
+</script>
+<script type="text/javascript"
+    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML">
+    </script>
+
+
+<meta name="og:title" content="Xenoblade 3: Hidden values explained (Part 1: base game)">
+<meta name="og:description" content="">
+</head>
+
+<body class="">
+<div class="container">
+    
+    <header class="header">
+        <div class="header__inner">
+            <div class="header__logo">
+                    
+                <a href="https://rocco.dev" style="text-decoration: none;">
+                    <div class="logo">
+                      
+                            RoccoDev
+                        
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        
+        
+                <nav class="menu">
+            <ul class="menu__inner">
+                <li class="active"><a href="https://rocco.dev">about</a></li>
+            
+                <li><a href="https://rocco.dev/posts">blog</a></li>
+            
+                <li><a href="https://rocco.dev/projects">projects</a></li>
+            
+                <li><a href="https://rocco.dev/xenoblade">xenoblade</a></li>
+            
+                <li><a href="https://rocco.dev/contact">contact</a></li>
+            
+                <li><a href="https://github.com/RoccoDev" target="_blank" rel="noopener noreferrer">code</a></li>
+            </ul>
+        </nav>
+    
+    
+        
+    </header>
+    
+
+    <div class="content">
+        
+<div class="post">
+    
+    <h1 class="post-title"><a href="https://rocco.dev/blog/xenoblade-3-devxml-1/">Xenoblade 3: Hidden values explained (Part 1: base game)</a></h1>
+    <div class="post-meta-inline">
+        
+    <span class="post-date">
+            2023-11-27
+        </span>
+
+    </div>
+
+    
+        <span class="post-tags-inline">
+                :: tags:&nbsp;
+                <a class="post-tag" href="https://rocco.dev/tags/xenoblade/">#xenoblade</a>&nbsp;
+                <a class="post-tag" href="https://rocco.dev/tags/datamine/">#datamine</a></span>
+    
+
+
+    
+    
+<blockquote>
+    <h3>Table of Contents</h3>
+    <ul>
+        
+        <li>
+            <a href="https://rocco.dev/blog/xenoblade-3-devxml-1/#interlink">Interlink</a>
+            
+            <ul>
+                
+                <li>
+                    <a href="https://rocco.dev/blog/xenoblade-3-devxml-1/#interlink-level">Interlink level</a>
+                    
+                </li>
+                
+                <li>
+                    <a href="https://rocco.dev/blog/xenoblade-3-devxml-1/#heat-gauge">Heat gauge</a>
+                    
+                </li>
+                
+                <li>
+                    <a href="https://rocco.dev/blog/xenoblade-3-devxml-1/#interlink-ai">Interlink AI</a>
+                    
+                </li>
+                
+            </ul>
+            
+        </li>
+        
+        <li>
+            <a href="https://rocco.dev/blog/xenoblade-3-devxml-1/#eclipse-soul">Eclipse Soul</a>
+            
+        </li>
+        
+        <li>
+            <a href="https://rocco.dev/blog/xenoblade-3-devxml-1/#ai">AI</a>
+            
+        </li>
+        
+        <li>
+            <a href="https://rocco.dev/blog/xenoblade-3-devxml-1/#enemy-recharge">Enemy recharge</a>
+            
+        </li>
+        
+        <li>
+            <a href="https://rocco.dev/blog/xenoblade-3-devxml-1/#arts-canceling">Arts canceling</a>
+            
+        </li>
+        
+        <li>
+            <a href="https://rocco.dev/blog/xenoblade-3-devxml-1/#accuracy">Accuracy</a>
+            
+        </li>
+        
+        <li>
+            <a href="https://rocco.dev/blog/xenoblade-3-devxml-1/#elite-enemies">Elite enemies</a>
+            
+        </li>
+        
+        <li>
+            <a href="https://rocco.dev/blog/xenoblade-3-devxml-1/#helping-reviving-allies">Helping&#x2F;reviving allies</a>
+            
+        </li>
+        
+        <li>
+            <a href="https://rocco.dev/blog/xenoblade-3-devxml-1/#aggro-target-line">Aggro target line</a>
+            
+        </li>
+        
+        <li>
+            <a href="https://rocco.dev/blog/xenoblade-3-devxml-1/#combos">Combos</a>
+            
+        </li>
+        
+        <li>
+            <a href="https://rocco.dev/blog/xenoblade-3-devxml-1/#attack-range">Attack range</a>
+            
+        </li>
+        
+        <li>
+            <a href="https://rocco.dev/blog/xenoblade-3-devxml-1/#ally-distance-teleport">Ally distance teleport</a>
+            
+        </li>
+        
+        <li>
+            <a href="https://rocco.dev/blog/xenoblade-3-devxml-1/#unlocking-classes">Unlocking classes</a>
+            
+        </li>
+        
+        <li>
+            <a href="https://rocco.dev/blog/xenoblade-3-devxml-1/#flame-clock">Flame Clock</a>
+            
+        </li>
+        
+        <li>
+            <a href="https://rocco.dev/blog/xenoblade-3-devxml-1/#dirty-clothes">Dirty clothes</a>
+            
+        </li>
+        
+        <li>
+            <a href="https://rocco.dev/blog/xenoblade-3-devxml-1/#unused-content">Unused content</a>
+            
+            <ul>
+                
+                <li>
+                    <a href="https://rocco.dev/blog/xenoblade-3-devxml-1/#accuracy-level-difference-modifier">Accuracy level difference modifier</a>
+                    
+                </li>
+                
+                <li>
+                    <a href="https://rocco.dev/blog/xenoblade-3-devxml-1/#pure-revival-speed-gem">Pure revival speed gem</a>
+                    
+                </li>
+                
+                <li>
+                    <a href="https://rocco.dev/blog/xenoblade-3-devxml-1/#interlink-heat-mechanics">Interlink heat mechanics</a>
+                    
+                </li>
+                
+                <li>
+                    <a href="https://rocco.dev/blog/xenoblade-3-devxml-1/#rage-strike">Rage Strike</a>
+                    
+                </li>
+                
+                <li>
+                    <a href="https://rocco.dev/blog/xenoblade-3-devxml-1/#extra-rage-pause-opportunities">Extra rage pause opportunities</a>
+                    
+                </li>
+                
+            </ul>
+            
+        </li>
+        
+    </ul>
+</blockquote>
+
+    
+
+    
+        <div class="post-content">
+            <noscript>
+<b>Warning</b>: This post contains some math formulas that are best displayed with JavaScript enabled.
+</noscript>
+<p>This post illustrates some recent findings in Xenoblade 3 datamining.</p>
+<p>Values are mostly taken from the newly researched <em>devxml</em> files. Information about those values is being collected over at this <a rel="external" href="https://docs.google.com/spreadsheets/u/1/d/1_prmO3-6ra4kaCy07Kd2E7Lbcyf1X052Is7MmfREkYk/htmlview">spreadsheet</a>.</p>
+<p>This coverage will be split in three parts: this post covers base game mechanics and unused content. I'll go over challenge battle and Future Redeemed content in future posts. (<a href="https://rocco.dev/blog/xenoblade-3-devxml-2/">Part 2</a>, <a href="https://rocco.dev/blog/xenoblade-3-devxml-3/">Part 3</a>)</p>
+<p>Huge thanks to Lexicon (lexicon1) and Hamidu for helping with research.</p>
+<h2 id="interlink">Interlink</h2>
+<h3 id="interlink-level">Interlink level</h3>
+<p>Interlink level points are exclusively gained through fusion arts.<br />
+Every fusion art grants 100 points if used by the controlled character or during auto-battle, or 150 points if used by the AI.<br />
+Points gained are boosted by 25% on Easy, and reduced by 25% on Hard.</p>
+<p>When a character dies, the pair loses 500 points, but the Interlink level doesn't decrease.</p>
+<ul>
+<li>Interlink level 1: 400 points</li>
+<li>Interlink level 2: 900 points</li>
+<li>Interlink level 3: 1,500 points</li>
+</ul>
+<h3 id="heat-gauge">Heat gauge</h3>
+<p>A full heat gauge is worth 1,000 points. I will refer to it using percentages for the rest of this section.</p>
+<p>When Interlink is initiated, the combo timer on the targeted enemy is paused for 4 seconds if the Interlink has arts that would advance it, unless the combo stage is Daze or Burst.</p>
+<p>If Interlink is started while the heat gauge is not empty (for example, by canceling and Interlinking again right away), a 10% heat penalty is applied.</p>
+<p>Every second during Interlink, 4% heat is generated; outside of Interlink, 1.7% heat is dissipated.</p>
+<p>When using an Ouroboros art, its <code>Recast</code> parameter is used to generate extra heat. In practice this is limited to Feather Sanctuary, which generates 5% heat at level 1, and all talent arts with 6%. Liberty Wing only overheats if there were incapacitated allies.</p>
+<p>When canceling arts into arts, 3.6% heat is generated at base. If the "Heat Control: Arts Canceling" skill is active, this is reduced to 2.7%.</p>
+<p>Curiously, canceling arts into arts as an Ouroboros will also add +0.4% to the Power Charge damage multiplier group for that attack.
+The reason for this specific value is unknown, but the game checks that this is not zero to allow Ouroboros to cancel arts into arts.<br />
+There is an equivalent skill in Future Redeemed skill that also gives a 25% Power Charge boost (and, in fact, uses the same effect), though this has affected Ouroboros since 1.0.0.</p>
+<p>When the gauge is 90% full and the Interlink level is 3, Noah's talent art will change to Origin Blade after a certain point in the story.</p>
+<h3 id="interlink-ai">Interlink AI</h3>
+<p>When using auto-battle or with the Interlink control type setting set to "Player," Interlink will be controlled by the AI.</p>
+<p>When a pair reaches a new Interlink level, the AI has a 0% chance to start the Interlink at lv. 1, 50% at lv. 2, and 100% at lv. 3.</p>
+<p>The AI can also start an Interlink as a panic button: if a character goes below 14% HP and the current heat gauge for its pair is less than 55%, it will initiate Interlink to avoid death.</p>
+<p>The AI will automatically cancel Interlink when the heat gauge is 85% full. This effectively means that if Interlink isn't started with Lucky Seven active, Noah's AI will never use Origin Blade at lv. 3, canceling before the 90% threshold.</p>
+<h2 id="eclipse-soul">Eclipse Soul</h2>
+<p>Eclipse Soul works somewhat differently between the two fights.</p>
+<p>In both fights, the Eclipse Soul target will be picked randomly from the role with the most (alive) members. For Ouroboros forms, use <code>Role</code> from <code>CHR_UroBody</code>. In case of a tie, it follows Attacker &gt; Defender &gt; Healer.</p>
+<p>When M is controlling a character, she will receive 100x the damage dealt to the controlled ally. This is intended for the second fight, but it can still be achieved in the first battle with e.g. spike effects. M will also take 99% less damage from incoming attacks while the effect is active.</p>
+<p>Additional damage correction is applied to characters affected by Eclipse Soul:</p>
+<ul>
+<li>if the attacker has Eclipse Soul, damage dealt to party members is reduced by 50%.</li>
+<li>if a party member attacks the controlled character, damage is reduced by 99%.
+<ul>
+<li>Technically this is "if target is an ally and attacker does not have Eclipse Soul". Curiously, this is why friendly-fire attacks have extremely low damage in setups that exploit the <a rel="external" href="https://twitter.com/NgskChnpn/status/1702367516465750313">fusion AI glitch</a>.</li>
+</ul>
+</li>
+</ul>
+<p>In the first fight, Eclipse Soul lasts 40 seconds.<br />
+In the rematch, Eclipse Soul lasts indefinitely, for a minimum of 5 seconds, and can only be halted by dealing 20,000 damage points to M. (either directly or via the controlled character as mentioned earlier)</p>
+<h2 id="ai">AI</h2>
+<p>When there are more than 3 allies currently in an art animation, the party AI will only use arts that have <code>FlagNoLimit</code> set, that includes combo and healing arts for the most part.</p>
+<p>Enemy AI will also refrain from using arts if there are more than 2 non-boss, non-unique enemies in an art animation. Unique and boss enemies will use arts regardless.</p>
+<p>It is unclear why this limit was introduced, perhaps to limit noise, effects on screen, or for balancing reasons.</p>
+<p>Enemy AI will also wait 3 seconds after the battle starts before performing any actions.</p>
+<h2 id="enemy-recharge">Enemy recharge</h2>
+<p>Some enemies get reduced recharge rate in multi-enemy battles if they are not being attacked, often by a significant amount:</p>
+<p><code>ACC9E8FD</code> in <a rel="external" href="https://xenobladedata.github.io/xb3_200_dlc4/BTL_Enemy.html"><code>BTL_Enemy</code></a> defines the minimum number of enemies (can be equal) to enable the reduced recharge rate, while <code>0893DF90</code> is the rate multiplier (%) itself.</p>
+<p>This is only applied if the enemy is not being targeted by any player character, this cannot be guaranteed unless the Focus Target command is issued (ZL+Up).
+Without it, AI-controlled characters could pick a target of their choice, nullifying the effect.</p>
+<p>This mechanic effectively results in enemies recharging arts <em>faster</em> when the enemy count drops below the threshold.</p>
+<h2 id="arts-canceling">Arts canceling</h2>
+<p>The art cancel window is 15 frames, which is the same as the arts link (Chain/Shackle Ring) window.</p>
+<p>If the AI has an art ready, it will attempt to use it during an auto-attack cancel window. The AI does not cancel arts into other arts.</p>
+<p>When canceling, an extra auto-attack worth of recharge is given to equipped Agnus arts.</p>
+<h2 id="accuracy">Accuracy</h2>
+<p>Considering $a, b \ge 0$ and $a, b \le 0.97$,</p>
+<p>$$a = \frac{\text{Dexterity} \cdot (100\% + \text{Art Hit}) \cdot 0.75}{\text{Agility}}$$
+$$b = a \cdot \text{Additives} \cdot \text{Preemptive}$$
+$$\text{Hit Chance} = \max(\min(0.015, a), b)$$</p>
+<p>where:</p>
+<ul>
+<li>$\text{Dexterity}$ is the attacker's Dexterity, $\text{Agility}$ is the defender's Agility.</li>
+<li>$\text{Art Hit}$ is <code>HitRev</code> from <code>BTL_Arts_PC</code> or <code>BTL_Arts_En</code>.</li>
+<li>$\text{Additives}$ are the attacker's accuracy additives, minus the defender's evasion additives.</li>
+<li>$\text{Preemptive}$ is 1.5 if the attack was a preemptive hit (i.e. the defender has not noticed the attacker), or 1 otherwise.</li>
+</ul>
+<p>The 97% hit chance cap was also present in Xenoblade 2.</p>
+<p>Two notable accuracy additives are:</p>
+<ul>
+<li>+10% accuracy when attacking from the side,</li>
+<li>+25% accuracy when attacking from the back.</li>
+</ul>
+<h2 id="elite-enemies">Elite enemies</h2>
+<p>Elite enemies have a set of stat boosts, and they are generally also given higher base stats compared to the rest of their species.</p>
+<p>The boosts are as follows, I will also list the differences with Future Redeemed in this post:</p>
+<ul>
+<li>HP formula: $\text{HpMaxBase} \cdot (\frac{\text{StRevHp}}{100} \cdot a + b)$
+<ul>
+<li><code>HpMaxBase</code> is from <code>BTL_EnParamTable</code>.</li>
+<li><code>StRevHp</code> is from <code>BTL_Enemy</code>.</li>
+<li>$a$ is 1.5 in the base game, 1.25 in Future Redeemed. For non-elites, $a = 1$.</li>
+<li>$b$ is 1.5 in the base game, 0.25 in Future Redeemed. For non-elites, $b = 0$.</li>
+</ul>
+</li>
+<li>Strength multiplier: 120% (125% in FR)</li>
+<li>Healing multiplier: 120% (150% in FR)</li>
+<li>Dexterity multiplier: 110% (125% in FR)</li>
+<li>Agility multiplier: 110% (125% in FR)</li>
+<li>EXP multiplier: 250%</li>
+<li>CP multiplier: 300%</li>
+<li>Gold multiplier: 350%</li>
+</ul>
+<h2 id="helping-reviving-allies">Helping/reviving allies</h2>
+<p>The revival speed formula (per second) is the following:</p>
+<p>$$\text{Base} \cdot \text{Multiplier} \cdot \text{Gauntlet} \cdot \sum_{h \in \text{Helpers}}{\left( \frac{\Delta t_h}{30} \cdot \text{Additives}_h \right)}$$</p>
+<p>where:</p>
+<ul>
+<li>$\text{Base}$ is $0.2$ for revivals, and $0.45$ for combo rescuing.</li>
+<li>$\text{Multiplier}$ is based on the number of allies currently helping:
+<ul>
+<li>1 helper: 100%</li>
+<li>2 helpers: 130%</li>
+<li>3 helpers: 160%</li>
+<li>4 helpers: 180%</li>
+<li>5 helpers: 200%</li>
+<li>6 helpers: 220%</li>
+</ul>
+</li>
+<li>$\text{Gauntlet}$ is the empty Nopwatch effect, 0.33 if the Nopwatch gauge is empty, 1 otherwise.</li>
+<li>$\Delta t_h$ is the time (in frames) helper $h$ spent rescuing since the last update. For a per-second formula, this ranges from 0 to 30.</li>
+<li>$\text{Additives}_h$ is the sum of helper $h$'s revival speed related additives (base = 100%). <em>Revival</em> speed additives also affect combo rescuing.</li>
+</ul>
+<p>Alternatively, per frame:</p>
+<p>$$\frac{1}{30} \cdot \text{Base} \cdot \text{Multiplier} \cdot \text{Gauntlet} \cdot \sum_{h \in \text{Helpers}}{\text{Additives}_h}$$</p>
+<p>The final value is the gauge % to fill, which for combos is essentially a percentage of the total duration. This means that with a single helper and no additives, reviving an ally takes 5 seconds, and rescuing someone from a combo would take 67 frames if the combo did not also tick naturally in the meantime.</p>
+<p>Revived allies are given back 15% of their max HP (at base, the gem effect is added to this value), as well as 3 seconds of invincibility.</p>
+<h2 id="aggro-target-line">Aggro target line</h2>
+<p><a rel="external" href="https://rocco.dev/blog/xenoblade-3-aggro/">Aggro</a> can be visualized with the target lines. There are actually two lines, one that is constantly shown, and an intermittent one that only comes up under specific conditions.</p>
+<p>The main line signals the enemy's current target, and is colored blue if the target is a Defender.</p>
+<p>When the next character with the most aggro has at least 70% of the current target's aggro, a quick intermittent line is displayed going to that other character every 3 seconds, signaling target is about to change. (This line is disabled for the first 4 seconds of battle.)</p>
+<p><img src="/img/devxml/aggro-line-intr.png" alt="Intermittent line" /></p>
+<p>When this difference reaches 75%, the main line will start to wiggle (at an interval of 15 frames) until it either breaks on target change, or the difference drops below 70%.</p>
+<p><img src="/img/devxml/aggro-line-wiggle.png" alt="Wiggle effect" /></p>
+<p><em>(Thanks Hamidu for the images!)</em></p>
+<h2 id="combos">Combos</h2>
+<p>When Smash is inflicted on an enemy that has yet to activate Enrage, the Enrage max HP threshold (<code>RageParam</code>) is increased by 10.</p>
+<p>Burst will clear Enrage, and pause the Enrage activation for 100% of the enemy's <code>RageInterval</code> (generally 1 minute).</p>
+<p>For combo animation states that force the enemy to fall, certain enemies will only fall for 1.5 seconds before canceling both the state and the combo.</p>
+<h2 id="attack-range">Attack range</h2>
+<p>When a unique or gauntlet enemy fails to attack for more than 10 seconds because it couldn't find or reach a target, it will enter a state that grants
+all of its attacks an attack range of 99,999.</p>
+<p>This state lasts 5 minutes.</p>
+<h2 id="ally-distance-teleport">Ally distance teleport</h2>
+<p>The game employs countermeasures when allies get stuck and can't reach the enemy.</p>
+<p>During battle, alive allies that are on the ground, and more than 20 meters above or below the party leader get teleported close to it. When the ally is dead, the threshold is reduced to 10 meters.</p>
+<p>When engaging enemies, characters that are more than 4 meters above/below the party leader, or farther than 10 meters in 3D distance are also teleported.</p>
+<p>If an ally can't move for more than 5 seconds, or can't perform an action for more than 15, it will get teleported to the party leader.</p>
+<p>Similarly, if there is at least one ally alive that can revive, dead allies that go unrescued for more than 15 seconds (i.e. no one has started the revival action on them) get teleported to the party leader. This is disabled against bosses and unique enemies.</p>
+<h2 id="unlocking-classes">Unlocking classes</h2>
+<p>When an enemy is defeated, the party gains unlock points towards the equipped classes if they are not at maximum rank.</p>
+<p>The exact value gained by each character is described by this formula:</p>
+<p>$$\text{Enemy CP multiplier} \cdot \text{Overkill%} \cdot \text{Level modifier} \cdot \sum_{\substack{\text{character $c$} \\ \text{with same class}}} k_c$$</p>
+<p>where:</p>
+<ul>
+<li>$k_c$ (for each character $c$ with the same class), is 100 if $c$ is a hero, 50 otherwise.</li>
+<li>$\text{Enemy CP multiplier}$ is the enemy's <code>ExpRate * RevExpTalent</code>, essentially enemy CP divided by the <span class="tooltip-container">
+    <a class="tooltip-label">base CP</a>
+    <span class="tooltip-content">
+        <span><code>EnemyTalentExp</code> from <code>BTL_Grow</code></span>
+    </span>
+</span>. This does <em>not</em> include food bonuses or the Elite CP boost.</li>
+<li>$\text{Overkill%}$ is the chain attack overkill rate.</li>
+<li>$\text{Level modifier}$ is defined in <a rel="external" href="https://xenobladedata.github.io/xb3_200_dlc4/BTL_LvRev.html">this table</a> (<code>TalentPoint</code> columns). Note that when a character is 6 or more levels higher than the enemy, they won't receive any unlock points.</li>
+</ul>
+<h2 id="flame-clock">Flame Clock</h2>
+<p>The Flame Clock mechanic for Colony 9 is active for the first two chapters of the game.
+The other colonies have fixed values and their gauge is just cosmetic.</p>
+<p>A full gauge is worth 1,000 points, and it starts at 800 in a fresh file. For simplicity's sake, I will refer to 1,000 points as 100%, and so on.</p>
+<p>There are two ways to fill or drain the Flame Clock gauge:</p>
+<ul>
+<li>Battling enemies</li>
+<li>Idling</li>
+</ul>
+<p>When an enemy is defeated in battle, it will fill up the gauge by a <span class="tooltip-container">
+    <a class="tooltip-label">set amount</a>
+    <span class="tooltip-content">
+        <span><code>LifeFireNum</code> in <code>152F4D70</code></span>
+    </span>
+</span>, ranging from 0 to 3%.<br />
+When the party is wiped out, gives up or retries, you will lose 0.5% of the gauge.</p>
+<p>Every 25 seconds, regardless of battle status, the Flame Clock gauge fluctuates depending on its current state.</p>
+<p>To start, identify the starting state:</p>
+<ul>
+<li>If the gauge starts with less than 35% capacity: <strong>State 1</strong>.</li>
+<li>If the gauge starts at least 95% full: <strong>State 2</strong>.</li>
+<li>Otherwise: <strong>State 0</strong>.</li>
+</ul>
+<p>Whether you lose or gain points depends on the current state:</p>
+<ul>
+<li>State 0: -0.1% gauge</li>
+<li>State 1: +0.1% gauge</li>
+<li>State 2: -0.4% gauge</li>
+</ul>
+<p>After the fluctuation, the game tries to transition to the next state:</p>
+<ul>
+<li>If gauge &gt; 95%: <strong>State 2</strong>.</li>
+<li>If gauge &lt; 35%: <strong>State 1</strong>.</li>
+<li>If in State 2 and gauge &lt; 80%: <strong>State 0</strong>.</li>
+<li>If in State 1 and gauge &gt; 55%: <strong>State 0</strong>.</li>
+</ul>
+<p>If the gauge is at less than 55% capacity, the party will get the "Flame Clock Low, Attack Down" debuff, which gives -25% additive damage.<br />
+This debuff mechanic is active since you get introduced to it in Colony 9, up until (and including) the Mysterious Enemy fight at the end of Chapter 1.</p>
+<p>The gauge carries over to a New Game Plus file, so it is possible to start a playthrough with the maximum capacity, though the ability to fill up the gauge is lost at the start of Chapter 3.</p>
+<h2 id="dirty-clothes">Dirty clothes</h2>
+<p>The game has a mechanic that applies a dirt texture over characters' clothes after a while, encouraging the player to clean them.</p>
+<p>Dirt can be controlled by the environment, or by event triggers.</p>
+<ul>
+<li>When on land, characters get 0.5% dirt every 34 meters they walk.</li>
+<li>While swimming, characters lose 5% dirt every 20 meters.</li>
+<li>When it's raining or thunderstorming (weather IDs 2, 3, 5), characters lose 5% dirt every 20 seconds.</li>
+</ul>
+<p>(Note that only one of these can be active at once, weather has priority over the rest.)</p>
+<p>In practice, the land dirt value isn't very significant. Several events apply or clear a more significant amount: for example, when you first get control of Glimmer in Future Redeemed she gets 75% dirt, and all dirt is cleared at the end of Chapter 1 in the base game.</p>
+<p>You can also get rid of dirt at rest spots, though this works differently between the two games.</p>
+<p>In the base game, clearing dirt at a rest spot will set the character's dirt level to 30%. Curiously, this is also the case when the character has less than 30% dirt, so the "cleaning" action would effectively make them dirtier in that case.</p>
+<p>In Future Redeemed, this option clears dirt completely.</p>
+<h1 id="unused-content">Unused content</h1>
+<h2 id="accuracy-level-difference-modifier">Accuracy level difference modifier</h2>
+<p>The <a rel="external" href="https://xenobladedata.github.io/xb3_200_dlc4/BTL_LvRev.html">level difference modifier table</a> has a column for attack accuracy. Data from this column is never used.</p>
+<h2 id="pure-revival-speed-gem">Pure revival speed gem</h2>
+<p>There exists <a rel="external" href="https://xenobladedata.github.io/xb3_200_dlc4/BTL_Enhance.html#2906">data</a> for a pure revival speed up effect next to other gem data.</p>
+<p>The effect ranges from +20% to +45% revival speed, values identical to the "Fast Rescue &amp; Healing Plus" gem that appears in the final game, suggesting that the former was scrapped in favor of this more general effect.</p>
+<h2 id="interlink-heat-mechanics">Interlink heat mechanics</h2>
+<p>A scrapped mechanic would make Ouroboros accrue heat upon taking damage.</p>
+<p>The strength of the effect is unknown, but it is based on damage taken relative to max HP, and there is an unused <a rel="external" href="https://xenobladedata.github.io/xb3_200_dlc4/BTL_Skill_PC.html#172">skill</a> that reduces it, similar to "Heat Control: Time".</p>
+<h2 id="rage-strike">Rage Strike</h2>
+<p>Rage Strike is a mechanic from Xenoblade 2 that is also present in the newest game, though it goes unused as it is exclusive to the unused Very Hard/Ultimate difficulty.</p>
+<p>When an enemy enrages in the hardest difficulty, its next attack gains the following effects:</p>
+<ul>
+<li>Clears 22% of the chain gauge.</li>
+<li>+100% Power Charge damage multiplier.</li>
+</ul>
+<p>Additionally, while the enemy is enraged, it gains a flat +50 resistance to all reactions, including those that are normally not resisted by enemies. There exists data for scrapped Topple, Launch, etc. Brooches that reduce resistance to those reactions specifically, though in the final version only the skill Fury Smash and Chain/Shackle Ring can reduce them.</p>
+<h2 id="extra-rage-pause-opportunities">Extra rage pause opportunities</h2>
+<p>Likely designed in tandem with the Rage Strike mechanic, the game also allows clearing and pausing Enrage by doing any of the following:</p>
+<ul>
+<li>Completing a chain attack.</li>
+<li>Using a talent art.</li>
+</ul>
+<p>In the final version, those effects are disabled.</p>
+
+        </div>
+
+    
+</div>
+
+
+    </div>
+
+    
+    <footer class="footer">
+        <div class="footer__inner">
+                <div class="copyright">
+                        <span>© 
+    2026
+ RoccoDev</span>
+                    <span class="copyright-theme">
+                        <span class="copyright-theme-sep">:: </span>
+                        Theme: <a href="https://github.com/pawroman/zola-theme-terminimal/">Terminimal</a> by pawroman
+                    </span>
+                </div>
+            </div>
+    </footer>
+    
+
+</div>
+</body>
+
+</html>

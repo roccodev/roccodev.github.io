@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>
+Xenoblade 3: Aggro mechanics explained | RoccoDev
+</title>
+    
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <meta name="robots" content="noodp"/>
+
+    <link rel="stylesheet" href="https://rocco.dev/style.css">
+    <link rel="stylesheet" href="https://rocco.dev/color/green.css">
+
+        <link rel="stylesheet" href="https://rocco.dev/color/background_blue.css">
+    
+    <link rel="stylesheet" href="https://rocco.dev/font-hack-subset.css">
+
+        <link rel="shortcut icon" type="image&amp;#x2F;x-icon" href="/img/favicon.png">
+    
+
+<link rel="stylesheet" href="https://rocco.dev/utils.css">
+<link rel="stylesheet" href="https://rocco.dev/override.css">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#63ef2f">
+<meta name="og:site_name" content="RoccoDev's Blog">
+<meta name="og:image" content="https://rocco.dev/img/apple-touch-icon.png">
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="RealRoccoDev">
+
+
+
+
+<meta name="og:title" content="Xenoblade 3: Aggro mechanics explained">
+<meta name="og:description" content="">
+</head>
+
+<body class="">
+<div class="container">
+    
+    <header class="header">
+        <div class="header__inner">
+            <div class="header__logo">
+                    
+                <a href="https://rocco.dev" style="text-decoration: none;">
+                    <div class="logo">
+                      
+                            RoccoDev
+                        
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        
+        
+                <nav class="menu">
+            <ul class="menu__inner">
+                <li class="active"><a href="https://rocco.dev">about</a></li>
+            
+                <li><a href="https://rocco.dev/posts">blog</a></li>
+            
+                <li><a href="https://rocco.dev/projects">projects</a></li>
+            
+                <li><a href="https://rocco.dev/xenoblade">xenoblade</a></li>
+            
+                <li><a href="https://rocco.dev/contact">contact</a></li>
+            
+                <li><a href="https://github.com/RoccoDev" target="_blank" rel="noopener noreferrer">code</a></li>
+            </ul>
+        </nav>
+    
+    
+        
+    </header>
+    
+
+    <div class="content">
+        
+<div class="post">
+    
+    <h1 class="post-title"><a href="https://rocco.dev/blog/xenoblade-3-aggro/">Xenoblade 3: Aggro mechanics explained</a></h1>
+    <div class="post-meta-inline">
+        
+    <span class="post-date">
+            2023-07-05
+        </span>
+
+    </div>
+
+    
+        <span class="post-tags-inline">
+                :: tags:&nbsp;
+                <a class="post-tag" href="https://rocco.dev/tags/xenoblade/">#xenoblade</a>&nbsp;
+                <a class="post-tag" href="https://rocco.dev/tags/datamine/">#datamine</a></span>
+    
+
+
+    
+
+    
+        <div class="post-content">
+            <p>This post describes how aggro generation works in Xenoblade 3.</p>
+<p>Overall, I don't think the aggro mechanics in this game are well designed. With high-damage scenarios, and
+especially with how aggro interacts with chain attacks, it's almost impossible to draw aggro off of the
+main damage dealers.</p>
+<h2 id="aggro-slots">Aggro slots</h2>
+<p>Each enemy has four slots for each character in the field. The meaning of those slots is unknown, but slot
+#1 is generally used for damage-related aggro, slot #2 for "passive" aggro, and slot #3 for Taunt aggro. I haven't
+observed slot #4 ever being used.</p>
+<p>Generally this distinction doesn't matter, as only the total is considered, and multiplications act on all four slots. However, some reduction operations only apply to one of those slots, stopping when it reaches zero.</p>
+<h2 id="aggro-types">Aggro types</h2>
+<p>What actually matters is how aggro is generated.<br />
+When attacking, there are eight main ways to generate aggro:</p>
+<ol>
+<li>Damage dealt (slot #1)
+<ul>
+<li>Aggro: <code>damage * 0.5 * fusion bonus * additives</code></li>
+<li><em>Fusion bonus</em>: 1.5 for applicable arts</li>
+<li>Includes spike damage, damage over time, Smash impact damage (see below)</li>
+</ul>
+</li>
+<li>Damage taken (slot #1)
+<ul>
+<li>Aggro: <code>-1.5 * damage</code></li>
+</ul>
+</li>
+<li>HP healed (slot #2)
+<ul>
+<li>Aggro: <code>1.25 * HP difference * additives</code></li>
+<li><em>HP difference</em>: total HP actually healed</li>
+<li>Aggro is gained by the healer</li>
+</ul>
+</li>
+<li>Arts and auto-attacks (slot #2)
+<ul>
+<li>Aggro: <code>2000 + 120 * (chr. level - 1) * (art aggro) * additives</code> (same formula for 5, 6)</li>
+<li><em>Art Aggro</em>: <code>Hate / 100</code>, where <code>Hate</code> is from <code>BTL_Arts_PC</code></li>
+<li>Healing/field arts don't trigger this: types 4, 5, and 6 are mutually exclusive.</li>
+</ul>
+</li>
+<li>Healing arts (slot #2)
+<ul>
+<li>Includes buff arts that generate aggro</li>
+</ul>
+</li>
+<li>Field Arts (slot #2)</li>
+<li>"Extra" effects, like +aggro on evasion, etc. (slot #2)
+<ul>
+<li>Aggro: <code>2000 + 120 * (chr. level - 1) * effect * additives</code></li>
+<li><em>Effect</em>: defined by the effect itself. For example, the highest obtainable value for the evasion effect is <code>6.5% = 0.065</code>. (from one of Masha's accessories)</li>
+</ul>
+</li>
+<li>Taunts (slot #3)
+<ul>
+<li>Aggro: <code>2000 + 120 * (chr. level - 1) * additives * shackle ring</code></li>
+<li><em>Shackle ring</em>: max 1.8 at an art chain of 6</li>
+</ul>
+</li>
+</ol>
+<h3 id="additives">Additives</h3>
+<p>Additives include all effects that "boost aggro generated when ...". The multiplier starts at 1.0, and effects that hinder aggro generation are subtracted instead. In most cases, it is not possible for aggro that should be "gained" to go negative as the result of that effect; instead, no aggro is gained. This allows for silly builds (e.g. Stalker Night Hunt) that generate little to no aggro, even with millions of damage.</p>
+<p>Additionally, "Boosts aggro generated from dealing damage" only affects type 1 aggro. This is different from "Reduces aggro generated from attacks", which works on both 1 and 4.</p>
+<h2 id="choosing-targets">Choosing targets</h2>
+<p>The aggro manager checks regularly whether it should change an enemy's target. The character with the highest total aggro becomes the new target.</p>
+<p>In case of a tie, the character that is higher in the list takes precedence (e.g. Noah over Mio). Ouroboros forms come after the 7th member.</p>
+<p>Characters that are suffering from Eclipse Soul are excluded from the calculation. Additionally, Eclipse Soul doesn't follow the normal targeting rules. Instead, it tries to hit a random character with the most populated role, choosing Attacker &gt; Defender &gt; Healer if tied.</p>
+<h2 id="reactions">Reactions</h2>
+<p>Generally, reactions only affect aggro indirectly, e.g. by providing damage bonuses. The Daze line is an exception,
+however:</p>
+<ul>
+<li>Out of the eight aggro generation types listed above, only Taunts actually generate aggro during Daze.</li>
+<li>When the enemy is inflicted with Burst, all Defenders in the party gain +25% aggro, while everyone else gets their aggro reduced by 25%.</li>
+</ul>
+<p>Additionally, Smash impact damage, as well as debuff damage-over-time, does not count as an "attack" or "art". This means that
+those damage types are unaffected by skills/accessories/etc. that increase/reduce aggro drawn from attacks or arts.</p>
+<h2 id="reviving">Reviving</h2>
+<p>Reviving generates aggro equal to <code>1000 + (dead chr. level - 1) * 60</code>. This aggro is then divided between the
+characters that participated. This includes Memory Locket users, but there is no additional penalty for the item,
+unlike what the caption implies.</p>
+<p>For Liberty Wing, aggro is split in half between Eunie and Taion.</p>
+<p>Note that when a character dies, their aggro is reset (unless they have effects preventing it).</p>
+<h2 id="interlinking">Interlinking</h2>
+<p>Ouroboros forms are considered different characters and have separate aggro slots.</p>
+<p>When a pair of characters interlinks, their current aggro is frozen, and the newly spawned Ouroboros form gains
+the sum of the two characters's aggro.</p>
+<p>Additionally, if the user who initiated the interlink (which of the two characters is important) is a Defender[^1], the Ouroboros's starting aggro is multiplied by 2 (Interlink Lv. 1), 3.5 (Lv. 2), or 6 (Lv. 3).</p>
+<p>Switching between forms doesn't affect this bonus or aggro at all, as aggro is shared between the two forms of each pair.</p>
+<p>When the interlink is canceled, the two characters get their old aggro back, and the Ouroboros form's aggro is deleted.</p>
+<h2 id="over-time-aggro-generation-reduction">Over-time aggro generation/reduction</h2>
+<p>Every second, the aggro manager runs some checks to give or take aggro from characters.<br />
+"Additives" here are strictly the ones affecting aggro gain/reduction over time.</p>
+<p>If any character is at least 12.5 units away from the enemy, they lose <code>(150 + 60 * (chr. level - 1)) * additives / 30</code> <strong>slot #1</strong> aggro per second from that enemy.</p>
+<p>Regardless of distance, every character loses <code>75 * additives</code> (or <code>50 * additives</code> if Defender) <strong>slot #2</strong> aggro per second from every enemy. If they are at least
+12.5 units away from the enemy, this reduction is boosted by <code>50%</code>.</p>
+<p>Also every second, <strong>slot #3</strong> (Taunt) aggro is depleted by <code>(2000 + 120 * (chr. level - 1) * additives) / 30</code>.</p>
+<p>Some accessories and skills grant characters aggro generation over time. For example, Defender Lucky Seven generates <code>30 * additives</code> aggro every second. Such aggro is generally added to <strong>slot #1</strong>, meaning it won't deplete over time if you're close to the enemy.</p>
+<h2 id="chain-attacks">Chain Attacks</h2>
+<p>For some odd reason, in Chain Attacks you can only <em>gain</em> aggro, with the only exceptions being chain orders that explicitly reduce it.</p>
+<p>Most of the aggro manager's functions (all prior to 1.3.0, see below) don't run at all, so there is no aggro generation or reduction over time, as well as no visible target switching from the enemy.</p>
+<p>The eight main ways for gaining aggro still work (meaning you will get a <em>ton</em> of aggro, especially with how crazy damage in chain attack gets), with only a few ways to reduce it.</p>
+<p>Lanz's chain order multiplies every Defender's aggro by <code>1.0 + effect</code> (max. 1.5 at Lv. 81), while Mio's multiplies every non-Defender's aggro by <code>1.0 - effect</code> (min. 0 at Lv. 81).</p>
+<p>Lanz's effect uses a function in the chain attack logic to multiply aggro. Mio's effect, however, uses a function in the aggro manager, despite being pretty much the same effect. As noted earlier, before 1.3.0 no function from the aggro manager would be run during Chain Attacks, so Mio's chain order would have no effect.<br />
+Curiously, the effect was actually implemented, and a check for Chain Attacks was also present for the effect,
+but logic would be halted earlier when inside a Chain Attack.</p>
+<p>In 1.3.0, the logic for Mio's effect is the only function run during chains from the aggro manager. As mentioned, getting aggro to change during them does not immediately result in a target switch. Instead, the enemy will switch targets once the chain attack ends.</p>
+<hr />
+<p>To test things for this article I've mainly used a debugger, but I've also designed a very barebones aggro visualizer that uses debug functions to draw text. To continue research I plan to submit that to <a rel="external" href="https://github.com/BlockBuilder57/xenomods">xenomods</a> at some point, so that people who want it can start optimizing builds.</p>
+<hr />
+<p>[^1] <a id="1"></a> <strong>Did you know?</strong> When interlinking at lv. 1 or higher, there's a special effect based on the character's role. Defenders gets extra aggro on the interlink, Healers give AOE heal and regeneration, while Attackers inflict fixed damage that scales with Attack.</p>
+
+        </div>
+
+    
+</div>
+
+
+    </div>
+
+    
+    <footer class="footer">
+        <div class="footer__inner">
+                <div class="copyright">
+                        <span>© 
+    2026
+ RoccoDev</span>
+                    <span class="copyright-theme">
+                        <span class="copyright-theme-sep">:: </span>
+                        Theme: <a href="https://github.com/pawroman/zola-theme-terminimal/">Terminimal</a> by pawroman
+                    </span>
+                </div>
+            </div>
+    </footer>
+    
+
+</div>
+</body>
+
+</html>

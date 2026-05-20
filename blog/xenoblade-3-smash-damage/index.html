@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>
+Xenoblade 3: Smash damage breakdown | RoccoDev
+</title>
+    
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <meta name="robots" content="noodp"/>
+
+    <link rel="stylesheet" href="https://rocco.dev/style.css">
+    <link rel="stylesheet" href="https://rocco.dev/color/green.css">
+
+        <link rel="stylesheet" href="https://rocco.dev/color/background_blue.css">
+    
+    <link rel="stylesheet" href="https://rocco.dev/font-hack-subset.css">
+
+        <link rel="shortcut icon" type="image&amp;#x2F;x-icon" href="/img/favicon.png">
+    
+
+<link rel="stylesheet" href="https://rocco.dev/utils.css">
+<link rel="stylesheet" href="https://rocco.dev/override.css">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#63ef2f">
+<meta name="og:site_name" content="RoccoDev's Blog">
+<meta name="og:image" content="https://rocco.dev/img/apple-touch-icon.png">
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="RealRoccoDev">
+
+
+
+
+<meta name="og:title" content="Xenoblade 3: Smash damage breakdown">
+<meta name="og:description" content="&lt;p&gt;Note: this is the result of reverse-engineering. Data should be correct to the best of my ability.&lt;&#x2F;p&gt;">
+</head>
+
+<body class="">
+<div class="container">
+    
+    <header class="header">
+        <div class="header__inner">
+            <div class="header__logo">
+                    
+                <a href="https://rocco.dev" style="text-decoration: none;">
+                    <div class="logo">
+                      
+                            RoccoDev
+                        
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        
+        
+                <nav class="menu">
+            <ul class="menu__inner">
+                <li class="active"><a href="https://rocco.dev">about</a></li>
+            
+                <li><a href="https://rocco.dev/posts">blog</a></li>
+            
+                <li><a href="https://rocco.dev/projects">projects</a></li>
+            
+                <li><a href="https://rocco.dev/xenoblade">xenoblade</a></li>
+            
+                <li><a href="https://rocco.dev/contact">contact</a></li>
+            
+                <li><a href="https://github.com/RoccoDev" target="_blank" rel="noopener noreferrer">code</a></li>
+            </ul>
+        </nav>
+    
+    
+        
+    </header>
+    
+
+    <div class="content">
+        
+<div class="post">
+    
+    <h1 class="post-title"><a href="https://rocco.dev/blog/xenoblade-3-smash-damage/">Xenoblade 3: Smash damage breakdown</a></h1>
+    <div class="post-meta-inline">
+        
+    <span class="post-date">
+            2022-08-23
+        </span>
+
+    </div>
+
+    
+        <span class="post-tags-inline">
+                :: tags:&nbsp;
+                <a class="post-tag" href="https://rocco.dev/tags/xenoblade/">#xenoblade</a>&nbsp;
+                <a class="post-tag" href="https://rocco.dev/tags/datamine/">#datamine</a></span>
+    
+
+
+    
+
+    
+        <div class="post-content">
+            <p>Note: this is the result of reverse-engineering. Data should be correct to the best of my ability.</p>
+<span id="continue-reading"></span><h3 id="credits">Credits</h3>
+<ul>
+<li>Special thanks to <a rel="external" href="https://www.twitch.tv/vaxherd">vaxherd</a> for lending me tools to work on BDAT tables, which made looking for code references easier.</li>
+</ul>
+<h2 id="how-combos-work">How combos work</h2>
+<p>First, I'll list the base values for each reaction in the combo:</p>
+<table><thead><tr><th>Reaction</th><th>Damage multiplier (while active)</th><th>Base duration</th></tr></thead><tbody>
+<tr><td>Break</td><td>100%</td><td>450 frames = 15 seconds</td></tr>
+<tr><td>Topple</td><td>100%</td><td>150 frames = 5 seconds</td></tr>
+<tr><td>Launch</td><td>125%</td><td>150 frames = 5 seconds</td></tr>
+<tr><td>Smash</td><td>150%</td><td>0 frames, damage multiplier is on hit</td></tr>
+<tr><td>Daze</td><td>100%</td><td>150 frames = 5 seconds</td></tr>
+<tr><td>Burst</td><td>150%</td><td>0 frames, damage on hit</td></tr>
+</tbody></table>
+<p>When you inflict a reaction, the game gives it two special values (among others), the <strong>damage multiplier</strong> and its <strong>duration</strong>.</p>
+<p>The damage multiplier lasts for the entirety of the reaction, and increases the damage you deal to the enemy that suffers it. The duration value is a counter that ticks down as the reaction gauge depletes, and starts at the reaction's duration in frames, with all modifiers applied.</p>
+<p>For example, when inflicting Break, the reaction is given a 100% damage multiplier (i.e., you deal normal damage), and a duration value of 450. This value then ticks down every frame (except in chain attacks) until you inflict Topple or the reaction expires.</p>
+<p>For Break and Topple, the duration value is overwritten when you continue the combo (so 450 -&gt; 150 -&gt; 150 -&gt; 0), the other reactions have a special behavior.</p>
+<p><strong>Launch</strong>:<br />
+When you launch an enemy, the damage multiplier is set to 125% (i.e. with no extra buffs you'll deal +25% damage), and the duration value <strong>carries over from Topple</strong> with an extra 150 (the base duration for Launch, can be increased with accessories), which means that earlier Launches will last longer.<br />
+For example, if you topple an enemy and launch it 30 frames later, the Launch duration value will be <code>120 (Topple - 30 frames) + 150</code> = 270 frames (9 seconds)</p>
+<p><strong>Smash</strong>:<br />
+When you smash an enemy, you will benefit from a base damage multiplier of 150%, plus a value of <strong>Launch duration value * 3.0</strong>. (Note: the hit that inflicted Smash gets the Launch bonus instead.)
+With the above example, if you smash the enemy with a 0-frame penalty (e.g. in chain attacks) the final damage multiplier is <code>150 + (270 * 3.0)</code> = <strong>960%</strong>.<br />
+Lastly, the duration value is set to 1800 (60 seconds). This is to allow the enemy to collide with the ground, after which the duration is reset.<br />
+When the enemy collides with the ground after being inflicted by the reaction, it will receive fixed damage equal to the <strong>total damage of the Art</strong> up to that point (including Master Art damage in case of Fusion Arts), multiplied again by the Smash multiplier; nearby enemies will receive <strong>1/4</strong> of that impact damage. Only in this case, equipped accessories that boost Smash damage will be added to the Smash multiplier.<br />
+For Arts that inflict Smash on multiple enemies, such as Final Lucky Seven, the impact damage will be the same for all enemies, but only damage inflicted to the targeted enemy will be considered for damage calculation.</p>
+<p><strong>Daze</strong>:<br />
+When you daze an enemy, the effect's duration <strong>carries over from Topple</strong>, with an extra 150 (base duration for Daze, can be increased with accessories).  Same behavior as Launch.</p>
+<p><strong>Burst</strong>:<br />
+When bursting an enemy, the damage from the hit is multiplied by 150%. Then, the duration value is set to 30 (1 second).<br />
+Unlike Launch/Smash, there is no damage bonus tied to the duration.</p>
+<p>These bonuses also apply when enemies inflict reactions on you, provided that they follow the right combo (excluding Break). For example, if an enemy topples and dazes you, Daze's duration will be extended based on the duration left on Topple. If an enemy forces Daze on you (without Topple), the duration is unchanged.</p>
+<p>Keep in mind that the damage multiplier does not include boosts from accessories etc., those are somewhere else in the formula. The only way to increase the Smash damage multiplier (i.e., from the Smash formula) is to increase the duration value.<br />
+This can be accomplished by <strong>launching and smashing as soon as possible</strong>, because the duration value carries over as soon as Topple starts. Another way is to use <strong>duration-extending accessories</strong>, because the duration value (and in turn, damage) is based on the <em>absolute</em> duration of the reaction.<br />
+Additionally, gradually filling the gauge (e.g. with the Soulhacker skill or Mio's Ouroboros form) also works.</p>
+<h3 id="tests">Tests</h3>
+<p>Here are the results of some tests I've done. Please note that I've only recorded chain attack rounds, because I couldn't keep the framerate consistent on the emulator, so the calculations would be hard to follow.</p>
+<p>The values in the tables are calculated as soon as the reaction timer would start ticking.</p>
+<h4 id="chain-attack-no-boosting-accessories-video">Chain attack, no boosting accessories (<a rel="external" href="https://www.youtube.com/watch?v=mt9CLBgAzn0">video</a>)</h4>
+<p>During chain attacks, the duration value never decreases.</p>
+<table><thead><tr><th>Combo step</th><th>Duration (frames)</th><th>Damage multiplier</th></tr></thead><tbody>
+<tr><td><em>No Reaction</em></td><td></td><td></td></tr>
+<tr><td>Break</td><td>450</td><td>100%</td></tr>
+<tr><td>Topple</td><td>150</td><td>100%</td></tr>
+<tr><td>Launch</td><td>300 (150 from Topple + base 150 from Launch)</td><td>125%</td></tr>
+<tr><td>Smash</td><td>300 (from Launch)</td><td>150% (base) + (300 * 3.0) = <strong>1050%</strong></td></tr>
+</tbody></table>
+<h4 id="chain-attack-topple-extend-launch-extend-video">Chain attack, Topple extend, Launch extend (<a rel="external" href="https://www.youtube.com/watch?v=jShvqj5tX04">video</a>)</h4>
+<p>The character inflicting Topple has an accessory that extends Topple by 27%, and the character launching extends Launch by 27%.</p>
+<table><thead><tr><th>Combo step</th><th>Duration (frames)</th><th>Damage multiplier</th></tr></thead><tbody>
+<tr><td><em>No Reaction</em></td><td></td><td></td></tr>
+<tr><td>Break</td><td>450</td><td>100%</td></tr>
+<tr><td>Topple</td><td>190.5</td><td>100%</td></tr>
+<tr><td>Launch</td><td>381 (190.5 from Topple, 190.5 from Launch)</td><td>125%</td></tr>
+<tr><td>Smash</td><td>381 (from Launch)</td><td>150% (base) + (381 * 3) = <strong>1293%</strong></td></tr>
+</tbody></table>
+<h4 id="outside-chain-attacks-hypothetical">Outside chain attacks (hypothetical)</h4>
+<p>Here's an hypothetical breakdown on how time could affect damage.</p>
+<table><thead><tr><th>Combo step</th><th>Duration (frames)</th><th>Damage multiplier</th><th>Time since last step</th></tr></thead><tbody>
+<tr><td>Break</td><td>450</td><td>100%</td><td></td></tr>
+<tr><td>Topple</td><td>300 (effectively 150*)</td><td>100%</td><td>5 seconds (150 frames)</td></tr>
+<tr><td>Launch</td><td>120 (150 - 30)</td><td>125%</td><td>1 second (30 frames)</td></tr>
+<tr><td>Smash</td><td>60 (120 - 60)</td><td>150% (base) + (60 * 3) = <strong>330%</strong></td><td>2 seconds (60 frames)</td></tr>
+</tbody></table>
+<p>* Remember that for Break and Topple the old value is overwritten. It is shown here for the sake of completeness.</p>
+<h2 id="finding-the-smash-code">Finding the Smash code</h2>
+<blockquote>
+<p>Note: this is a section for advanced users, and it describes the game's internals in great depth.</p>
+</blockquote>
+<p>To locate the function in charge of inflicting reactions, I decided to find usages of BDAT functions.<br />
+As it turns out, aside from the new hash indexing, the library is mostly a carbon copy of Definitive Edition's. Therefore, I'll be using function names from that game, as Xenoblade 3 does not export symbols as of 1.1.0.</p>
+<p>Some useful definitions:</p>
+<ul>
+<li><code>game::BdatAccessor::BdatAccessor</code>: .text+0024f6e0</li>
+<li><code>game::DataBdat::setupFp</code>: .text+00250168</li>
+<li><code>game::DataBdat::getAccessorImpl</code>: .text+00257770</li>
+<li><code>game::DataUtil::getDataBdat</code>: .text+00279838</li>
+<li><code>game::BdatID::getName</code>: .text+0025acd4</li>
+<li><code>Bdat::isExistFP</code>: .text+00a7dd98</li>
+</ul>
+<p>By inspecting the decompiler output for <code>setupFp</code> and <code>BdatID::getName</code>, I was able to find the array containing (I'm assuming) most hash IDs for BDAT tables. You can mark <code>.text+011c26d8</code> as an array of 539 ints.</p>
+<p>The table for combos (<code>BTL_Combo</code>, ID <code>murmur32('BTL_Combo') == 0xD34EA852</code>) is at index 65 (0x41), meaning I could search for usages of <code>getAccessorImpl(this, 0x41)</code>.</p>
+<p>That led me to the function responsible for calculating reactions: <code>.text+001e70ac</code>. The parameter in <code>w1</code> is the reaction ID (0, Break, Topple, Launch, Smash, Daze, Burst), the rest are unknown.</p>
+
+        </div>
+
+    
+</div>
+
+
+    </div>
+
+    
+    <footer class="footer">
+        <div class="footer__inner">
+                <div class="copyright">
+                        <span>© 
+    2026
+ RoccoDev</span>
+                    <span class="copyright-theme">
+                        <span class="copyright-theme-sep">:: </span>
+                        Theme: <a href="https://github.com/pawroman/zola-theme-terminimal/">Terminimal</a> by pawroman
+                    </span>
+                </div>
+            </div>
+    </footer>
+    
+
+</div>
+</body>
+
+</html>

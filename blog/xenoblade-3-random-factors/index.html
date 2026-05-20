@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>
+Xenoblade 3: Random factors in damage calculation | RoccoDev
+</title>
+    
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <meta name="robots" content="noodp"/>
+
+    <link rel="stylesheet" href="https://rocco.dev/style.css">
+    <link rel="stylesheet" href="https://rocco.dev/color/green.css">
+
+        <link rel="stylesheet" href="https://rocco.dev/color/background_blue.css">
+    
+    <link rel="stylesheet" href="https://rocco.dev/font-hack-subset.css">
+
+        <link rel="shortcut icon" type="image&amp;#x2F;x-icon" href="/img/favicon.png">
+    
+
+<link rel="stylesheet" href="https://rocco.dev/utils.css">
+<link rel="stylesheet" href="https://rocco.dev/override.css">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#63ef2f">
+<meta name="og:site_name" content="RoccoDev's Blog">
+<meta name="og:image" content="https://rocco.dev/img/apple-touch-icon.png">
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="RealRoccoDev">
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [['$', '$']]
+        },
+    })
+</script>
+<script type="text/javascript"
+    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML">
+    </script>
+
+
+<meta name="og:title" content="Xenoblade 3: Random factors in damage calculation">
+<meta name="og:description" content="&lt;p&gt;This analysis focuses on two hidden factors that are randomly determined when
+calculating damage. I&#x27;ve made sure that with these disabled damage output is deterministic, barring critical hits and blocked attacks.&lt;&#x2F;p&gt;">
+</head>
+
+<body class="">
+<div class="container">
+    
+    <header class="header">
+        <div class="header__inner">
+            <div class="header__logo">
+                    
+                <a href="https://rocco.dev" style="text-decoration: none;">
+                    <div class="logo">
+                      
+                            RoccoDev
+                        
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        
+        
+                <nav class="menu">
+            <ul class="menu__inner">
+                <li class="active"><a href="https://rocco.dev">about</a></li>
+            
+                <li><a href="https://rocco.dev/posts">blog</a></li>
+            
+                <li><a href="https://rocco.dev/projects">projects</a></li>
+            
+                <li><a href="https://rocco.dev/xenoblade">xenoblade</a></li>
+            
+                <li><a href="https://rocco.dev/contact">contact</a></li>
+            
+                <li><a href="https://github.com/RoccoDev" target="_blank" rel="noopener noreferrer">code</a></li>
+            </ul>
+        </nav>
+    
+    
+        
+    </header>
+    
+
+    <div class="content">
+        
+<div class="post">
+    
+    <h1 class="post-title"><a href="https://rocco.dev/blog/xenoblade-3-random-factors/">Xenoblade 3: Random factors in damage calculation</a></h1>
+    <div class="post-meta-inline">
+        
+    <span class="post-date">
+            2023-01-01
+        </span>
+
+    </div>
+
+    
+        <span class="post-tags-inline">
+                :: tags:&nbsp;
+                <a class="post-tag" href="https://rocco.dev/tags/xenoblade/">#xenoblade</a>&nbsp;
+                <a class="post-tag" href="https://rocco.dev/tags/datamine/">#datamine</a></span>
+    
+
+
+    
+
+    
+        <div class="post-content">
+            <p>This analysis focuses on two hidden factors that are randomly determined when
+calculating damage. I've made sure that with these disabled damage output is deterministic, barring critical hits and blocked attacks.</p>
+<span id="continue-reading"></span>
+<p>Special thanks to beta382#3088 from the <a rel="external" href="https://discord.gg/xenoblade">Xenoblade Chronicles Discord</a> for helping with research.</p>
+<h2 id="weapon-stability">Weapon stability</h2>
+<p>Your "Attack" statistic is not exactly the initial damage value for damage calculation. Instead, the weapon you use determines a random value that is added on top.</p>
+<p>As for all weapon-related mechanics, this only depends on the weapon and <em>not on the class</em>, meaning Master Arts will use their weapon's Stability value.</p>
+<p>The effective initial damage value will be a random value in the range $[Attack, Attack + \text{Weapon Damage} \cdot Stability]$, where $Attack$ is the "Attack" stat displayed in the Characters menu.</p>
+<p>$\text{Weapon Damage}$ depends on your character's level, so I've left a list of data tables you can check.</p>
+<table><thead><tr><th>Weapon class</th><th>Stability</th><th>Stats</th></tr></thead><tbody>
+<tr><td>Ouroboros (All)</td><td>0</td><td>Not relevant</td></tr>
+<tr><td>Swordfighter</td><td>8%</td><td><a rel="external" href="https://xenobladedata.github.io/xb3/BTL_WpnParam01.html">Link</a>*</td></tr>
+<tr><td>Zephyr</td><td>5%</td><td><a rel="external" href="https://xenobladedata.github.io/xb3/BTL_WpnParam02.html">Link</a>*</td></tr>
+<tr><td>Medic Gunner</td><td>3%</td><td><a rel="external" href="https://xenobladedata.github.io/xb3/BTL_WpnParam03.html">Link</a>*</td></tr>
+<tr><td>Tactician</td><td>2%</td><td><a rel="external" href="https://xenobladedata.github.io/xb3/BTL_WpnParam04.html">Link</a>*</td></tr>
+<tr><td>Heavy Guard</td><td>12%</td><td><a rel="external" href="https://xenobladedata.github.io/xb3/BTL_WpnParam05.html">Link</a>*</td></tr>
+<tr><td>Ogre</td><td>16%</td><td><a rel="external" href="https://xenobladedata.github.io/xb3/BTL_WpnParam06.html">Link</a>*</td></tr>
+<tr><td>Flash Fencer</td><td>4%</td><td><a rel="external" href="https://xenobladedata.github.io/xb3/BTL_WpnParam07.html">Link</a></td></tr>
+<tr><td>Yumsmith</td><td>10%</td><td><a rel="external" href="https://xenobladedata.github.io/xb3/BTL_WpnParam08.html">Link</a></td></tr>
+<tr><td>Strategos</td><td>8%</td><td><a rel="external" href="https://xenobladedata.github.io/xb3/BTL_WpnParam09.html">Link</a></td></tr>
+<tr><td>Troubadour</td><td>4%</td><td><a rel="external" href="https://xenobladedata.github.io/xb3/BTL_WpnParam10.html">Link</a></td></tr>
+<tr><td>Seraph</td><td>16%</td><td><a rel="external" href="https://xenobladedata.github.io/xb3/BTL_WpnParam11.html">Link</a></td></tr>
+<tr><td>Lost Vanguard</td><td>8%</td><td><a rel="external" href="https://xenobladedata.github.io/xb3/BTL_WpnParam12.html">Link</a></td></tr>
+<tr><td>Lifesage</td><td>4%</td><td><a rel="external" href="https://xenobladedata.github.io/xb3/BTL_WpnParam14.html">Link</a></td></tr>
+<tr><td>Royal Summoner</td><td>4%</td><td><a rel="external" href="https://xenobladedata.github.io/xb3/BTL_WpnParam15.html">Link</a></td></tr>
+<tr><td>War Medic</td><td>2%</td><td><a rel="external" href="https://xenobladedata.github.io/xb3/BTL_WpnParam16.html">Link</a></td></tr>
+<tr><td>Guardian Commander</td><td>6%</td><td><a rel="external" href="https://xenobladedata.github.io/xb3/BTL_WpnParam17.html">Link</a></td></tr>
+<tr><td>Thaumaturge</td><td>8%</td><td><a rel="external" href="https://xenobladedata.github.io/xb3/BTL_WpnParam18.html">Link</a></td></tr>
+<tr><td>Incursor</td><td>4%</td><td><a rel="external" href="https://xenobladedata.github.io/xb3/BTL_WpnParam19.html">Link</a></td></tr>
+<tr><td>Stalker</td><td>2%</td><td><a rel="external" href="https://xenobladedata.github.io/xb3/BTL_WpnParam20.html">Link</a></td></tr>
+<tr><td>Lone Exile</td><td>8%</td><td><a rel="external" href="https://xenobladedata.github.io/xb3/BTL_WpnParam21.html">Link</a></td></tr>
+<tr><td>Soulhacker</td><td>16%</td><td><a rel="external" href="https://xenobladedata.github.io/xb3/BTL_WpnParam22.html">Link</a></td></tr>
+<tr><td>Signifer</td><td>6%</td><td><a rel="external" href="https://xenobladedata.github.io/xb3/BTL_WpnParam23.html">Link</a></td></tr>
+<tr><td>Machine Assassin</td><td>10%</td><td><a rel="external" href="https://xenobladedata.github.io/xb3/BTL_WpnParam24.html">Link</a></td></tr>
+<tr><td>Martial Artist</td><td>4%</td><td><a rel="external" href="https://xenobladedata.github.io/xb3/BTL_WpnParam25.html">Link</a></td></tr>
+<tr><td>Full Metal Jaguar</td><td>4%</td><td><a rel="external" href="https://xenobladedata.github.io/xb3/BTL_WpnParam26.html">Link</a></td></tr>
+<tr><td>Swordfighter (Lucky Seven)</td><td>0</td><td>Not relevant</td></tr>
+<tr><td>Sharpshooter</td><td>5%</td><td><a rel="external" href="https://xenobladedata.github.io/xb3/BTL_WpnParamS2.html">Link</a></td></tr>
+<tr><td>Noponic Champion</td><td>12%</td><td><a rel="external" href="https://xenobladedata.github.io/xb3/6B1CFB92.html">Link</a></td></tr>
+</tbody></table>
+<p>*: If the character has the upgraded version of the weapon (Ch. 7), use the <code>Damage2</code> column instead.</p>
+<p>As an example, consider this scenario. My Lv. 66 Noah is using the
+Flash Fencer weapon. On the Characters screen I see an "Attack" value of 672.
+My weapon's Stability is $\text{Damage}_{FF}(\text{Lv66}) \cdot 4%$. By looking at the tables, I can see that the Dual Rapiers's <code>Damage</code> at level 66 is 313.
+Therefore, Stability is $313 \cdot 4/100 \approx 12.52$ and my initial damage
+value will fluctuate between 672 and 684 (round down).</p>
+<p>For Master Arts, you first need to get your Attack stat without your main weapon's modifier.
+This is tricky because equipment that boosts your Attack stat is applied after the weapon modifier. For the sake of simplicity, let's consider a scenario with no Attack-boosting accessories. For instance, let's say my Flash Fencer Noah from the previous example uses Wide Slash, a Master Art from Zephyr. I already know the weapon damage modifier for Lv. 66 Flash Fencer is 313, so I subtract that from 672 to get 359. This means my Attack with the Zephyr weapon equipped (my class is still Flash Fencer) is $359 + \text{Damage}_{Zephyr}(\text{Lv66}) = 359 + 308 = 667$. Zephyr's Stability is $308 \cdot 5/100 \approx 15.4$, so my Wide Slash base damage value will be within $[667, 682]$.</p>
+<h2 id="random-variance">Random variance</h2>
+<p>There is another random element in damage calculation, which is a multiplicative factor near the end of the formula. Unlike stability, this also affects Interlink and Lucky Seven.</p>
+<p>As a reminder, attacks are considered <em>preemptive</em> when they hit an enemy that hasn't noticed you (this works both ways). You can get at most one preemptive attack per enemy, and you don't get preemptive chances on bosses/forced fights.</p>
+<p>The factor for preemptive attacks is a random number between 1.0 and 1.1. This means damage will vary between 100% and 110%. For all other attacks, the factor ranges between 0.9 and 1.1, meaning you will have higher fluctuation,
+from 90% to 110%.</p>
+
+        </div>
+
+    
+</div>
+
+
+    </div>
+
+    
+    <footer class="footer">
+        <div class="footer__inner">
+                <div class="copyright">
+                        <span>© 
+    2026
+ RoccoDev</span>
+                    <span class="copyright-theme">
+                        <span class="copyright-theme-sep">:: </span>
+                        Theme: <a href="https://github.com/pawroman/zola-theme-terminimal/">Terminimal</a> by pawroman
+                    </span>
+                </div>
+            </div>
+    </footer>
+    
+
+</div>
+</body>
+
+</html>

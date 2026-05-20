@@ -1,0 +1,1 @@
+.tooltip-label{border-bottom:1px dotted var(--color)}.tooltip-container{display:inline-block}.tooltip-content{display:none;position:absolute;background-color:#252c3f;color:var(--color);text-align:center;padding:5px 5px;border-radius:6px;z-index:1;width:max-content}.tooltip-label:hover+.tooltip-content{display:inline-block}

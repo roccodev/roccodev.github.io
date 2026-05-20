@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>
+Xenoblade 3: Effects explained | RoccoDev
+</title>
+    
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <meta name="robots" content="noodp"/>
+
+    <link rel="stylesheet" href="https://rocco.dev/style.css">
+    <link rel="stylesheet" href="https://rocco.dev/color/green.css">
+
+        <link rel="stylesheet" href="https://rocco.dev/color/background_blue.css">
+    
+    <link rel="stylesheet" href="https://rocco.dev/font-hack-subset.css">
+
+        <link rel="shortcut icon" type="image&amp;#x2F;x-icon" href="/img/favicon.png">
+    
+
+<link rel="stylesheet" href="https://rocco.dev/utils.css">
+<link rel="stylesheet" href="https://rocco.dev/override.css">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#63ef2f">
+<meta name="og:site_name" content="RoccoDev's Blog">
+<meta name="og:image" content="https://rocco.dev/img/apple-touch-icon.png">
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="RealRoccoDev">
+
+
+
+
+<meta name="og:title" content="Xenoblade 3: Effects explained">
+<meta name="og:description" content="&lt;p&gt;&lt;strong&gt;Note&lt;&#x2F;strong&gt;: This post might be incomplete. Data will be added as I make new findings.&lt;&#x2F;p&gt;
+&lt;p&gt;The damage formula is a chain of multiplications. Several effects are grouped together to form a single term in the multiplication.&lt;&#x2F;p&gt;">
+</head>
+
+<body class="">
+<div class="container">
+    
+    <header class="header">
+        <div class="header__inner">
+            <div class="header__logo">
+                    
+                <a href="https://rocco.dev" style="text-decoration: none;">
+                    <div class="logo">
+                      
+                            RoccoDev
+                        
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        
+        
+                <nav class="menu">
+            <ul class="menu__inner">
+                <li class="active"><a href="https://rocco.dev">about</a></li>
+            
+                <li><a href="https://rocco.dev/posts">blog</a></li>
+            
+                <li><a href="https://rocco.dev/projects">projects</a></li>
+            
+                <li><a href="https://rocco.dev/xenoblade">xenoblade</a></li>
+            
+                <li><a href="https://rocco.dev/contact">contact</a></li>
+            
+                <li><a href="https://github.com/RoccoDev" target="_blank" rel="noopener noreferrer">code</a></li>
+            </ul>
+        </nav>
+    
+    
+        
+    </header>
+    
+
+    <div class="content">
+        
+<div class="post">
+    
+    <h1 class="post-title"><a href="https://rocco.dev/blog/xenoblade-3-effects/">Xenoblade 3: Effects explained</a></h1>
+    <div class="post-meta-inline">
+        
+    <span class="post-date">
+            2022-09-25
+        </span>
+
+    </div>
+
+    
+        <span class="post-tags-inline">
+                :: tags:&nbsp;
+                <a class="post-tag" href="https://rocco.dev/tags/xenoblade/">#xenoblade</a>&nbsp;
+                <a class="post-tag" href="https://rocco.dev/tags/datamine/">#datamine</a></span>
+    
+
+
+    
+
+    
+        <div class="post-content">
+            <p><strong>Note</strong>: This post might be incomplete. Data will be added as I make new findings.</p>
+<p>The damage formula is a chain of multiplications. Several effects are grouped together to form a single term in the multiplication.</p>
+<span id="continue-reading"></span><h3 id="multiplier-group-1">Multiplier group 1</h3>
+<table><thead><tr><th>Effect description</th><th>Notes</th></tr></thead><tbody>
+<tr><td>Boosts allies' damage by <code>...</code>% and reduces enemy Block Rate by <code>...</code>% (does not stack).</td><td></td></tr>
+<tr><td>Flare Element</td><td>+5%/element, max +15%</td></tr>
+<tr><td>Boosts damage by <code>...</code>% for every enemy in battle (max. 200%).</td><td></td></tr>
+<tr><td>Boosts damage dealt when attacking broken/toppled/launched enemies by <code>...</code>%.</td><td>Also includes Universal Annihilation</td></tr>
+<tr><td>Grants a <code>...</code> increase to damage dealt when attacking enemies during combos.</td><td></td></tr>
+<tr><td>Boosts damage dealt when attacking enemies targeting you by <code>...</code>%.</td><td></td></tr>
+<tr><td>Grants a <code>...</code> increase to damage dealt the more enemies target you (up to a maximum of 300%).</td><td></td></tr>
+<tr><td>Boosts damage dealt indoors/outdoors by <code>...</code>%.</td><td></td></tr>
+<tr><td>Boosts damage dealt by <code>...</code>% when HP is at <code>...</code>% or lower/higher.</td><td></td></tr>
+<tr><td>Species Expert</td><td></td></tr>
+<tr><td>Boosts damage dealt when attacking from behind/the front/side by <code>...</code>%.</td><td></td></tr>
+<tr><td>Boosts damage dealt when attacking higher-level enemies by <code>...</code>%.</td><td></td></tr>
+<tr><td>Boosts damage dealt while an ally is incapacitated by <code>...</code>%.</td><td></td></tr>
+<tr><td><code>...</code> boosts damage dealt when an ally is down/has low HP.</td><td></td></tr>
+<tr><td>Boosts damage dealt by <code>...</code>% for the first 30 seconds of battle.</td><td></td></tr>
+<tr><td>Boosts damage dealt by <code>...</code>% per enemy defeated (to a maximum of 250%).</td><td></td></tr>
+<tr><td>Boosts damage dealt by <code>...</code>% each time an ally is incapacitated (to a maximum of 200%).</td><td></td></tr>
+<tr><td>Boosts auto-attack damage by <code>...</code>%.</td><td></td></tr>
+<tr><td>Boosts damage dealt by <code>...</code>% when fighting a unique or boss monster.</td><td></td></tr>
+<tr><td>Deal <code>...</code>% more/less damage but take <code>...</code>% more/less damage.</td><td></td></tr>
+<tr><td>Boosts damage against enemies performing Arts by <code>...</code>%.</td><td></td></tr>
+<tr><td>Deals <code>...</code>% more damage against enemies who are at 30% HP or less.</td><td>Includes the Chain Attack version</td></tr>
+<tr><td>Deal <code>...</code>% more and take 25% less damage while within a field effect.</td><td></td></tr>
+<tr><td>Boosts damage dealt by Fusion Arts by <code>...</code>%.</td><td></td></tr>
+<tr><td>Each attack that hits boosts damage dealt by <code>...</code>% (max. 255%). Missing cancels the boost.</td><td></td></tr>
+<tr><td>Boosts damage dealt by <code>...</code>% when Awakened.</td><td></td></tr>
+<tr><td>Boosts damage dealt for each active buff.</td><td></td></tr>
+<tr><td>Boosts damage dealt by <code>...</code>% when afflicted with a debuff.</td><td></td></tr>
+<tr><td>Grants a small increase to damage dealt (max. 500%) for each buff active on all allies.</td><td>+50%/buff (+30% without the upgrade)</td></tr>
+<tr><td>Grants a small increase to damage dealt for each debuff active on all enemies (up to a maximum of 500%).</td><td>+50%/buff (+30% without the upgrade)</td></tr>
+<tr><td>Boosts damage dealt by physical/ether Arts by <code>...</code>%.</td><td></td></tr>
+<tr><td>Grants a small increase to damage dealt, based on heat gauge level.</td><td></td></tr>
+<tr><td>Boosts damage to Moebius by <code>...</code>%. Cannot be blocked.</td><td></td></tr>
+<tr><td>Boosts damage dealt by <code>...</code>% after receiving no damage for a set time.</td><td></td></tr>
+<tr><td>Boosts damage dealt by <code>...</code>%, but reduces max HP by half.</td><td></td></tr>
+<tr><td>Boosts damage dealt for each Soulhacker Art or Skill learned.</td><td>(Attack Mastery and Final Countdown)</td></tr>
+<tr><td>After own revival, deal <code>...</code>% more damage and take <code>...</code>% less damage for a fixed time.</td><td></td></tr>
+<tr><td>Boosts damage dealt by <code>...</code>% when on land/in the water.</td><td></td></tr>
+<tr><td>Boosts damage dealt by <code>...</code>% when attacking a debuffed enemy.</td><td></td></tr>
+<tr><td>Evading deals <code>...</code>% of Attack damage and boosts damage dealt by <code>...</code>% (up to max. of 300%).</td><td></td></tr>
+<tr><td>Boosts damage dealt and Critical Rate by <code>...</code>% on critical hit.</td><td></td></tr>
+<tr><td>Boosts damage dealt by <code>...</code>% when landing a critical hit (up to a maximum of 150%).</td><td></td></tr>
+<tr><td>Boosts damage dealt by <code>...</code>% when using a Talent Art (up to a maximum of 200%).</td><td></td></tr>
+<tr><td>Each time you perform a cancel, boosts damage dealt by <code>...</code>% (to a maximum of 150%).</td><td></td></tr>
+<tr><td>Buffing an ally boosts damage dealt by <code>...</code>% (up to a maximum of 200%).</td><td></td></tr>
+<tr><td>Debuffing an enemy boosts damage dealt by <code>...</code>% (up to a maximum of 150%).</td><td></td></tr>
+<tr><td>Each elemental discharge boosts damage dealt by <code>...</code>% (up to a maximum of 400%).</td><td></td></tr>
+<tr><td>Own combo reactions boost damage dealt by <code>...</code>% (up to a maximum of 500%).</td><td></td></tr>
+<tr><td>Awakening (buff)</td><td>+75% damage dealt (base)</td></tr>
+<tr><td>Attack Up (buff)</td><td>+25% damage dealt (base)</td></tr>
+<tr><td>Reduce All ~ Origin Blade (debuff)</td><td>-30% damage dealt (base)</td></tr>
+<tr><td>Interlink bonus/penalty</td><td>-20% (Lv. 0), 50% (Lv. 1), 150% (Lv. 2), 300% (Lv. 3)</td></tr>
+<tr><td>Boosts elemental damage by <code>...</code>% and elemental buff effects by <code>...</code>%.</td><td>Acts as a damage additive to elementals</td></tr>
+<tr><td>Boosts elemental damage by <code>...</code>%.</td><td>Acts as a damage additive to elementals</td></tr>
+</tbody></table>
+<h3 id="defensive-multiplier-group">Defensive multiplier group</h3>
+<p>(Subtract the total from 100%)</p>
+<table><thead><tr><th>Effect description</th><th>Notes</th></tr></thead><tbody>
+<tr><td>Reduces damage taken by allies in a fixed radius by <code>...</code>%.</td><td></td></tr>
+<tr><td>Reduces damage to allies by <code>...</code>%, and boosts HP recovery by <code>...</code>% (does not stack).</td><td></td></tr>
+<tr><td>Reduces damage taken by all allies while Art is active by <code>...</code>%. Also counters attacks directed at self.</td><td></td></tr>
+<tr><td>Earth Element</td><td>-5% damage taken/orb, max -15%</td></tr>
+<tr><td>After own revival, deal <code>...</code>% more damage and take <code>...</code>% less damage for a fixed time.</td><td></td></tr>
+<tr><td>Reduces damage taken by <code>...</code>% when recharge for all Arts is depleted.</td><td></td></tr>
+<tr><td>Defender Mastery</td><td></td></tr>
+<tr><td>Stance Effect: Shadow Parade</td><td></td></tr>
+<tr><td>Reduces damage taken by <code>...</code>% while performing Art.</td><td></td></tr>
+<tr><td>Stance Effect: Determination</td><td></td></tr>
+<tr><td>Deal <code>...</code>% less/more damage but take <code>...</code>% less/more damage.</td><td></td></tr>
+<tr><td><em>Slightly boosts damage dealt when an ally is down/has low HP.</em> (see note)</td><td>"Low HP": &lt;= 30%. Some variations of this effect (e.g. Healer Lucky Seven's skill) also reduce damage taken</td></tr>
+<tr><td>Reduces damage taken by <code>...</code>% when HP is at <code>...</code>% or lower.</td><td></td></tr>
+<tr><td>Reduces damage taken by <code>...</code>% per enemy defeated (max. 20%).</td><td></td></tr>
+<tr><td>Awakening (buff)</td><td>-25% damage taken (base)</td></tr>
+<tr><td>Defense Up (buff)</td><td>-15% damage taken (base)</td></tr>
+<tr><td>Reduce All ~ Origin Blade (debuff)</td><td>+50% damage taken (base)</td></tr>
+<tr><td>Interlink bonus/penalty</td><td>+40% damage taken (Lv. 0), +0% (Lv. 1), -30% (Lv. 2), -60% (Lv. 3). <em>(Scrapped feature that would affect heat buildup speed.)</em></td></tr>
+<tr><td>(DLC4, enemy-only) Enemy count debuff</td><td>-30% damage taken for each enemy in the fight (excluding self), max -90%</td></tr>
+</tbody></table>
+<h3 id="multiplier-group-2">Multiplier group 2</h3>
+<p>(Add 100% to the total)</p>
+<table><thead><tr><th>Name</th><th>Value</th></tr></thead><tbody>
+<tr><td>Power Charge (buff)</td><td>50% (base)</td></tr>
+<tr><td>Accelerating Attacks</td><td>50%</td></tr>
+<tr><td>Element Genesis</td><td>up to 300%</td></tr>
+<tr><td>Raging Force</td><td>up to 613%</td></tr>
+</tbody></table>
+<h3 id="multiplier-group-3">Multiplier group 3</h3>
+<p>(Add 100% to the total)</p>
+<table><thead><tr><th>Name</th><th>Value</th></tr></thead><tbody>
+<tr><td>Cancel bonus</td><td><em>varies</em></td></tr>
+<tr><td>Supercharged</td><td>up to 90%</td></tr>
+<tr><td>Piercing Laser</td><td>up to 120%</td></tr>
+</tbody></table>
+<h3 id="dlc-challenge-gauntlet-emblems-1">(DLC) Challenge gauntlet emblems 1</h3>
+<p>(Add 100% to the total)</p>
+<table><thead><tr><th>Name</th><th>Value</th><th>Parameter Values</th></tr></thead><tbody>
+<tr><td>Attack Up</td><td><code>Param</code>%</td><td>40/80/120/180/240/300</td></tr>
+<tr><td>Dexterity Up</td><td><code>Param</code>%</td><td>20/40/60/80/100/120</td></tr>
+<tr><td>Attack Up After Use</td><td><code>Param</code>%</td><td>100/150/200/260/320/400</td></tr>
+<tr><td>Debuff/Combo Duration Up</td><td><code>Param</code>%</td><td>20/40/60/80/100/120</td></tr>
+<tr><td>Combo to Attack</td><td><code>Param</code>% * Smash/Burst count</td><td>40/45/50/60/70/80</td></tr>
+<tr><td>Curse to Attack</td><td><code>Param</code>% * Curse count</td><td>8/12/16/24/32/40</td></tr>
+<tr><td>Rescue to Attack</td><td><code>Param</code>% * Revive count</td><td>20/24/28/35/42/50</td></tr>
+<tr><td>Focus: Role</td><td><code>Param</code>% * Member count</td><td>15/20/25/32/40/50</td></tr>
+<tr><td>Agnus/Kevesi Zeal</td><td><code>Param</code>% * Member count</td><td>20/30/40/55/70/85</td></tr>
+<tr><td>Other Zeal</td><td><code>Param</code>% * Member count</td><td>30/40/50/65/80/100</td></tr>
+<tr><td>Last-Ditch Effort</td><td><code>Param</code>% * (100% - Charge%)</td><td>70/140/210/300/400/500</td></tr>
+<tr><td>Moneybags</td><td><code>Param</code>% * <code>floor(Score / 10000)</code></td><td>25/30/35/42/50/60</td></tr>
+</tbody></table>
+<p>Note: Riku &amp; Manana get the "Zeal" bonus for both Keves and Agnus, and they also count towards both forces.</p>
+<h3 id="dlc-challenge-gauntlet-auto-attack-emblems">(DLC) Challenge gauntlet auto-attack emblems</h3>
+<p>(Add 100% to the total)</p>
+<table><thead><tr><th>Name</th><th>Param% Lv. 1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th></tr></thead><tbody>
+<tr><td>Auto-Attack Up</td><td>120</td><td>150</td><td>180</td><td>220</td><td>260</td><td>300</td></tr>
+<tr><td>Area Attack</td><td>10</td><td>20</td><td>30</td><td>40</td><td>50</td><td>60</td></tr>
+<tr><td>Absorb HP</td><td>10</td><td>20</td><td>30</td><td>40</td><td>50</td><td>60</td></tr>
+<tr><td>Debuffing Attack</td><td>10</td><td>20</td><td>30</td><td>40</td><td>50</td><td>60</td></tr>
+</tbody></table>
+<h3 id="moebius-m-fight">Moebius M fight</h3>
+<table><thead><tr><th>Name</th><th>Value</th><th>Notes</th></tr></thead><tbody>
+<tr><td>Player-&gt;Player damage, if attacker has Eclipse Soul</td><td>50%</td><td>Likely meant to nerf allies that lose control.</td></tr>
+<tr><td>Player-&gt;Player damage, if attacker does not have Eclipse Soul</td><td>1%</td><td>Likely used in the second fight. Curiously, this is also what makes self-damage with glitches very low.</td></tr>
+</tbody></table>
+<h3 id="independent-multipliers">Independent multipliers</h3>
+<table><thead><tr><th>Name</th><th>Multiplier</th></tr></thead><tbody>
+<tr><td>User Attack</td><td><em>varies</em> (as seen on the Characters menu) + Stability (<a rel="external" href="https://blog.rocco.dev/2023/01/01/xenoblade-3-random-factors.html#weapon-stability">read more</a>)</td></tr>
+<tr><td>Art/Auto-attack/Elemental damage multiplier</td><td><em>varies</em>. Flare/Earth: 200%, Aqua: 150%</td></tr>
+<tr><td>Critical hit</td><td>125% (base)</td></tr>
+<tr><td>Launch/Smash/Burst damage bonus</td><td>125% (launch), 150% (burst), 150% (smash, base)</td></tr>
+<tr><td>Chain/Shackle Ring</td><td>up to 180%</td></tr>
+<tr><td>Enemy defenses</td><td>100% (bypassed), or 100% - defense</td></tr>
+<tr><td>Attack blocked</td><td>50% (base) / 25% (base, when Eye of the Storm is fused)</td></tr>
+<tr><td>Random variance</td><td>90%-110% (random, <a rel="external" href="https://blog.rocco.dev/2023/01/01/xenoblade-3-random-factors.html#random-variance">read more</a>)</td></tr>
+<tr><td>Chain attack damage ratio</td><td><em>varies</em></td></tr>
+<tr><td>Fusion damage bonus, if supported by the art that generated the hit</td><td>150%</td></tr>
+<tr><td>Attacking an enemy from behind, if it hasn't noticed the player</td><td>150%</td></tr>
+<tr><td>Multi-hit damage correction</td><td>1/(number of damage hits), can be 2/n or more, depending on the art/hit. As of 1.1.0, does not apply to <em>fused</em> Master Arts that do not spawn bullets normally (and that have multiple fusion hits) -- only eligible art is Quickdraw</td></tr>
+<tr><td>AOE penalty</td><td>100% (main target), 75% (other enemies) -- also works for enemy attacks</td></tr>
+<tr><td>(DLC) Emblem: Defense Up</td><td>100%-<code>Param</code>% (<code>Param</code>: 10/15/20/26/32/40)</td></tr>
+<tr><td>(DLC4) Weakness</td><td>150% + Effect%, weaknesses are Front/Side/Back/Combos</td></tr>
+</tbody></table>
+<h3 id="useful-buffs-debuffs">Useful buffs/debuffs</h3>
+<table><thead><tr><th>Buff</th><th>Effect</th><th>Duration</th><th>Max duration</th><th>Base chance (Debuff type)</th></tr></thead><tbody>
+<tr><td>Attack Up</td><td>+25% damage (see Multiplier group 1)</td><td>20s</td><td>40s</td><td>--</td></tr>
+<tr><td>Awakening</td><td>+75% damage dealt (see Multiplier group 1), -25% damage taken (see Defensive multiplier group), +50% recharge speed</td><td>20s</td><td>40s</td><td>--</td></tr>
+<tr><td>Critical Rate Up</td><td>Critical hit rate: +25%</td><td>20s</td><td>40s</td><td>--</td></tr>
+<tr><td>Critical Hit Plus</td><td>Critical damage bonus: +50 percentage points</td><td>20s</td><td>40s</td><td>--</td></tr>
+<tr><td>Phys./Eth. Def. Down</td><td>Does nothing if defense is 0. If &gt; 0, multiplies it by 75% (base). If &lt; 0, multiplies it by 125%.</td><td>15s</td><td>30s</td><td>75% (Phys./Eth.)</td></tr>
+<tr><td>Reduce All (Origin Blade)</td><td>-30% damage dealt (stacks with Multiplier group 1), +50% damage taken (see Defensive multiplier group), -30% accuracy/evasion</td><td>60s</td><td>60s</td><td><em>guaranteed</em></td></tr>
+<tr><td>Resistance Down</td><td>Break and debuff resist: -25 percentage points</td><td>15s</td><td>30s</td><td>75% (Ether)</td></tr>
+<tr><td>Bleed</td><td>4% of art damage every 2 seconds</td><td>46s</td><td>92s</td><td>100% (Phys.)</td></tr>
+<tr><td>Blaze</td><td>8% of art damage every second</td><td>10s</td><td>20s</td><td>100% (Ether)</td></tr>
+<tr><td>Freeze</td><td>6% of art damage every 1.5 seconds</td><td>21.5s</td><td>43s</td><td><em>unavailable</em></td></tr>
+<tr><td>Toxin</td><td>12% of art damage every 4 seconds</td><td>24s</td><td>48s</td><td>100% (Ether)</td></tr>
+</tbody></table>
+<h3 id="other">Other</h3>
+<table><thead><tr><th>Effect description</th><th>Notes</th></tr></thead><tbody>
+<tr><td>Boosts Smash damage by +<code>...</code>%</td><td>Net additive. Unlike the Smash damage bonus, which applies to both the art's and Smash's damage, this only boosts the special damage dealt when the enemy touches the ground after being smashed.</td></tr>
+</tbody></table>
+
+        </div>
+
+    
+</div>
+
+
+    </div>
+
+    
+    <footer class="footer">
+        <div class="footer__inner">
+                <div class="copyright">
+                        <span>© 
+    2026
+ RoccoDev</span>
+                    <span class="copyright-theme">
+                        <span class="copyright-theme-sep">:: </span>
+                        Theme: <a href="https://github.com/pawroman/zola-theme-terminimal/">Terminimal</a> by pawroman
+                    </span>
+                </div>
+            </div>
+    </footer>
+    
+
+</div>
+</body>
+
+</html>
