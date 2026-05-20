@@ -1,6 +1,13 @@
 {% extends "terminimal/templates/index.html" %}
 {% import "macros/style.html" as style %}
 
+{% block content %}
+<div class="post">
+{{ post_macros::header(page=section) }}
+{{ post_macros::content(page=section, summary=false) }}
+</div>
+{% endblock %}
+
 {% block extra_head %}
 {{ style::head() }}
 {% endblock %}
